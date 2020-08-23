@@ -19,7 +19,6 @@ const baseTheme = createMuiTheme({
       secondary: {
          main:'#FFFFFF'
       },
-     
    },
    typography: {
     useNextVariants: true,
