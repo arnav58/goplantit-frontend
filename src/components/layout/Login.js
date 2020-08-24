@@ -3,7 +3,7 @@ import { Button,TextField } from "@material-ui/core";
 
 import styled from "styled-components";
 import login from "./login.jpg";
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
 const ComponentWrapper = styled.section`
   width: 100%;
@@ -24,54 +24,49 @@ font: Roboto;
 display: flex;
 width: 400px;
 height:55px;
-color: black;
 border: 3px solid #17B978;
+font-size: 16px;
+margin:40px;
+`
+const Username = styled(TextField)`
+font: Roboto;
+display: flex;
+width: 400px;
+height:55px;
+color: #000000;
+style: normal;
+background: #000000;
+margin-bottom:40px;
+`
+const Password = styled(TextField)`
+font: Roboto;
+display: flex;
+width: 400px;
+height:55px;
 font-size: 18px
-margin-buttom:10px;
+margin-buttom:40px;
+color: #FFFFFF;
+style: normal;
+background: #000000;
+
 `
 
 
 
-const useStyles = makeStyles((theme) => ({
   
-    username: {
-      display: "flex",
-      color: "#FFFFFF",
-      font: "Roboto",
-      style: "normal",
-      background: "#000000",
-      width: "400px",
-      
-
-  
-    },
-    password: {
-        display: "flex",
-        color: "#FFFFFF",
-        font: "Roboto",
-        style: "normal",
-        background: "#000000",
-        width: "400px",
-        margin: "40px",
-    
-      },
-    
-  }));
 
 const Login = () => {
-    const classes = useStyles();
+    // const classes = useStyles();
     return(<ComponentWrapper>
 
-        <form className={classes.username} noValidate autoComplete="off">
-        <TextField id="outlined-basic" label="Username" variant="filled" >
-        </TextField>
-        </form>
-        <form className={classes.password} noValidate autoComplete="off">
-        <TextField id="outlined-basic" label="Password" variant="filled" type="password"
-          autoComplete="current-password"  defaultValue="Password">
-        </TextField>
+
+        <Username id="outlined-basic" label="Username" variant="filled" >
+        </Username>
+
+        <Password id="outlined-basic" label="Password" variant="filled" type="password"
+          autoComplete="current-password"  >
+        </Password>
   
-        </form>
         <LoginButton variant="contained" color="primary">
         Login
         </LoginButton>

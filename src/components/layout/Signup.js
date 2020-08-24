@@ -77,10 +77,10 @@ const Signup = () => {
     </Email>
     <TextRow>
         <Password id="password1" label="Password" variant="filled" type="password"
-          autoComplete="current-password"  defaultValue="Password">
+          autoComplete="current-password"  >
         </Password>
         <Password id="password2" label="Repeat Password" variant="filled" type="password"
-          autoComplete="current-password"  defaultValue="Password" >
+          autoComplete="current-password"   >
         </Password>
     </TextRow>
     <ButtonRow>
@@ -92,12 +92,7 @@ const Signup = () => {
     </ConfirmButton>
     </ButtonRow>
      
-  
-    
-  
-  
-      
-     
+
 
     </ComponentWrapper>);
   };
