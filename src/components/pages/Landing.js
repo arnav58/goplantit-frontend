@@ -78,12 +78,13 @@ const ServiceCard = styled(Paper)`
 `;
 
 const TopBrownBar = styled.div`
-  width: 432px;
+  width: 142px;
   height: 21px;
   background: #A64942;
   position: absolute;
   z-index: 1;
   top: 0px;
+  left:50px;
 `;
 
 const TopRightBrownBar = styled.div`
@@ -139,7 +140,7 @@ const Landing = () => {
       {
         icon: "location",
         title: "Know the effects",
-        subtitle: "Understand the effects of exterme temperatures to the crops",
+        subtitle: "Understand the effects of exterme temperatures to the crops.",
       },
     ],
     []
@@ -179,10 +180,10 @@ const Landing = () => {
         <ServiceCard>
           <ServiceCardInnerWrapper>
           {RenderIcon(card.icon)}
-          <Typography color="secondary" variant="h6" align='center' style={{marginBottom:"30px"}}>
+          <Typography color="secondary" variant="h6" align='center' style={{marginBottom:"20px" }}>
             {card.title}
           </Typography>
-          <Typography color="secondary" variant="subtitle" align= 'center'>
+          <Typography color="secondary" variant="subtitle" align= 'center' style = {{width:"200px"}}>
             {card.subtitle}
           </Typography>
         </ServiceCardInnerWrapper>
