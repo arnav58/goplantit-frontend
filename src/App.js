@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/layout/Navbar'
-import Landing from './components/layout/Landing'
-import Login from './components/layout/Login'
-import Signup from './components/layout/Signup'
+import Navbar from './Components/layout/Navbar'
+import Landing from './Components/pages/Landing'
+import Login from './Components/pages/Login'
+import Signup from './Components/pages/Signup'
 
 function App() {
   return (
@@ -15,8 +15,8 @@ function App() {
     <Navbar/>
     <Switch>
             <Route exact path="/" component={Landing} />
-            <Route exact path="/Signup" component={Signup} />
-            <Route exact path="/Login" component={Login} />	
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />	
             
      </Switch>
     </React.Fragment>
