@@ -1,7 +1,7 @@
 import React from 'react'
-import Footer from '../components/layout/Footer'
-import Icon from '../components/icons'
-import Logo from '../components/layout/goplantit.png'
+import Footer from '../Components/layout/Footer'
+import Icon from '../Components/icons'
+import Logo from '../Components/layout/goplantit.png'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
