@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import mainTheme from './Components/style/mainTheme.js';
+import mainTheme from './components/style/mainTheme.js';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
 ReactDOM.render(
