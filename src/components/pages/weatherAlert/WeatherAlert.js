@@ -7,6 +7,8 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
+import axios from 'axios';
+
 import { makeStyles } from "@material-ui/core/styles";
 import { Autocomplete, Skeleton } from "@material-ui/lab";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
@@ -93,7 +95,10 @@ const InfoWrapper = styled.div`
   border: 1px solid #e2f3f5;
   margin-bottom: 15px;
 `;
+
+
 const WeatherAlert = () => {
+
   const StateSelections = [
     { name: "VIC" },
     { name: "NSW" },
@@ -136,6 +141,9 @@ const WeatherAlert = () => {
       case "thunderstorm":
         theIcon = <FlashOn color="primary" style={iconStyle} />;
         break;
+      case "tsunami":
+        theIcon = <Waves color="primary" style={iconStyle} />;
+        break;
       default:
         throw new Error("No icon found with that name");
     }
@@ -162,14 +170,21 @@ const WeatherAlert = () => {
     },
   ];
 
-  const [alerts, setAlerts] = useState(SampleAlerts);
+  const [alerts, setAlerts] = useState([]);
   const [state, setState] = useState("VIC");
 
+ useEffect(() => {
+   const getWarnings = async()=>{
+     console.log("getting warnings")
+    let url = `http://localhost:5000/api/warnings/?state=${state}`
+    console.log(url)
+    const res = await axios.get(url)
+    setAlerts(res.data)
+   }
+   getWarnings()
+ }, [state])
 
 
-  const handleChangeState = (e) => {
-    setState(e.target.value);
-  };
 
   const useStyles = makeStyles((theme) => ({
     inputRoot: {
@@ -269,6 +284,9 @@ const WeatherAlert = () => {
           options={StateSelections}
           getOptionLabel={(option) => option.name}
           style={{ width: 165 }}
+          onChange={(event, newValue) => {
+            setState(newValue.name);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
