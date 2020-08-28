@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 //style imports
 import { Typography, Button, Paper, Link as UiLink } from "@material-ui/core";
 import styled from "styled-components";
+//special effects
+import ReactTypingEffect from "react-typing-effect";
+import FadeIn from "react-fade-in";
+import Fade from "react-reveal/Fade";
 //image imports
 import landing from "./john-foust-HkJ1AOnJF8Q-unsplash.jpg";
 //Icons imports
 import { NotificationImportant, NotListedLocation } from "@material-ui/icons";
-
 
 ////Styled components
 const ComponentWrapper = styled.section`
@@ -55,7 +58,8 @@ const ServiceSectionWrapper = styled.section`
   height: 100vh;
   max-width: 100vw;
   position: relative;
-  background:#fafaf6;
+  background: #fafaf6;
+  z-index: 1;
 `;
 
 const CardsRow = styled.div`
@@ -66,10 +70,11 @@ const CardsRow = styled.div`
   position: absolute;
   top: 220px;
   width: 100%;
-
 `;
 
 const ServiceCard = styled(Paper)`
+  opacity: 1;
+  transition: opacity 300ms ease-in;
   width: 280px;
   height: 280px;
   display: flex;
@@ -82,30 +87,30 @@ const ServiceCard = styled(Paper)`
 const TopBrownBar = styled.div`
   width: 142px;
   height: 21px;
-  background: #A64942;
+  background: #a64942;
   position: absolute;
   z-index: 1;
   top: 40px;
-  left:50px;
+  left: 50px;
 `;
 const BottomBrownBar = styled.div`
   width: 62px;
   height: 21px;
-  background: #A64942;
+  background: #a64942;
   position: absolute;
   z-index: 1;
   top: 640px;
-  left:320px;
+  left: 320px;
 `;
 
 const TopRightBrownBar = styled.div`
   width: 32px;
   height: 11px;
-  background: #A64942;
+  background: #a64942;
   position: absolute;
   z-index: 1;
   top: 90px;
-  right:40px;
+  right: 40px;
 `;
 
 const LeftGreenBar = styled.div`
@@ -126,21 +131,21 @@ const RightGreenBar = styled.div`
   right: 0;
 `;
 
-const ServiceCardInnerWrapper=styled.div`
-  margin:10px;
+const ServiceCardInnerWrapper = styled.div`
+  margin: 10px;
   width: 250px;
   height: 200px;
   display: flex;
   flex-direction: column;
   background: white;
   align-items: center;
-`
+`;
+
 //////////the main rendering components
 
 const Landing = () => {
-  
   //constant card values
-//useMemo to improve loading speed (Just for my personal practice)
+  //useMemo to improve loading speed (Just for my personal practice)
   const cards = useMemo(
     () => [
       {
@@ -148,13 +153,14 @@ const Landing = () => {
         title: "Extreme Weather Alert",
         subtitle:
           "Help you to plan early when the extreme weather may damage your crops.",
-        link:"/alerts"
+        link: "/alerts",
       },
       {
         icon: "location",
         title: "Know the effects",
-        subtitle: "Understand the effects of extreme temperatures to the crops.",
-        link:"/effects"
+        subtitle:
+          "Understand the effects of extreme temperatures to the crops.",
+        link: "/effects",
       },
     ],
     []
@@ -173,13 +179,17 @@ const Landing = () => {
   //stupid way of display icons
   const RenderIcon = (icon) => {
     let theIcon;
-    let iconStyle ={width:"45.88px", height:"45.88px", marginBottom:"20px"}
+    let iconStyle = {
+      width: "45.88px",
+      height: "45.88px",
+      marginBottom: "20px",
+    };
     switch (icon) {
       case "notification":
-        theIcon = <NotificationImportant color="secondary" style ={iconStyle}/>;
+        theIcon = <NotificationImportant color="secondary" style={iconStyle} />;
         break;
       case "location":
-        theIcon = <NotListedLocation color="secondary" style = {iconStyle}/>;
+        theIcon = <NotListedLocation color="secondary" style={iconStyle} />;
         break;
       default:
         throw new Error("No icon found with that name");
@@ -189,62 +199,89 @@ const Landing = () => {
   };
 
   //Display service card:
-  const DisplayServiceCards = () => cards.map(card=>{
+  const DisplayServiceCards = () =>
+    cards.map((card) => {
       return (
-        <UiLink underline= 'none' href={card.link} >
-        <ServiceCard>
-          <ServiceCardInnerWrapper>
-          {RenderIcon(card.icon)}
-          <Typography color="secondary" variant="h6" align='center' style={{marginBottom:"20px" }}>
-            {card.title}
-          </Typography>
-          <Typography color="secondary" variant="subtitle" align= 'center' style = {{width:"200px"}}>
-            {card.subtitle}
-          </Typography>
-        </ServiceCardInnerWrapper>
-        </ServiceCard>
-        </UiLink>
+        <Fade bottom duration={1000}>
+          <UiLink underline="none" href={card.link}>
+            <ServiceCard>
+              <ServiceCardInnerWrapper>
+                {RenderIcon(card.icon)}
+                <Typography
+                  color="secondary"
+                  variant="h6"
+                  align="center"
+                  style={{ marginBottom: "20px" }}
+                >
+                  {card.title}
+                </Typography>
+                <Typography
+                  color="secondary"
+                  variant="subtitle"
+                  align="center"
+                  style={{ width: "200px" }}
+                >
+                  {card.subtitle}
+                </Typography>
+              </ServiceCardInnerWrapper>
+            </ServiceCard>
+          </UiLink>
+        </Fade>
       );
-    })
-    
+    });
 
   return (
     <Fragment>
       <ComponentWrapper>
         <HomePageName variant="h2">GoPlantIt</HomePageName>
-
-        <Subtitle id="subtitle" variant="h6">
-          Providing Australian farmers with scientific plans to cope with
-          extreme temperatures
+        <Subtitle>
+          <ReactTypingEffect
+            speed={90}
+            typingDelay={600}
+            eraseDelay={10000000000}
+            text="Providing Australian farmers with scientific plans to cope with
+      extreme temperatures." //text=["Hello.", "World!"
+          />
         </Subtitle>
+        <FadeIn transitionDuration={1000}>
+          <ButtonRow>
+            <PageButton
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/login"
+            >
+              dashboard
+            </PageButton>
 
-        <ButtonRow>
-          <PageButton
-            variant="outlined"
-            color="primary"
-            component={Link}
-            to="/login"
-          >
-            dashboard
-          </PageButton>
-
-          <PageButton
-            variant="contained"
-            color="primary"
-            onClick={executeScroll}
-          >
-            view our services
-          </PageButton>
-        </ButtonRow>
+            <PageButton
+              variant="contained"
+              color="primary"
+              onClick={executeScroll}
+            >
+              view our services
+            </PageButton>
+          </ButtonRow>
+        </FadeIn>
       </ComponentWrapper>
       {/* the services section after the landing page */}
+
       <ServiceSectionWrapper ref={serviceRef}>
-        <TopBrownBar/>
-        <TopRightBrownBar/>
-        <LeftGreenBar />
-        <RightGreenBar />
-        <BottomBrownBar/>
+        <Fade left duration={500}>
+          <TopBrownBar />
+        </Fade>
+        <Fade right duration={500}>
+          <TopRightBrownBar />
+        </Fade>
+        <Fade left duration={800}>
+          <LeftGreenBar />
+        </Fade>
+        <Fade right duration={800}>
+          <RightGreenBar />
+        </Fade>
+        <BottomBrownBar />
         <CardsRow>{DisplayServiceCards()}</CardsRow>
+
       </ServiceSectionWrapper>
     </Fragment>
   );
