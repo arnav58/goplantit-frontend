@@ -2,12 +2,14 @@
 import React, { Fragment, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 //style imports
-import { Typography, Button, Paper } from "@material-ui/core";
+import { Typography, Button, Paper, Link as UiLink } from "@material-ui/core";
 import styled from "styled-components";
 //image imports
 import landing from "./john-foust-HkJ1AOnJF8Q-unsplash.jpg";
 //Icons imports
 import { NotificationImportant, NotListedLocation } from "@material-ui/icons";
+
+
 ////Styled components
 const ComponentWrapper = styled.section`
   max-width: 100vw;
@@ -50,9 +52,10 @@ const PageButton = styled(Button)`
 `;
 
 const ServiceSectionWrapper = styled.section`
-  height: 65vh;
+  height: 100vh;
   max-width: 100vw;
   position: relative;
+  background:#fafaf6;
 `;
 
 const CardsRow = styled.div`
@@ -61,9 +64,8 @@ const CardsRow = styled.div`
   align-item: top;
   z-index: 9;
   position: absolute;
-  top: 120px;
+  top: 220px;
   width: 100%;
-
 
 `;
 
@@ -83,8 +85,17 @@ const TopBrownBar = styled.div`
   background: #A64942;
   position: absolute;
   z-index: 1;
-  top: 0px;
+  top: 40px;
   left:50px;
+`;
+const BottomBrownBar = styled.div`
+  width: 62px;
+  height: 21px;
+  background: #A64942;
+  position: absolute;
+  z-index: 1;
+  top: 640px;
+  left:320px;
 `;
 
 const TopRightBrownBar = styled.div`
@@ -93,7 +104,7 @@ const TopRightBrownBar = styled.div`
   background: #A64942;
   position: absolute;
   z-index: 1;
-  top: 50px;
+  top: 90px;
   right:40px;
 `;
 
@@ -103,7 +114,7 @@ const LeftGreenBar = styled.div`
   background: #17b978;
   position: absolute;
   z-index: 1;
-  top: 60px;
+  top: 150px;
 `;
 const RightGreenBar = styled.div`
   width: 932px;
@@ -111,7 +122,7 @@ const RightGreenBar = styled.div`
   background: #17b978;
   position: absolute;
   z-index: 1;
-  top: 320px;
+  top: 420px;
   right: 0;
 `;
 
@@ -124,11 +135,12 @@ const ServiceCardInnerWrapper=styled.div`
   background: white;
   align-items: center;
 `
-
-//useMemo to improve loading speed (Just for my personal practice)
+//////////the main rendering components
 
 const Landing = () => {
+  
   //constant card values
+//useMemo to improve loading speed (Just for my personal practice)
   const cards = useMemo(
     () => [
       {
@@ -136,11 +148,13 @@ const Landing = () => {
         title: "Extreme Weather Alert",
         subtitle:
           "Help you to plan early when the extreme weather may damage your crops.",
+        link:"/alerts"
       },
       {
         icon: "location",
         title: "Know the effects",
-        subtitle: "Understand the effects of exterme temperatures to the crops.",
+        subtitle: "Understand the effects of extreme temperatures to the crops.",
+        link:"/effects"
       },
     ],
     []
@@ -177,6 +191,7 @@ const Landing = () => {
   //Display service card:
   const DisplayServiceCards = () => cards.map(card=>{
       return (
+        <UiLink underline= 'none' href={card.link} >
         <ServiceCard>
           <ServiceCardInnerWrapper>
           {RenderIcon(card.icon)}
@@ -188,6 +203,7 @@ const Landing = () => {
           </Typography>
         </ServiceCardInnerWrapper>
         </ServiceCard>
+        </UiLink>
       );
     })
     
@@ -227,6 +243,7 @@ const Landing = () => {
         <TopRightBrownBar/>
         <LeftGreenBar />
         <RightGreenBar />
+        <BottomBrownBar/>
         <CardsRow>{DisplayServiceCards()}</CardsRow>
       </ServiceSectionWrapper>
     </Fragment>
