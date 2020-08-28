@@ -260,11 +260,11 @@ const WeatherAlert = () => {
             {card.title.split("EST").splice(-1)[0]}
           </Typography>
         </InfoWrapper>
-        <CardTitleWrapper>
+        <CardTitleWrapper style ={{width:"100%", justifyContent:"flex-end"}}>
           <EventIcon color="primary" />
 
           <Typography variant="subtitle2" color="secondary">
-            {card.isoDate.split("T")[0]}
+            {card.formattedDate}
           </Typography>
         </CardTitleWrapper>
       </CardContent>
