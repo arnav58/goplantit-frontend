@@ -25,6 +25,8 @@ import {
   FlashOn,
   Waves,
   BeachAccess,
+  Error,
+  DirectionsRun
 } from "@material-ui/icons/";
 
 import styled from "styled-components";
@@ -80,6 +82,7 @@ const SingleCardWrapper = styled(Card)`
   border-color: #17b978 !important;
   padding: 5px;
   padding-left: 10px !important;
+  margin-bottom:15px;
 `;
 const CardTitleWrapper = styled.div`
   display: flex;
@@ -116,7 +119,7 @@ const WeatherAlert = () => {
       marginBottom: "20px",
     };
     let theIcon;
-    switch (tag) {
+    switch (tag.toLowerCase()) {
       case "flood":
         theIcon = <Pool color="primary" style={iconStyle} />;
         break;
@@ -144,31 +147,34 @@ const WeatherAlert = () => {
       case "tsunami":
         theIcon = <Waves color="primary" style={iconStyle} />;
         break;
+        case "surf":
+        theIcon = <DirectionsRun color="primary" style={iconStyle} />;
+        break;
       default:
-        throw new Error("No icon found with that name");
+        theIcon = <Error color="primary" style={iconStyle} />;
     }
     return theIcon;
   };
   //sample alerts for testing
-  const SampleAlerts = [
-    {
-      title: "25/16:40 EST Marine Wind Warning Summary for Victoria",
-      link: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-      pubDate: "Tue, 25 Aug 2020 06:40:18 GMT",
-      guid: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-      isoDate: "2020-08-25T06:40:18.000Z",
-      tag: "flood",
-    },
-    {
-      title:
-        "25/14:44 EST Frost Warning for Mallee, Wimmera and North East forecast districts",
-      link: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-      pubDate: "Tue, 25 Aug 2020 04:44:41 GMT",
-      guid: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-      isoDate: "2020-08-25T04:44:41.000Z",
-      tag: "frost",
-    },
-  ];
+  // const SampleAlerts = [
+  //   {
+  //     title: "25/16:40 EST Marine Wind Warning Summary for Victoria",
+  //     link: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
+  //     pubDate: "Tue, 25 Aug 2020 06:40:18 GMT",
+  //     guid: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
+  //     isoDate: "2020-08-25T06:40:18.000Z",
+  //     tag: "flood",
+  //   },
+  //   {
+  //     title:
+  //       "25/14:44 EST Frost Warning for Mallee, Wimmera and North East forecast districts",
+  //     link: "http://www.bom.gov.au/vic/warnings/frost.shtml",
+  //     pubDate: "Tue, 25 Aug 2020 04:44:41 GMT",
+  //     guid: "http://www.bom.gov.au/vic/warnings/frost.shtml",
+  //     isoDate: "2020-08-25T04:44:41.000Z",
+  //     tag: "frost",
+  //   },
+  // ];
 
   const [alerts, setAlerts] = useState([]);
   const [state, setState] = useState("VIC");
@@ -285,7 +291,10 @@ const WeatherAlert = () => {
           getOptionLabel={(option) => option.name}
           style={{ width: 165 }}
           onChange={(event, newValue) => {
-            setState(newValue.name);
+            if(newValue){
+              setState(newValue.name);
+            }
+            
           }}
           renderInput={(params) => (
             <TextField
