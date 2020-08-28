@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/layout/Navbar'
-import Landing from './components/layout/Landing'
-import Login from './components/layout/Login'
-import Signup from './components/layout/Signup'
+import Navbar from './Components/layout/Navbar'
+import Landing from './Components/pages/landing/Landing'
+import Login from './Components/pages/login/Login'
+import Effects from './Components/pages/effects/Effects'
+import WeatherAlert from './Components/pages/weatherAlert/WeatherAlert';
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
     <Navbar/>
     <Switch>
             <Route exact path="/" component={Landing} />
-            <Route exact path="/Signup" component={Signup} />
-            <Route exact path="/Login" component={Login} />	
+            <Route exact path="/login" component={Login} />	
+            <Route exact path="/effects" component={Effects} />	
+            <Route exact path="/alerts" component={WeatherAlert} />	
             
      </Switch>
     </React.Fragment>
