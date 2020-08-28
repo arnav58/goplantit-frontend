@@ -7,6 +7,8 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
+import axios from 'axios';
+
 import { makeStyles } from "@material-ui/core/styles";
 import { Autocomplete, Skeleton } from "@material-ui/lab";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
@@ -23,6 +25,8 @@ import {
   FlashOn,
   Waves,
   BeachAccess,
+  Error,
+  DirectionsRun
 } from "@material-ui/icons/";
 
 import styled from "styled-components";
@@ -78,6 +82,7 @@ const SingleCardWrapper = styled(Card)`
   border-color: #17b978 !important;
   padding: 5px;
   padding-left: 10px !important;
+  margin-bottom:15px;
 `;
 const CardTitleWrapper = styled.div`
   display: flex;
@@ -93,7 +98,10 @@ const InfoWrapper = styled.div`
   border: 1px solid #e2f3f5;
   margin-bottom: 15px;
 `;
+
+
 const WeatherAlert = () => {
+
   const StateSelections = [
     { name: "VIC" },
     { name: "NSW" },
@@ -111,7 +119,7 @@ const WeatherAlert = () => {
       marginBottom: "20px",
     };
     let theIcon;
-    switch (tag) {
+    switch (tag.toLowerCase()) {
       case "flood":
         theIcon = <Pool color="primary" style={iconStyle} />;
         break;
@@ -136,40 +144,53 @@ const WeatherAlert = () => {
       case "thunderstorm":
         theIcon = <FlashOn color="primary" style={iconStyle} />;
         break;
+      case "tsunami":
+        theIcon = <Waves color="primary" style={iconStyle} />;
+        break;
+        case "surf":
+        theIcon = <DirectionsRun color="primary" style={iconStyle} />;
+        break;
       default:
-        throw new Error("No icon found with that name");
+        theIcon = <Error color="primary" style={iconStyle} />;
     }
     return theIcon;
   };
   //sample alerts for testing
-  const SampleAlerts = [
-    {
-      title: "25/16:40 EST Marine Wind Warning Summary for Victoria",
-      link: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-      pubDate: "Tue, 25 Aug 2020 06:40:18 GMT",
-      guid: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-      isoDate: "2020-08-25T06:40:18.000Z",
-      tag: "flood",
-    },
-    {
-      title:
-        "25/14:44 EST Frost Warning for Mallee, Wimmera and North East forecast districts",
-      link: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-      pubDate: "Tue, 25 Aug 2020 04:44:41 GMT",
-      guid: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-      isoDate: "2020-08-25T04:44:41.000Z",
-      tag: "frost",
-    },
-  ];
+  // const SampleAlerts = [
+  //   {
+  //     title: "25/16:40 EST Marine Wind Warning Summary for Victoria",
+  //     link: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
+  //     pubDate: "Tue, 25 Aug 2020 06:40:18 GMT",
+  //     guid: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
+  //     isoDate: "2020-08-25T06:40:18.000Z",
+  //     tag: "flood",
+  //   },
+  //   {
+  //     title:
+  //       "25/14:44 EST Frost Warning for Mallee, Wimmera and North East forecast districts",
+  //     link: "http://www.bom.gov.au/vic/warnings/frost.shtml",
+  //     pubDate: "Tue, 25 Aug 2020 04:44:41 GMT",
+  //     guid: "http://www.bom.gov.au/vic/warnings/frost.shtml",
+  //     isoDate: "2020-08-25T04:44:41.000Z",
+  //     tag: "frost",
+  //   },
+  // ];
 
-  const [alerts, setAlerts] = useState(SampleAlerts);
+  const [alerts, setAlerts] = useState([]);
   const [state, setState] = useState("VIC");
 
+ useEffect(() => {
+   const getWarnings = async()=>{
+     console.log("getting warnings")
+    let url = `http://localhost:5000/api/warnings/?state=${state}`
+    console.log(url)
+    const res = await axios.get(url)
+    setAlerts(res.data)
+   }
+   getWarnings()
+ }, [state])
 
 
-  const handleChangeState = (e) => {
-    setState(e.target.value);
-  };
 
   const useStyles = makeStyles((theme) => ({
     inputRoot: {
@@ -239,11 +260,11 @@ const WeatherAlert = () => {
             {card.title.split("EST").splice(-1)[0]}
           </Typography>
         </InfoWrapper>
-        <CardTitleWrapper>
+        <CardTitleWrapper style ={{width:"100%", justifyContent:"flex-end"}}>
           <EventIcon color="primary" />
 
           <Typography variant="subtitle2" color="secondary">
-            {card.isoDate.split("T")[0]}
+            {card.formattedDate}
           </Typography>
         </CardTitleWrapper>
       </CardContent>
@@ -269,6 +290,12 @@ const WeatherAlert = () => {
           options={StateSelections}
           getOptionLabel={(option) => option.name}
           style={{ width: 165 }}
+          onChange={(event, newValue) => {
+            if(newValue){
+              setState(newValue.name);
+            }
+            
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
