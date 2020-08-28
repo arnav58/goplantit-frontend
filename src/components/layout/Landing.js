@@ -57,12 +57,10 @@ const Landing = () => {
     Providing Australian farmers with scientific plans
 to cope with extreme temperatures
     </Subtitle>
-
-
     
     <ButtonRow>
       
-    <PageButton variant="outlined" color="primary" onClick>
+    <PageButton variant="outlined" color="primary" >
     login
 </PageButton>
 <PageButton variant="contained" color="primary">
