@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import Navbar from './Components/layout/Navbar'
-import Landing from './Components/pages/landing/Landing'
-import Login from './Components/pages/login/Login'
-import Effects from './Components/pages/effects/Effects'
-import WeatherAlert from './Components/pages/weatherAlert/WeatherAlert';
+import Navbar from './components/layout/Navbar'
+import Landing from './components/pages/landing/Landing'
+import Login from './components/pages/login/Login'
+import Effects from './components/pages/effects/Effects'
+import WeatherAlert from './components/pages/weatherAlert/WeatherAlert';
 import {FooterContainer} from './containers/footer'
 
 function App() {

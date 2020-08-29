@@ -2,6 +2,8 @@ import React from "react";
 import { Paper,Typography, Container } from "@material-ui/core";
 import styled from "styled-components";
 
+import Fade from "react-reveal/Fade";
+
 
 const ComponentWrapper = styled.section`
 background:#17B978;
@@ -27,14 +29,17 @@ font-weight: 500;
 `
 const serviceTemplates = (props) => {
   return <ComponentWrapper >
+     <Fade bottom>
     <PageContainer maxWidth='lg'>
     <Title color="accent" variant ='h4'>
     {props.title}
     </Title>
+  
     <ContentWrapper>
     {props.childComponent}
     </ContentWrapper>
     </PageContainer>
+    </Fade>
   </ComponentWrapper>;
 };
 
