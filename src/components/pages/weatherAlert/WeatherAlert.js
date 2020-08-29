@@ -6,6 +6,7 @@ import {
   Divider,
   Card,
   CardContent,
+  Link
 } from "@material-ui/core";
 import axios from 'axios';
 
@@ -14,6 +15,7 @@ import { Autocomplete, Skeleton } from "@material-ui/lab";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import EventIcon from "@material-ui/icons/Event";
+import EcoIcon from '@material-ui/icons/Eco';
 
 import {
   Pool,
@@ -98,9 +100,20 @@ const InfoWrapper = styled.div`
   margin-bottom: 15px;
 `;
 
+const NoAlertsWrapper = styled.div`
+height:100%;
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+`
 
+////////The main return
+/////////////////////
 
 const WeatherAlert = () => {
+
+  ////////Constant values
 
   const StateSelections = [
     { name: "VIC" },
@@ -108,7 +121,6 @@ const WeatherAlert = () => {
     { name: "SA" },
     { name: "WA" },
     { name: "NT" },
-    { name: "ACT" },
     { name: "QLD" },
   ];
 
@@ -155,26 +167,10 @@ const WeatherAlert = () => {
     }
     return theIcon;
   };
-  //sample alerts for testing
-  // const SampleAlerts = [
-  //   {
-  //     title: "25/16:40 EST Marine Wind Warning Summary for Victoria",
-  //     link: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-  //     pubDate: "Tue, 25 Aug 2020 06:40:18 GMT",
-  //     guid: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-  //     isoDate: "2020-08-25T06:40:18.000Z",
-  //     tag: "flood",
-  //   },
-  //   {
-  //     title:
-  //       "25/14:44 EST Frost Warning for Mallee, Wimmera and North East forecast districts",
-  //     link: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-  //     pubDate: "Tue, 25 Aug 2020 04:44:41 GMT",
-  //     guid: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-  //     isoDate: "2020-08-25T04:44:41.000Z",
-  //     tag: "frost",
-  //   },
-  // ];
+
+
+
+  //////setups
 
   const [alerts, setAlerts] = useState([]);
   const [state, setState] = useState("VIC");
@@ -185,6 +181,7 @@ const WeatherAlert = () => {
     let url = `http://localhost:5000/api/warnings/?state=${state}`
     console.log(url)
     const res = await axios.get(url)
+    console.log(res.data[0])
     setAlerts(res.data)
    }
    getWarnings()
@@ -219,25 +216,42 @@ const WeatherAlert = () => {
     },
   }));
 
-  const DisplayMultipleSkeletons = () => {
-    var i;
-    var skeletons = [];
-    for (i = 0; i < 5; i++) {
-      skeletons.push(
-        <Skeleton
-          width={550}
-          height={188}
-          animation="wave"
-          style={{ background: "#f6f6f6" }}
-        />
-      );
-    }
-    return skeletons;
-  };
+  //////////////UI elements
+
+  const DisplayEmptyAlerts = () =>{
+
+    return(
+      <NoAlertsWrapper>
+        <EcoIcon fontSize="large" color="primary"/>
+      <Typography variant="h4" color='secondary' fontWeight="fontWeightMedium">
+        No Alerts
+      </Typography>
+      </NoAlertsWrapper>
+    )
+
+  }
+
+  // const DisplayMultipleSkeletons = () => {
+  //   var i;
+  //   var skeletons = [];
+  //   for (i = 0; i < 5; i++) {
+  //     skeletons.push(
+  //       <Skeleton
+  //         width={550}
+  //         height={188}
+  //         animation="wave"
+  //         style={{ background: "#f6f6f6" }}
+  //       />
+  //     );
+  //   }
+  //   return skeletons;
+  // };
 
   const DisplaySingleCard = (card) => (
     <SingleCardWrapper variant="outlined">
       <CardContent>
+      <Link href={card.link} target="_blank">
+
         <CardTitleWrapper>
           {RenderIcon(card.tag)}
           <Typography
@@ -266,6 +280,8 @@ const WeatherAlert = () => {
             {card.formattedDate}
           </Typography>
         </CardTitleWrapper>
+      </Link>
+
       </CardContent>
     </SingleCardWrapper>
   );
@@ -275,7 +291,7 @@ const WeatherAlert = () => {
       ? alerts.map((alert) => {
           return DisplaySingleCard(alert);
         })
-      : DisplayMultipleSkeletons();
+      : DisplayEmptyAlerts();
   };
 
   const DisplaySelectionRow = () => {
