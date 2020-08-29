@@ -69,7 +69,6 @@ const CardsWrapper = styled.div`
   min-height: 60%;
   justify-content: space-between;
   flex-wrap: wrap;
-  overflow: scroll;
   margin-top: 25px;
 `;
 
@@ -77,7 +76,7 @@ const SingleCardWrapper = styled(Card)`
   display: flex;
   flex-direction: column;
   background: white;
-  height: 180px;
+  height: 200px;
   width: 500px;
   border-color: #17b978 !important;
   padding: 5px;
@@ -86,18 +85,19 @@ const SingleCardWrapper = styled(Card)`
 `;
 const CardTitleWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 25%;
+  width: 50%;
   align-items: center;
+
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
-  height: 40px;
-  overflow: scroll;
+  height: 70px;
+  overflow-y: auto;
   border: 1px solid #e2f3f5;
   margin-bottom: 15px;
 `;
+
 
 
 const WeatherAlert = () => {
@@ -242,7 +242,7 @@ const WeatherAlert = () => {
           {RenderIcon(card.tag)}
           <Typography
             variant="h6"
-            style={{ color: "#5c5757", fontWeight: 500 }}
+            style={{ color: "#5c5757", fontWeight: 500, textAlign:"left", marginLeft:"5px" }}
           >
             {card.tag.toUpperCase()}
           </Typography>
@@ -254,7 +254,6 @@ const WeatherAlert = () => {
               color: "#5c5757",
               fontWeight: 500,
               width: "500px",
-              overflow: "scroll",
             }}
           >
             {card.title.split("EST").splice(-1)[0]}
@@ -287,6 +286,7 @@ const WeatherAlert = () => {
         <Autocomplete
           classes={classes}
           id="combo-box-demo"
+          defaultValue='VIC'
           options={StateSelections}
           getOptionLabel={(option) => option.name}
           style={{ width: 165 }}

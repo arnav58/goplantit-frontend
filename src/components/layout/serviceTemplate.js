@@ -19,7 +19,7 @@ padding-top:20px;
 const ContentWrapper = styled(Paper)`
 width:100%;
 background-color:white !important;
-min-height:85%!important;
+min-height:90%!important;
 margin-top:10px;
 overflow:hidden;
 `
