@@ -6,6 +6,7 @@ import {
   Divider,
   Card,
   CardContent,
+  Link
 } from "@material-ui/core";
 import axios from 'axios';
 
@@ -14,6 +15,7 @@ import { Autocomplete, Skeleton } from "@material-ui/lab";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import EventIcon from "@material-ui/icons/Event";
+import EcoIcon from '@material-ui/icons/Eco';
 
 import {
   Pool,
@@ -69,7 +71,6 @@ const CardsWrapper = styled.div`
   min-height: 60%;
   justify-content: space-between;
   flex-wrap: wrap;
-  overflow: scroll;
   margin-top: 25px;
 `;
 
@@ -77,7 +78,7 @@ const SingleCardWrapper = styled(Card)`
   display: flex;
   flex-direction: column;
   background: white;
-  height: 180px;
+  height: 200px;
   width: 500px;
   border-color: #17b978 !important;
   padding: 5px;
@@ -86,21 +87,33 @@ const SingleCardWrapper = styled(Card)`
 `;
 const CardTitleWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 25%;
+  width: 50%;
   align-items: center;
+
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
-  height: 40px;
-  overflow: scroll;
+  height: 70px;
+  overflow-y: auto;
   border: 1px solid #e2f3f5;
   margin-bottom: 15px;
 `;
 
+const NoAlertsWrapper = styled.div`
+height:100%;
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+`
+
+////////The main return
+/////////////////////
 
 const WeatherAlert = () => {
+
+  ////////Constant values
 
   const StateSelections = [
     { name: "VIC" },
@@ -108,7 +121,6 @@ const WeatherAlert = () => {
     { name: "SA" },
     { name: "WA" },
     { name: "NT" },
-    { name: "ACT" },
     { name: "QLD" },
   ];
 
@@ -155,26 +167,10 @@ const WeatherAlert = () => {
     }
     return theIcon;
   };
-  //sample alerts for testing
-  // const SampleAlerts = [
-  //   {
-  //     title: "25/16:40 EST Marine Wind Warning Summary for Victoria",
-  //     link: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-  //     pubDate: "Tue, 25 Aug 2020 06:40:18 GMT",
-  //     guid: "http://www.bom.gov.au/vic/warnings/marinewind.shtml",
-  //     isoDate: "2020-08-25T06:40:18.000Z",
-  //     tag: "flood",
-  //   },
-  //   {
-  //     title:
-  //       "25/14:44 EST Frost Warning for Mallee, Wimmera and North East forecast districts",
-  //     link: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-  //     pubDate: "Tue, 25 Aug 2020 04:44:41 GMT",
-  //     guid: "http://www.bom.gov.au/vic/warnings/frost.shtml",
-  //     isoDate: "2020-08-25T04:44:41.000Z",
-  //     tag: "frost",
-  //   },
-  // ];
+
+
+
+  //////setups
 
   const [alerts, setAlerts] = useState([]);
   const [state, setState] = useState("VIC");
@@ -185,6 +181,7 @@ const WeatherAlert = () => {
     let url = `http://localhost:5000/api/warnings/?state=${state}`
     console.log(url)
     const res = await axios.get(url)
+    console.log(res.data[0])
     setAlerts(res.data)
    }
    getWarnings()
@@ -219,30 +216,47 @@ const WeatherAlert = () => {
     },
   }));
 
-  const DisplayMultipleSkeletons = () => {
-    var i;
-    var skeletons = [];
-    for (i = 0; i < 5; i++) {
-      skeletons.push(
-        <Skeleton
-          width={550}
-          height={188}
-          animation="wave"
-          style={{ background: "#f6f6f6" }}
-        />
-      );
-    }
-    return skeletons;
-  };
+  //////////////UI elements
+
+  const DisplayEmptyAlerts = () =>{
+
+    return(
+      <NoAlertsWrapper>
+        <EcoIcon fontSize="large" color="primary"/>
+      <Typography variant="h4" color='secondary' fontWeight="fontWeightMedium">
+        No Alerts
+      </Typography>
+      </NoAlertsWrapper>
+    )
+
+  }
+
+  // const DisplayMultipleSkeletons = () => {
+  //   var i;
+  //   var skeletons = [];
+  //   for (i = 0; i < 5; i++) {
+  //     skeletons.push(
+  //       <Skeleton
+  //         width={550}
+  //         height={188}
+  //         animation="wave"
+  //         style={{ background: "#f6f6f6" }}
+  //       />
+  //     );
+  //   }
+  //   return skeletons;
+  // };
 
   const DisplaySingleCard = (card) => (
     <SingleCardWrapper variant="outlined">
       <CardContent>
+      <Link href={card.link} target="_blank">
+
         <CardTitleWrapper>
           {RenderIcon(card.tag)}
           <Typography
             variant="h6"
-            style={{ color: "#5c5757", fontWeight: 500 }}
+            style={{ color: "#5c5757", fontWeight: 500, textAlign:"left", marginLeft:"5px" }}
           >
             {card.tag.toUpperCase()}
           </Typography>
@@ -254,7 +268,6 @@ const WeatherAlert = () => {
               color: "#5c5757",
               fontWeight: 500,
               width: "500px",
-              overflow: "scroll",
             }}
           >
             {card.title.split("EST").splice(-1)[0]}
@@ -267,6 +280,8 @@ const WeatherAlert = () => {
             {card.formattedDate}
           </Typography>
         </CardTitleWrapper>
+      </Link>
+
       </CardContent>
     </SingleCardWrapper>
   );
@@ -276,7 +291,7 @@ const WeatherAlert = () => {
       ? alerts.map((alert) => {
           return DisplaySingleCard(alert);
         })
-      : DisplayMultipleSkeletons();
+      : DisplayEmptyAlerts();
   };
 
   const DisplaySelectionRow = () => {
@@ -287,6 +302,7 @@ const WeatherAlert = () => {
         <Autocomplete
           classes={classes}
           id="combo-box-demo"
+          defaultValue='VIC'
           options={StateSelections}
           getOptionLabel={(option) => option.name}
           style={{ width: 165 }}
