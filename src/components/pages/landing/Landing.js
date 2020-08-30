@@ -262,6 +262,17 @@ const Landing = () => {
               view our services
             </PageButton>
           </ButtonRow>
+          <br></br>
+          <ButtonRow>
+            <PageButton
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/aboutus"
+            >
+              About Us
+            </PageButton>
+          </ButtonRow>
         </FadeIn>
       </ComponentWrapper>
       {/* the services section after the landing page */}

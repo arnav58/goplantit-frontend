@@ -20,6 +20,10 @@ const baseTheme = createMuiTheme({
          main:'#A64942'
       },
 
+      tertiary: {
+         main:'#FFFFFF'
+      },
+
    },
    typography: {
     useNextVariants: true,

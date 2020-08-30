@@ -7,6 +7,7 @@ import Login from './components/pages/login/Login'
 import Effects from './components/pages/effects/Effects'
 import WeatherAlert from './components/pages/weatherAlert/WeatherAlert';
 import {FooterContainer} from './containers/footer'
+import Aboutus from './components/pages/aboutus/aboutus';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />	
             <Route exact path="/effects" component={Effects} />	
-            <Route exact path="/alerts" component={WeatherAlert} />	
+            <Route exact path="/alerts" component={WeatherAlert} />
+            <Route exact path="/aboutus" component={Aboutus} />		
             
      </Switch>
      <FooterContainer />
