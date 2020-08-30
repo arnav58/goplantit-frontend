@@ -21,7 +21,7 @@ width:100%;
 background-color:white !important;
 min-height:90%!important;
 margin-top:10px;
-overflow:hidden;
+//overflow:hidden;
 `
 const Title = styled(Typography)`
 color:white;
