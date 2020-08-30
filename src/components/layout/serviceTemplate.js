@@ -20,13 +20,13 @@ padding-top:20px;
 const ContentWrapper = styled(Paper)`
 
 width:100%;
-background-color:white !important;
+background-color:#FFFAFA!important;
 margin:20px 0px 20px 0px;
-padding-bottom:20px;
 min-height:70vh;
 height:100%;
-padding:10px;
+padding:20px 20px 20px 20px
 `
+
 const Title = styled(Typography)`
 color:white;
 font-weight: 500;

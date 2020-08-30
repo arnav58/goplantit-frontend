@@ -1,26 +1,30 @@
 import React from "react";
+//components import
 import serviceTemplate from "../../layout/serviceTemplate";
+//styled components
 import styled from "styled-components";
+//material ui
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-// import GridList from "@material-ui/core/GridList";
-
+import Divider from "@material-ui/core/Divider";
+import { Modal, Backdrop, Fade, Paper, Link, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import EcoIcon from '@material-ui/icons/Eco';
 const ComponentWrapper = styled.section`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content:space-between;
+  justify-content: space-between;
 `;
 
 const CardRow = styled.div`
-display: flex;
-height:25%;
-margin-bottom:10px;
-flex-direction:column;
-`
+  display: flex;
+  height: 25%;
+  margin-bottom: 10px;
+  flex-direction: column;
+`;
 const Arti = styled(Card)`
   display: flex;
   width: 350px;
@@ -28,22 +32,20 @@ const Arti = styled(Card)`
   background: #ffffff;
 `;
 
-
 const Title = styled(Typography)`
   display: flex;
   margin: 5px;
   font-weight: 500;
-  height:50px;
+  height: 50px;
 `;
 const Summary = styled(Typography)`
   display: flex;
   margin: 5px;
-  height:50px;
-  overflow:auto;
+  height: 50px;
+  overflow: auto;
 `;
 
 const cards = [
-  
   {
     title: "Effect on plant growth and development",
     summary:
@@ -53,15 +55,16 @@ const cards = [
   },
   {
     title: "Does Weather Affect Plant Growth?",
-    summary:" Experts’ team led by Mary H. Dyer at Colorado State University explains that this process increases with rise in temperature ...",
-    link:"https://www.gardeningknowhow.com/plant-problems/environmental/temperature-on-plants.htm",
+    summary:
+      " Experts’ team led by Mary H. Dyer at Colorado State University explains that this process increases with rise in temperature ...",
+    link:
+      "https://www.gardeningknowhow.com/plant-problems/environmental/temperature-on-plants.htm",
   },
   {
     title: "Higher temperatures affect some plants' growth and yields",
     summary:
       " Higher day and night temperatures affect the growth and yields of some crop plants. Mainly, caused due to gaseous emissions from human activities that ...",
-    link:
-      "http://www.fao.org/3/w5183e08.htm",
+    link: "http://www.fao.org/3/w5183e08.htm",
   },
   {
     title: "Extreme heat stress and increased soil temperature",
@@ -114,8 +117,7 @@ const cards = [
   },
   {
     title: "Crop productivity and metabolism at high temperatures",
-    summary:
-      " As temperature impacts the number of base growth days ...",
+    summary: " As temperature impacts the number of base growth days ...",
     link:
       "https://www.sciencedirect.com/book/9780128175620/effect-of-high-temperature-on-crop-productivity-and-metabolism-of-macro-molecules#book-description",
   },
@@ -123,91 +125,157 @@ const cards = [
     title: " Rising temperatures reduce crop yields",
     summary:
       "  In drought weather, the life cycle of most grains is shortened, accelerating aging and shortening the length of the growing season. Major cereal crops can only tolerate a narrow temperature range ...",
-    link:
-      "https://www.nature.com/articles/436174b",
+    link: "https://www.nature.com/articles/436174b",
   },
-  
 ];
 
-const DisplayCategory = (color,name)=>{
-const Category = styled(Typography)`
-  display: flex;
-  width: 350px;
-  margin: 5px;
-  margin-top: 5px;
-  font-weight: 1200;
-  color: #5d5d5a;
-  text-align: center;
-  align-items:center;
-  justify-content: center;
-border-bottom: 5px solid ${color};
-`;
-return(
-    <Category>
-        <Typography variant="h6"> {name}</Typography>
-        </Category>
-)
-}
-
-const mapCards =(cards, categoryColor)=>{
-const LinkButton = styled(Button)`
-  display: flex;
-  //margin:5px;
-  color: ${categoryColor};
-`;
-    let uis=[]
-    cards.map(card=>{
-       uis.push(<Arti>
-        <CardContent>
-          <Title color="secondary" variant="body1'">{card.title}</Title>
-          <Summary style={{color:"grey"}} variant="caption">
-           {card.summary}
-          </Summary>
-          <CardActions>
-            <LinkButton
-              size="small"
-              href={card.link}
-            >
-              Learn More
-            </LinkButton>
-          </CardActions>
-        </CardContent>
-      </Arti>
-       )
-       return null
-    })
-    return uis
-    
-}
-
-const DisplayArticleComponent = () => {
+const DisplayCategory = (color, name) => {
+  const Category = styled(Typography)`
+    display: flex;
+    width: 350px;
+    margin: 5px;
+    margin-top: 5px;
+    font-weight: 1200;
+    color: #5d5d5a;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 5px solid ${color};
+  `;
   return (
-    <ComponentWrapper>
-      {/* <GridList cols={5}> */}
-      <CardRow>
-        {/* <Category >Plant Grow</Category> */}
-        {DisplayCategory("#775ada", "Plant Growth")}
-        {mapCards(cards.slice(0,4), "#775ada")}
-      </CardRow>
-      <CardRow>
-
-        {/* <Category>Crop Yield and Production</Category> */}
-        {DisplayCategory("#f85959", "Yield and Production")}
-        {mapCards(cards.slice(4,8),"#f85959")}
-      </CardRow>
-      <CardRow>
-        {/* <Category>Crop Compatibility</Category> */}
-        {DisplayCategory("#107a8b", "Crop Compatibility")}
-        {mapCards(cards.slice(8,12),"#107a8b")}
-      </CardRow>
-
-
-      {/* </GridList> */}
-    </ComponentWrapper>
+    <Category>
+      <Typography variant="h6"> {name}</Typography>
+    </Category>
   );
 };
 
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    outline: 0,
+  },
+  paper: {
+    backgroundColor: "#fafaf6",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    display: "flex",
+    width: "50vh",
+    height: "50vh",
+    color: "#3e3636",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderRadius: "5px",
+  },
+}));
+
 const Effects = () => {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [displayCard, setDisplayCard] = React.useState(null);
+
+  const handleOpen = (card) => {
+    setDisplayCard(card);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setDisplayCard(null);
+    setOpen(false);
+  };
+
+  const DisplayModal = () => {
+    if (displayCard) {
+      return (
+        <Modal
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open} style={{outline:'none'}}>
+            <Paper className={classes.paper}>
+              <Typography variant="h6" fontWeight="fontWeightMedium">
+                  <EcoIcon color="primary" iconSize="large"/>
+                {displayCard.title}
+              </Typography>
+              <Typography variant="subtitle1">{displayCard.summary}</Typography>
+              <Link href={displayCard.link} style={{alignSelf:"flex-start"}}>
+                <Typography
+                  variant="caption"
+                  textAlign="left"
+                  color="secondary"
+                >
+                  Link to the Article
+                </Typography>
+              </Link>
+            </Paper>
+          </Fade>
+        </Modal>
+      );
+    } else return null;
+  };
+  const mapCards = (cards, categoryColor) => {
+    const LinkButton = styled(Button)`
+      display: flex;
+      //margin:5px;
+      color: ${categoryColor};
+    `;
+    let uis = [];
+    cards.map((card) => {
+      uis.push(
+        <React.Fragment>
+          <Arti>
+            <CardContent>
+              <Title color="secondary" variant="subtitle2'">
+                {card.title}
+              </Title>
+              <CardActions>
+                <LinkButton size="small" onClick={() => handleOpen(card)}>
+                  Learn More
+                </LinkButton>
+              </CardActions>
+            </CardContent>
+          </Arti>
+          <Divider style={{ color: { categoryColor } }} variant="middle" />
+        </React.Fragment>
+      );
+      return null;
+    });
+    return uis;
+  };
+
+  const DisplayArticleComponent = () => {
+    return (
+      <ComponentWrapper>
+        {/* <GridList cols={5}> */}
+        <CardRow>
+          {/* <Category >Plant Grow</Category> */}
+          {DisplayCategory("#775ada", "Plant Growth")}
+          {mapCards(cards.slice(0, 4), "#775ada")}
+        </CardRow>
+        <CardRow>
+          {/* <Category>Crop Yield and Production</Category> */}
+          {DisplayCategory("#f85959", "Yield and Production")}
+          {mapCards(cards.slice(4, 8), "#f85959")}
+        </CardRow>
+        <CardRow>
+          {/* <Category>Crop Compatibility</Category> */}
+          {DisplayCategory("#107a8b", "Crop Compatibility")}
+          {mapCards(cards.slice(8, 12), "#107a8b")}
+        </CardRow>
+        {DisplayModal()}
+
+        {/* </GridList> */}
+      </ComponentWrapper>
+    );
+  };
 
   return (
     <React.Fragment>
