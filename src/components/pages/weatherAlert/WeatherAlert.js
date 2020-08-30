@@ -101,7 +101,7 @@ const InfoWrapper = styled.div`
 `;
 
 const NoAlertsWrapper = styled.div`
-height:100%;
+height:350px;
 width:100%;
 display:flex;
 justify-content:center;

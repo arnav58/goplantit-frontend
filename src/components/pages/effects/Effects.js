@@ -11,49 +11,37 @@ import Typography from "@material-ui/core/Typography";
 const ComponentWrapper = styled.section`
   width: 100%;
   display: flex;
-  flex-direction: column;
- 
+  flex-direction: row;
+  justify-content:space-between;
 `;
 
 const CardRow = styled.div`
 display: flex;
-
+height:25%;
+margin-bottom:10px;
+flex-direction:column;
 `
 const Arti = styled(Card)`
   display: flex;
-  width: 200px;
+  width: 350px;
   margin: 5px;
   background: #ffffff;
 `;
-const Category = styled(Typography)`
-  display: flex;
-  font-size: 15px;
-  width: 200px;
-  margin: 5px;
-  margin-top: 5px;
-  font-weight: 1200;
-  color: #a64942;
-  text-align: center;
-  justify-content: center;
-`;
+
 
 const Title = styled(Typography)`
   display: flex;
-  font-size: 11px;
   margin: 5px;
   font-weight: 500;
+  height:50px;
 `;
 const Summary = styled(Typography)`
   display: flex;
-  font-size: 9px;
   margin: 5px;
+  height:50px;
+  overflow:auto;
 `;
-const LinkButton = styled(Button)`
-  display: flex;
-  font-size: 9px;
-  //margin:5px;
-  color: #6202ee;
-`;
+
 const cards = [
   
   {
@@ -125,7 +113,7 @@ const cards = [
       "https://www.smh.com.au/business/the-economy/winter-crop-forecasts-slashed-as-armageddon-drought-bites-20191202-p53g2p.html",
   },
   {
-    title: "Crop productivity and metabolism of macro molecules at high temperatures",
+    title: "Crop productivity and metabolism at high temperatures",
     summary:
       " As temperature impacts the number of base growth days ...",
     link:
@@ -141,13 +129,38 @@ const cards = [
   
 ];
 
-const mapCards =(cards)=>{
+const DisplayCategory = (color,name)=>{
+const Category = styled(Typography)`
+  display: flex;
+  width: 350px;
+  margin: 5px;
+  margin-top: 5px;
+  font-weight: 1200;
+  color: #5d5d5a;
+  text-align: center;
+  align-items:center;
+  justify-content: center;
+border-bottom: 5px solid ${color};
+`;
+return(
+    <Category>
+        <Typography variant="h6"> {name}</Typography>
+        </Category>
+)
+}
+
+const mapCards =(cards, categoryColor)=>{
+const LinkButton = styled(Button)`
+  display: flex;
+  //margin:5px;
+  color: ${categoryColor};
+`;
     let uis=[]
     cards.map(card=>{
        uis.push(<Arti>
         <CardContent>
-          <Title color="secondary">{card.title}</Title>
-          <Summary color="secondary">
+          <Title color="secondary" variant="body1'">{card.title}</Title>
+          <Summary style={{color:"grey"}} variant="caption">
            {card.summary}
           </Summary>
           <CardActions>
@@ -172,16 +185,20 @@ const DisplayArticleComponent = () => {
     <ComponentWrapper>
       {/* <GridList cols={5}> */}
       <CardRow>
-        <Category>Plant Grow</Category>
-        {mapCards(cards.slice(0,4))}
+        {/* <Category >Plant Grow</Category> */}
+        {DisplayCategory("#775ada", "Plant Growth")}
+        {mapCards(cards.slice(0,4), "#775ada")}
       </CardRow>
       <CardRow>
-        <Category>Crop Yield and Production</Category>
-        {mapCards(cards.slice(4,8))}
+
+        {/* <Category>Crop Yield and Production</Category> */}
+        {DisplayCategory("#f85959", "Yield and Production")}
+        {mapCards(cards.slice(4,8),"#f85959")}
       </CardRow>
       <CardRow>
-        <Category>Crop Compatibility</Category>
-        {mapCards(cards.slice(8,12))}
+        {/* <Category>Crop Compatibility</Category> */}
+        {DisplayCategory("#107a8b", "Crop Compatibility")}
+        {mapCards(cards.slice(8,12),"#107a8b")}
       </CardRow>
 
 
