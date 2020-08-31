@@ -180,7 +180,7 @@ const WeatherAlert = () => {
    const getWarnings = async()=>{
      console.log("getting warnings")
      console.log(state)
-    let url = `http://localhost:5000/api/warnings/?state=${state}`
+    let url = `https://goplantitbackend.herokuapp.com/api/warnings?state=${state}`
     console.log(url)
     const res = await axios.get(url)
     console.log(res.data[0])
