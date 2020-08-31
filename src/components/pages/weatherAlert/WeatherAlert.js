@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Autocomplete, Skeleton } from "@material-ui/lab";
+import { Autocomplete } from "@material-ui/lab";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import EventIcon from "@material-ui/icons/Event";
@@ -101,7 +101,7 @@ const InfoWrapper = styled.div`
 `;
 
 const NoAlertsWrapper = styled.div`
-height:100%;
+height:350px;
 width:100%;
 display:flex;
 justify-content:center;
@@ -122,6 +122,7 @@ const WeatherAlert = () => {
     { name: "WA" },
     { name: "NT" },
     { name: "QLD" },
+    { name: "TAS" },
   ];
 
   const RenderIcon = (tag) => {

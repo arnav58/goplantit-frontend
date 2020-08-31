@@ -97,7 +97,7 @@ const DisplayNavbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar style={{ backgroundColor: "white", paddingLeft: "18px" }}>
         <LogoWrapper>
           <Link to="/">

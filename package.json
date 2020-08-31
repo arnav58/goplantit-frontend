@@ -21,7 +21,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-typing-effect": "^2.0.3",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "yarn": "^1.22.5"
   },
   "scripts": {
     "start": "react-scripts start",
