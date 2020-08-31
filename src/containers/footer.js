@@ -25,7 +25,7 @@ export function FooterContainer() {
                 </Footer.Column>
                 <Footer.Column>
                 <Footer.Title>Pages</Footer.Title>
-                    <Footer.Link href="/login">Dashboard</Footer.Link>                    
+                    <Footer.Link href="#">Dashboard</Footer.Link>                    
                     <Footer.Link href="/alerts">Weather Forecast</Footer.Link>
                     <Footer.Link href="/effects">Know your effects</Footer.Link>
                     <Footer.Link href="/about-us">About us</Footer.Link>
