@@ -179,6 +179,7 @@ const WeatherAlert = () => {
  useEffect(() => {
    const getWarnings = async()=>{
      console.log("getting warnings")
+     console.log(state)
     let url = `http://localhost:5000/api/warnings/?state=${state}`
     console.log(url)
     const res = await axios.get(url)
@@ -303,7 +304,8 @@ const WeatherAlert = () => {
         <Autocomplete
           classes={classes}
           id="combo-box-demo"
-          defaultValue='VIC'
+          loading={!state}
+          value={{name:state}}
           options={StateSelections}
           getOptionLabel={(option) => option.name}
           style={{ width: 165 }}

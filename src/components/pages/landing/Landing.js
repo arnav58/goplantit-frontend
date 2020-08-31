@@ -246,20 +246,19 @@ const Landing = () => {
         <FadeIn transitionDuration={1000}>
           <ButtonRow>
             <PageButton
-              variant="outlined"
-              color="primary"
-              component={Link}
-              to="/login"
-            >
-              dashboard
-            </PageButton>
-
-            <PageButton
               variant="contained"
               color="primary"
               onClick={executeScroll}
             >
               view our services
+            </PageButton>
+            <PageButton
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/about-us"
+            >
+              about us
             </PageButton>
           </ButtonRow>
         </FadeIn>
