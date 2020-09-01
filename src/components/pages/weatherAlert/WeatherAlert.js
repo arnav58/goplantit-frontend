@@ -252,7 +252,7 @@ const WeatherAlert = () => {
   const DisplaySingleCard = (card) => (
     <SingleCardWrapper variant="outlined">
       <CardContent>
-      <Link href={card.link} target="_blank">
+      <Typography href={card.link} target="_blank">
 
         <CardTitleWrapper>
           {RenderIcon(card.tag)}
@@ -282,7 +282,7 @@ const WeatherAlert = () => {
             {card.formattedDate}
           </Typography>
         </CardTitleWrapper>
-      </Link>
+      </Typography>
 
       </CardContent>
     </SingleCardWrapper>
