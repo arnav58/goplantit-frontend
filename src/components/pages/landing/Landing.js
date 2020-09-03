@@ -10,11 +10,13 @@ import FadeIn from "react-fade-in";
 import Fade from "react-reveal/Fade";
 //image imports
 import landing from "./john-foust-HkJ1AOnJF8Q-unsplash.jpg";
+import scroll from "./scroll.gif";
 //Icons imports
 import { NotificationImportant, NotListedLocation } from "@material-ui/icons";
 
 ////Styled components
 const ComponentWrapper = styled.section`
+  position: relative;
   max-width: 100vw;
   padding: 0px;
   height: 95vh;
@@ -141,6 +143,18 @@ const ServiceCardInnerWrapper = styled.div`
   align-items: center;
 `;
 
+const MouseGraphicWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  border-radius: 16px;
+  height: 50px;
+  width: 30px;
+  margin-left: -17px;
+  display: block;
+  z-index: 10;
+`;
+
 //////////the main rendering components
 
 const Landing = () => {
@@ -217,7 +231,7 @@ const Landing = () => {
                 </Typography>
                 <Typography
                   color="secondary"
-                  variant="subtitle"
+                  variant="subtitle1"
                   align="center"
                   style={{ width: "200px" }}
                 >
@@ -262,6 +276,7 @@ const Landing = () => {
             </PageButton>
           </ButtonRow>
         </FadeIn>
+        <MouseGraphicWrapper><img src={scroll} alt="scroll..." style={{height: "80px"}} /></MouseGraphicWrapper>
       </ComponentWrapper>
       {/* the services section after the landing page */}
 
