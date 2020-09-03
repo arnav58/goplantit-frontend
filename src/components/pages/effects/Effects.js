@@ -63,7 +63,8 @@ const AffectedCropsWrapper = styled.div`
 const cards = [
   {
     title: "Wheat yields are influenced by climate change",
-    image: "Wheat",
+    image: "article-1",
+    imageTitle: "Wheat",
     crop: "wheat",
     insights: ["Rainfall distribution is likely to have a greater effect on crop yield than absolute reductions, with crop yields being more sensitive to reduced rainfall during May or August (germination and flowering, respectively) than June and July (months of highest rainfall).", "Yields are projected to decline in drier eastern and northern areas and remain largely unchanged or increase in wetter western and southern areas.", "Increased atmospheric carbon dioxide concentration offsets a small percentage of the negative effects of decreased rainfall and increased temperatures.", "Higher temperatures, and to a lesser extent declining rainfall, will hasten development times and reduce the flowering period.", "Plant available water capacity of soils becomes increasingly important to yield potential: yield declines are greater on clay soils than sands in eastern areas.", "Production risks associated with climate variability in drier, marginal areas are projected to increase."],
     link:
@@ -71,7 +72,8 @@ const cards = [
   },
   {
     title: "Research quantifies effects of increased temperatures on Australian wheat yields",
-    image: "Wheat",
+    image: "article-2",
+    imageTitle: "Wheat",
     crop: "wheat",
     insights: ["Heat events during reproductive and grain-filling phases can heavily impact on yield.", "These events are generally not classified as stressful but can lead to problems like phenological development, shortened growth stages and increased evaporative demand.", "This results in decreased transpiration efficiency and increased drought stress.", "Heat shock and heat stress can cause problems like photosynthetic apparatus of plants, pollen and developing embryo mortality, and scorched leaves.", "Frost accounts for 10% loss in the yield of wheat, with another 10 percent due to the indirect costs related to late sowing.", "Australian wheatbelt might experience a loss in their yield by 15 percent by 2050 owing to the effects of heat stress."],
     link:
@@ -79,22 +81,25 @@ const cards = [
   },
   {
     title: "The effect of rainfall on Barley",
-    image: "Barley",
+    image: "article-3",
+    imageTitle: "Barley",
     crop: "barley",
     insights: ["The expectation is that greater yields will be associated with lower water stress due to higher rainfall and lower VPD.", "For the series analysed (2009-2013), the findings confirm that for wheat, barley and canola; high yields were associated with significantly higher rainfall particularly in the South and West.", "There was little or no association between yield and rainfall in the pulses. High ET was significantly and consistently associated with lower yields in wheat, barley and canola in the South and West and chickpea in the West but did not define high and low yielding environments in the North."],
     link: "https://www.sciencedirect.com/science/article/pii/S016819231730326X",
   },
   {
     title: "Higher rainfall serious threat to Barley",
-    image: "Barley",
+    image: "article-4",
+    imageTitle: "Barley",
     crop: "barley",
-    insights: ["The sprouting of grain while still in the head is caused by rain or damp conditions during the ripening stage of the crop.", "There are two types of cleaving in barley\; the peeling of the husk from the awn end of the grain along its side where the lemma overlaps the palea giving the appearance that the husk is too small to cover the entire grain. The grain splits along the crease, side or back of the grain.", "The split grain can be broken with a thumbnail pressed into the crease, whereas healthy barley grains can not be broken easily."],
+    insights: ["The sprouting of grain while still in the head is caused by rain or damp conditions during the ripening stage of the crop.", "There are two types of cleaving in barley; the peeling of the husk from the awn end of the grain along its side where the lemma overlaps the palea giving the appearance that the husk is too small to cover the entire grain. The grain splits along the crease, side or back of the grain.", "The split grain can be broken with a thumbnail pressed into the crease, whereas healthy barley grains can not be broken easily."],
     link:
       "https://www.agric.wa.gov.au/barley/barley-production-effect-weather-damage-quality-and-varietal-purity?page=0%2C1",
   },
   {
     title: "Opportunities for canola in future under the conditions of rainfall and high temperatures",
-    image: "Canola",
+    image: "article-5",
+    imageTitle: "Canola",
     crop: "canola",
     insights: ["Higher yields in less well drained portions of the high rainfall zone due to decreased rainfall, less waterlogging and lower disease risk.", "Development of new cultivars to counter the high temperatures and shorter growing season that could be the dominant constraint to canola growth in the future, particularly in the northern regions of the agricultural zone.", "Further improvements to land and crop management, in terms of retaining soil moisture available to crops. (e.g. wider row spacings in dry areas or dry years, improving soil properties such as compaction, pH, fertility, water repellency, structure etc.).", "Possible shifts in important canola growing regions."],
     link:
@@ -102,7 +107,8 @@ const cards = [
   },
   {
     title: "Diagnose the effects of early drought on plants based on appearance",
-    image: "Canola",
+    image: "article-6",
+    imageTitle: "Canola",
     crop: "canola",
     insights: ["Early drought may affect germination and early growth.", "Water stressed seedlings are more severely affected by other constraints and may have induced nutrient deficiencies.", ".Patchy germination that may vary across the paddock according to seeding depth, or soil type, or other factors that affect soil moisture infiltration and storage."],
     link:
@@ -110,7 +116,8 @@ const cards = [
   },
   {
     title: "Temperature affects the vegetative growth and reproductive growth of sorghum genotypes",
-    image: "Sorghum",
+    image: "article-7",
+    imageTitle: "Sorghum",
     crop: "sorghum",
     insights: ["Varietal attributes, such as heat stress tolerance, tillering, and maturity can all have large effects on yield.", "However, this will depend on starting soil water, time of sowing, crop management, and the nature of the season.High temperature conditions affected both vegetative and reproductive growth of the sorghum genotypes.", "High temperature increased development rate (i.e. shorter time to flowering), leaf number, and leaf appearance rate, but had no effect on leaf size.", "However, there was significant reduction in plant height, pollen viability and seed set under high temperature.", "There was significant variability in seed set and pollen viability responses among sorghum genotypes.", "The most tolerant genotypes showed only a small reduction in seed set at 38°C, whereas the most susceptible showed significant reductions at 36°C.  Seed set was highly correlated with pollen viability.", "All treatments were well-watered so this effect of high temperature on seed set is independent of the effect of moisture stress."],
     link:
@@ -118,7 +125,8 @@ const cards = [
   },
   {
     title: "Heavy rainfall effect on Grain Sorghum",
-    image: "Sorghum",
+    image: "article-8",
+    imageTitle: "Sorghum",
     crop: "sorghum",
     insights: ["After such a prolonged dry spell, particularly in the eastern states, the soil moisture in many regions was at record low levels entering 2020.", "Replenishing those soil moisture reserves will be a long process with above-average rainfall required for a prolonged period of time.", "The recent widespread falls have started the process of reducing the significant rainfall and soil moisture deficits accumulated over the last couple of years.", "The rainfall has not been confined to the cropping regions. Drought affected pastoral districts have seen an unbelievable turnaround in pasture growth and feed availability.", "Most graziers were forced to substantially reduce stock numbers during the drought as the cost of maintaining livestock became prohibitive."],
     link:
@@ -126,7 +134,8 @@ const cards = [
   },
   {
     title: "Climate change will have both positive and negative effects on cotton production",
-    image: "Cotton",
+    image: "article-9",
+    imageTitle: "Cotton",
     crop: "cotton",
     insights: ["Increased CO2 may increase yield in well-watered crops and higher temperatures will extend the length of the growing season.", "However, warmer temperatures also accelerate the rate of crop development and could potentially shorten the time to maturity, which may then impact crop management decisions.", "Higher temperatures also have the potential to cause significant fruit loss, reduce water use efficiencies, lower yields and alter fibre quality.", "Environmental conditions that encourage excessive shading by the leaves may lead to fruit loss throughout the season.", "Consequently, fruit loss may exacerbate excessive vegetative growth and further loss of fruit, due to a lower fruit load to restrict vegetative growth."],
     link:
@@ -134,7 +143,8 @@ const cards = [
   },
   {
     title: "Factors affecting cotton growth",
-    image: "Cotton",
+    image: "article-10",
+    imageTitle: "Cotton",
     crop: "cotton",
     insights: ["Australia’s cotton growing season lasts approximately six months, depending on the region.", "The season starts between August-November (soil preparation and planting) and ends between March-June (picking).", "The rate of cotton plant growth is largely determined by temperature. Cool temperatures (<15C average daily temperature) and excessively hot temperatures (>36C) can delay crop development.", "About 30 species of insects can attack cotton plants, and if not controlled, can cause serious damage. The main pests in Australia are the Helicoverpa caterpillar, aphids, thrips, mirids, white fly and mealy bugs.", "Cotton can be affected by a range of diseases that can reduce productivity. The six most potential serious diseases (that are not in Australia) are bacterial blight, Texas root rot, cotton leaf curl disease, blue disease and exotic strains of Fusarium wilt and Verticillium wilt.", "Environmental factors can also affect cotton growth, particularly in the early stages, including heat shock, cold shock, sand blasting, hail damage, lightning, drought, and water logging."],
     link:
@@ -142,7 +152,8 @@ const cards = [
   },
   {
     title: "Drought reduces the odds of rice growing and the variables",
-    image: "Rice",
+    image: "article-11",
+    imageTitle: "Rice",
     crop: "rice",
     insights: ["Drought affects every agricultural industry based here, not just rice from sheepherding, the other mainstay in this dusty land, to the cultivation of wine grapes, the fastest-growing crop here, with that expansion often coming at the expense of rice.", "The drought’s effect on rice has produced the greatest impact on the rest of the world, so far.", "It is one factor contributing to skyrocketing prices, and many scientists believe it is among the earliest signs that a warming planet is starting to affect food production."],
     link:
@@ -150,7 +161,8 @@ const cards = [
   },
   {
     title: "Impact of Increased carbon dioxide levels and higher temperatures on Rice",
-    image: "Rice",
+    image: "article-12",
+    imageTitle: "Rice",
     crop: "rice",
     insights: ["Higher carbon dioxide levels typically increase biomass production, but not necessarily yield.", "Higher temperatures can decrease rice yields as they can make rice flowers sterile, meaning no grain is produced. Higher respiration losses linked to higher temperatures also make rice less productive.", "The different predictions for elevated temperature, carbon dioxide levels, changes in humidity, and the interactions of these factors make forecasting future rice yields under these conditions challenging.", "IRRI research indicates that a rise in nighttime temperature by 1 degree Celsius may reduce rice yields by about 10%."],
     link:
@@ -188,15 +200,20 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: "#fafaf6",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: "40px 40px",
     display: "flex",
     width: "90vh",
-    height: "50vh",
+    height: "60vh",
     color: "#3e3636",
     flexDirection: "column",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
     alignItems: "center",
     borderRadius: "5px",
+    overflow: "auto",
+  },
+  images: {
+    height: "40vh",
+    width: "40vh",
   },
 }));
 
@@ -217,6 +234,12 @@ const Effects = () => {
 
   const DisplayModal = () => {
     if (displayCard) {
+      const listItems = displayCard.insights.map((points) =>
+        <li>{points}</li>
+      );
+      
+      let url = process.env.PUBLIC_URL + "/article_images/" + displayCard.image + ".jpg";
+
       return (
         <Modal
           className={classes.modal}
@@ -234,8 +257,15 @@ const Effects = () => {
                 <EcoIcon color="primary" iconSize="large" />
                 {displayCard.title}
               </Typography>
-              <Typography variant="subtitle1">{displayCard.summary}</Typography>
-              <Link href={displayCard.link} style={{ alignSelf: "flex-start" }}>
+              <br></br>
+              <img src={url} alt={displayCard.imageTitle} className={classes.images}/>
+              <br></br> 
+              <Typography style={{alignSelf:"flex-start"}} variant="h6" fontWeight="fontWeightMedium">
+                Key Insights
+              </Typography>
+              <ul>{listItems}</ul>
+              <br></br>             
+              <Link href={displayCard.link} style={{alignSelf:"flex-end"}} target="_blank">
                 <Typography
                   variant="caption"
                   textAlign="left"
@@ -280,7 +310,7 @@ const Effects = () => {
                       src={url}
                       style={{ objectFit: "contain", height: "40px", width: "35px" }}
                       alt={card.crop}
-                      title={card.crop}
+                      title={card.imageTitle}
                     />
                   </Typography>
                 </AffectedCropsWrapper>
