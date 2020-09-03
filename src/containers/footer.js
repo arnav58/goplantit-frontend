@@ -26,9 +26,9 @@ export function FooterContainer() {
                 <Footer.Column>
                 <Footer.Title>Pages</Footer.Title>
                     <Footer.Link href="#">Dashboard</Footer.Link>                    
-                    <Footer.Link href="/alerts">Weather Forecast</Footer.Link>
+                    <Footer.Link href="/alerts">Weather Alerts</Footer.Link>
                     <Footer.Link href="/effects">Know your effects</Footer.Link>
-                    <Footer.Link href="/about-us">About us</Footer.Link>
+                    {/* <Footer.Link href="#">About us</Footer.Link> */}
                 </Footer.Column>
             </Footer.Row>
                 <Footer.Copyright>©️2020 Upgraded. All Right Reserved. GoPlantIt. El Nino @Monash</Footer.Copyright>

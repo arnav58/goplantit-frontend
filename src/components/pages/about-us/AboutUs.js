@@ -19,10 +19,10 @@ import {
 } from "@material-ui/icons/";
 
 import arnav from "./arnav_jain.jpg";
-import yuncheng from "./yuncheng_yang.jpg";
+import yuncheng from "./yuncheng_yang.png";
 import yifan from "./yifan_wang.jpg";
 import vivek from "./vivek_pabolu.jpg";
-import ruoxin from "./ruoxin_wang.png";
+import ruoxin from "./ruoxin_wang.jpg";
 
 const ContentWrapper = styled(Container)`
   display: flex;
