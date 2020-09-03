@@ -46,6 +46,10 @@ const ButtonRow = styled.div`
   display: flex;
   width: 671px;
   justify-content: space-around;
+  @media only screen and (max-width: 671px) {
+    width:600px;
+
+  };
 `;
 
 const PageButton = styled(Button)`
@@ -71,6 +75,7 @@ const CardsRow = styled.div`
   position: absolute;
   top: 220px;
   width: 100%;
+  flex-wrap:wrap;
 `;
 
 const ServiceCard = styled(Paper)`
@@ -93,6 +98,8 @@ const TopBrownBar = styled.div`
   z-index: 1;
   top: 40px;
   left: 50px;
+
+ 
 `;
 const BottomBrownBar = styled.div`
   width: 62px;
@@ -121,6 +128,12 @@ const LeftGreenBar = styled.div`
   position: absolute;
   z-index: 1;
   top: 150px;
+  @media only screen and (max-width: 930px) {
+    width:400px;
+
+  };
+
+
 `;
 const RightGreenBar = styled.div`
   width: 932px;
@@ -130,6 +143,12 @@ const RightGreenBar = styled.div`
   z-index: 1;
   top: 420px;
   right: 0;
+  @media only screen and (max-width: 930px) {
+    width:400px;
+
+  };
+
+
 `;
 
 const ServiceCardInnerWrapper = styled.div`
