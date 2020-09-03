@@ -5,7 +5,8 @@ import {
   TextField,
   Divider,
   Card,
-  CardContent
+  CardContent,
+  Button
 } from "@material-ui/core";
 import axios from 'axios';
 
@@ -77,7 +78,7 @@ const SingleCardWrapper = styled(Card)`
   display: flex;
   flex-direction: column;
   background: white;
-  height: 200px;
+  height: 220px;
   width: 500px;
   border-color: #17b978 !important;
   padding: 5px;
@@ -105,7 +106,13 @@ width:100%;
 display:flex;
 justify-content:center;
 align-items:center;
-`
+`;
+
+const PageButton = styled(Button)`
+  width: 150px;
+  height: 25px;
+  color: white;
+`;
 
 ////////The main return
 /////////////////////
@@ -281,6 +288,14 @@ const WeatherAlert = () => {
             {card.formattedDate}
           </Typography>
         </CardTitleWrapper>
+        <PageButton
+        variant="contained"
+        color="primary"
+        href={card.link} 
+        target="_blank"
+      >
+        Learn more
+      </PageButton>
       </Typography>
 
       </CardContent>
