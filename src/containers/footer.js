@@ -1,6 +1,5 @@
 import React from 'react'
 import Footer from '../components/layout/Footer'
-import Icon from '../components/icons'
 import Logo from '../components/layout/goplantit.png'
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,8 +24,8 @@ export function FooterContainer() {
                 </Footer.Column>
                 <Footer.Column>
                 <Footer.Title>Pages</Footer.Title>
-                    <Footer.Link href="#">Dashboard</Footer.Link>                    
-                    <Footer.Link href="/alerts">Weather Forecast</Footer.Link>
+                    <Footer.Link  href="/">Home</Footer.Link>                    
+                    <Footer.Link href="/alerts">Weather Alerts</Footer.Link>
                     <Footer.Link href="/effects">Know your effects</Footer.Link>
                     <Footer.Link href="/about-us">About us</Footer.Link>
                 </Footer.Column>
