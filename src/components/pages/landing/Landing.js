@@ -9,10 +9,10 @@ import ReactTypingEffect from "react-typing-effect";
 import FadeIn from "react-fade-in";
 import Fade from "react-reveal/Fade";
 //image imports
-import landing from "./john-foust-HkJ1AOnJF8Q-unsplash.jpg";
+import landing from "./max-bottinger-gRT-IRygEhg-unsplash.jpg";
 import scroll from "./scroll.gif";
 //Icons imports
-import { NotificationImportant, NotListedLocation } from "@material-ui/icons";
+import { NotificationImportant, NotListedLocation, Dashboard, BarChart } from "@material-ui/icons";
 
 ////Styled components
 const ComponentWrapper = styled.section`
@@ -30,27 +30,44 @@ const ComponentWrapper = styled.section`
   justify-content: center;
 `;
 
+const LayerWrapper = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+`;
+
 const HomePageName = styled(Typography)`
   font-style: normal;
   font-weight: 500;
   color: #e8ffe8;
   margin-bottom: 50px;
+  z-index: 100;
 `;
 const Subtitle = styled(Typography)`
   width: 571px;
   text-align: center;
   margin-bottom: 46px;
   color: white;
+  z-index: 100;
 `;
 
 const ButtonRow = styled.div`
   display: flex;
   width: 671px;
   justify-content: space-around;
+  z-index: 100;
   @media only screen and (max-width: 671px) {
     width:600px;
 
   };
+`;
+
+const FadeInWrapper = styled(FadeIn)`
+  z-index: 100;
 `;
 
 const PageButton = styled(Button)`
@@ -58,6 +75,7 @@ const PageButton = styled(Button)`
   height: 54px;
   color: white;
   border: 3px solid #17b978;
+  z-index: 100;
 `;
 
 const ServiceSectionWrapper = styled.section`
@@ -79,47 +97,44 @@ const CardsRow = styled.div`
   flex-wrap:wrap;
 `;
 
+const ServiceCardContainer = styled.div`
+  flex 0 50%;
+`;
+
 const ServiceCard = styled(Paper)`
   opacity: 1;
   transition: opacity 300ms ease-in;
-  width: 280px;
+  width: 550px;
   height: 280px;
   display: flex;
+  margin: 20px auto;
   flex-direction: column;
   background: white;
   justify-content: space-around;
   align-items: center;
 `;
 
-const TopBrownBar = styled.div`
-  width: 142px;
-  height: 21px;
-  background: #a64942;
-  position: absolute;
-  z-index: 1;
-  top: 40px;
-  left: 50px;
 
- 
-`;
-const BottomBrownBar = styled.div`
-  width: 62px;
-  height: 21px;
-  background: #a64942;
-  position: absolute;
-  z-index: 1;
-  top: 640px;
-  left: 320px;
+const ServiceCardInnerWrapper = styled.div`
+  margin: 10px;
+  height: 100%;
+  width: 100%;
+  background: white;
 `;
 
-const TopRightBrownBar = styled.div`
-  width: 32px;
-  height: 11px;
-  background: #a64942;
-  position: absolute;
-  z-index: 1;
-  top: 90px;
-  right: 40px;
+const CardIconContainer = styled.div`
+  display: flex;
+  width: 25%;
+  height 100%;
+  align-items: center;
+  float: left;
+`;
+
+const CardContentContainer = styled.div`
+  display: inline-block;
+  width: 75%;
+  height: 100%;
+  float: right;
 `;
 
 const LeftGreenBar = styled.div`
@@ -142,7 +157,7 @@ const RightGreenBar = styled.div`
   background: #17b978;
   position: absolute;
   z-index: 1;
-  top: 420px;
+  top: 800px;
   right: 0;
   @media only screen and (max-width: 930px) {
     width:400px;
@@ -150,16 +165,6 @@ const RightGreenBar = styled.div`
   };
 
 
-`;
-
-const ServiceCardInnerWrapper = styled.div`
-  margin: 10px;
-  width: 250px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  background: white;
-  align-items: center;
 `;
 
 const MouseGraphicWrapper = styled.div`
@@ -182,8 +187,22 @@ const Landing = () => {
   const cards = useMemo(
     () => [
       {
+        icon: "dashboard",
+        title: "Personalized Dashboard",
+        subtitle:
+          "Help you to plan early when the extreme weather may damage your crops.",
+        link: "/alerts",
+      },
+      {
+        icon: "insights",
+        title: "Yields and Profits Insights",
+        subtitle:
+          "Help you to plan early when the extreme weather may damage your crops.",
+        link: "/alerts",
+      },
+      {
         icon: "notification",
-        title: "Extreme Weather Alert",
+        title: "Extreme Weather Alerts",
         subtitle:
           "Help you to plan early when the extreme weather may damage your crops.",
         link: "/alerts",
@@ -216,13 +235,21 @@ const Landing = () => {
       width: "45.88px",
       height: "45.88px",
       marginBottom: "20px",
+      margin: "auto",
+      display: "block"
     };
     switch (icon) {
       case "notification":
-        theIcon = <NotificationImportant color="secondary" style={iconStyle} />;
+        theIcon = <NotificationImportant color="#18b979" style={iconStyle} />;
         break;
       case "location":
-        theIcon = <NotListedLocation color="secondary" style={iconStyle} />;
+        theIcon = <NotListedLocation color="#18b979" style={iconStyle} />;
+        break;
+      case "dashboard":
+        theIcon = <Dashboard color="#18b979" style={iconStyle} />;
+        break;
+      case "insights":
+        theIcon = <BarChart color="#18b979" style={iconStyle} />;
         break;
       default:
         throw new Error("No icon found with that name");
@@ -235,11 +262,35 @@ const Landing = () => {
   const DisplayServiceCards = () =>
     cards.map((card) => {
       return (
-        <Fade bottom duration={1000}>
-          <UiLink underline="none" href={card.link}>
-            <ServiceCard>
+        <ServiceCardContainer>
+          <ServiceCard>
+            <ServiceCardInnerWrapper>
+              <UiLink underline="none" href={card.link}>
+                <CardIconContainer>{RenderIcon(card.icon)}</CardIconContainer>
+                <CardContentContainer>
+                  <Typography
+                    color="secondary"
+                    variant="h6"
+                    align="center"
+                    style={{ marginBottom: "20px" }}
+                  >
+                    {card.title}
+                  </Typography>
+                  <Typography
+                    color="secondary"
+                    variant="subtitle1"
+                    align="center"
+                    style={{ width: "200px" }}
+                  >
+                    {card.subtitle}
+                  </Typography>
+                </CardContentContainer>
+              </UiLink>
+            </ServiceCardInnerWrapper>
+
+            {/* 
               <ServiceCardInnerWrapper>
-                {RenderIcon(card.icon)}
+                
                 <Typography
                   color="secondary"
                   variant="h6"
@@ -256,16 +307,16 @@ const Landing = () => {
                 >
                   {card.subtitle}
                 </Typography>
-              </ServiceCardInnerWrapper>
-            </ServiceCard>
-          </UiLink>
-        </Fade>
+              </ServiceCardInnerWrapper> */}
+          </ServiceCard>
+        </ServiceCardContainer>
       );
     });
 
   return (
     <Fragment>
       <ComponentWrapper>
+        <LayerWrapper />
         <HomePageName variant="h2">GoPlantIt</HomePageName>
         <Subtitle>
           <ReactTypingEffect
@@ -276,7 +327,7 @@ const Landing = () => {
       extreme temperatures." //text=["Hello.", "World!"
           />
         </Subtitle>
-        <FadeIn transitionDuration={1000}>
+        <FadeInWrapper transitionDuration={1000}>
           <ButtonRow>
             <PageButton
               variant="contained"
@@ -294,25 +345,18 @@ const Landing = () => {
               about us
             </PageButton>
           </ButtonRow>
-        </FadeIn>
-        <MouseGraphicWrapper><img src={scroll} alt="scroll..." style={{height: "80px"}} /></MouseGraphicWrapper>
+        </FadeInWrapper>
+        <MouseGraphicWrapper><img src={scroll} alt="scroll..." style={{ height: "80px" }} /></MouseGraphicWrapper>
       </ComponentWrapper>
       {/* the services section after the landing page */}
 
       <ServiceSectionWrapper ref={serviceRef}>
-        <Fade left duration={500}>
-          <TopBrownBar />
-        </Fade>
-        <Fade right duration={500}>
-          <TopRightBrownBar />
-        </Fade>
         <Fade left duration={800}>
           <LeftGreenBar />
         </Fade>
         <Fade right duration={800}>
           <RightGreenBar />
         </Fade>
-        <BottomBrownBar />
         <CardsRow>{DisplayServiceCards()}</CardsRow>
 
       </ServiceSectionWrapper>
