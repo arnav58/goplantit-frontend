@@ -477,6 +477,12 @@ const WeatherAlert = () => {
           >
             {card.tag.toUpperCase()}
           </Typography>
+          <Link
+            variant="h6"
+            style={{ color: "#5c5757", fontWeight: 500, textAlign:"left", marginLeft:"5px" }}
+          >
+            {card.tag.toUpperCase()}
+          </Link>
         </CardTitleWrapper>
         <InfoWrapper>
           <Typography

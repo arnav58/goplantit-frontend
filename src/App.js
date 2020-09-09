@@ -4,6 +4,7 @@ import './App.css';
 import Navbar from './components/layout/Navbar'
 import Landing from './components/pages/landing/Landing'
 import Login from './components/pages/login/Login'
+import Signup from './components/pages/signup/Signup'
 import Effects from './components/pages/effects/Effects'
 import AboutUs from './components/pages/about-us/AboutUs'
 import WeatherAlert from './components/pages/weatherAlert/WeatherAlert';
@@ -17,6 +18,7 @@ function App() {
 
     <Navbar/>
     <Switch>
+            <Route exact path="/signup" component={Signup} />	
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />	
             <Route exact path="/effects" component={Effects} />	
