@@ -15,6 +15,9 @@ import scroll from "./scroll.gif";
 import { NotificationImportant, NotListedLocation, Dashboard, BarChart } from "@material-ui/icons";
 
 ////Styled components
+const serviceCardHeight = 220
+const negativeMargin = 70
+
 const ComponentWrapper = styled.section`
   position: relative;
   max-width: 100vw;
@@ -79,22 +82,21 @@ const PageButton = styled(Button)`
 `;
 
 const ServiceSectionWrapper = styled.section`
-  height: 100vh;
   max-width: 100vw;
-  position: relative;
+  display:flex;
+  flex-direction:column;
   background: #fafaf6;
-  z-index: 1;
+  padding-top:100px;
+  padding-bottom:50px; 
 `;
 
 const CardsRow = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-item: top;
-  z-index: 9;
-  position: absolute;
-  top: 220px;
   width: 100%;
   flex-wrap:wrap;
+  z-index:10;
 `;
 
 const ServiceCardContainer = styled.div`
@@ -104,14 +106,15 @@ const ServiceCardContainer = styled.div`
 const ServiceCard = styled(Paper)`
   opacity: 1;
   transition: opacity 300ms ease-in;
-  width: 550px;
-  height: 280px;
+  width: 400px;
+  height: ${serviceCardHeight}px;
   display: flex;
   margin: 20px auto;
   flex-direction: column;
   background: white;
   justify-content: space-around;
   align-items: center;
+  
 `;
 
 
@@ -124,44 +127,51 @@ const ServiceCardInnerWrapper = styled.div`
 
 const CardIconContainer = styled.div`
   display: flex;
-  width: 25%;
+  width: 20%;
   height 100%;
   align-items: center;
   float: left;
 `;
 
 const CardContentContainer = styled.div`
-  display: inline-block;
+  display: flex;
   width: 75%;
   height: 100%;
-  float: right;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  
 `;
 
 const LeftGreenBar = styled.div`
   width: 932px;
   height: 121px;
   background: #17b978;
-  position: absolute;
   z-index: 1;
-  top: 150px;
-  @media only screen and (max-width: 930px) {
-    width:400px;
 
-  };
+  margin-bottom:-${negativeMargin}px;
+  @media only screen and (max-width: 930px) {
+  width:75%;
+};
 
 
 `;
-const RightGreenBar = styled.div`
-  width: 932px;
-  height: 121px;
-  background: #17b978;
-  position: absolute;
-  z-index: 1;
-  top: 800px;
-  right: 0;
-  @media only screen and (max-width: 930px) {
-    width:400px;
+const RightGreenBarContainer = styled.div`
+display:flex;
+width:100%;
+justify-content:flex-end;
+margin-top:-${negativeMargin}px;
 
+
+
+`
+const RightGreenBar = styled.div`
+  height: 121px;
+  width:932px;
+  background: #17b978;
+  align-self:flex-end;
+  @media only screen and (max-width: 930px) {
+    width:75%;
   };
 
 
@@ -280,7 +290,7 @@ const Landing = () => {
                     color="secondary"
                     variant="subtitle1"
                     align="center"
-                    style={{ width: "200px" }}
+                    style={{ width: "300px" }}
                   >
                     {card.subtitle}
                   </Typography>
@@ -309,7 +319,9 @@ const Landing = () => {
                 </Typography>
               </ServiceCardInnerWrapper> */}
           </ServiceCard>
-        </ServiceCardContainer>
+          </ServiceCardContainer>
+
+     
       );
     });
 
@@ -354,11 +366,13 @@ const Landing = () => {
         <Fade left duration={800}>
           <LeftGreenBar />
         </Fade>
-        <Fade right duration={800}>
-          <RightGreenBar />
-        </Fade>
+      
         <CardsRow>{DisplayServiceCards()}</CardsRow>
-
+        <Fade right duration={800} style={{alignSelf:'flex-end;'}}>
+          <RightGreenBarContainer>
+          <RightGreenBar />
+          </RightGreenBarContainer>
+        </Fade>
       </ServiceSectionWrapper>
     </Fragment>
   );
