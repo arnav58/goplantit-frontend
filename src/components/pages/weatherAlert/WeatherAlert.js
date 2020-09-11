@@ -207,7 +207,7 @@ const alertToCropsMap = {
     Provides warnings of wet and windy conditions to enable sheep graziers 
     to take action to reduce losses among newly born lambs and newly shorn sheep due to hypothermia.
   `,
-    susceptibleCrops: [],
+    susceptibleCrops: ["barley"],
   },
   "severe weather": {
     suggestions: `
