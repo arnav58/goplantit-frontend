@@ -43,6 +43,11 @@ const LogoWrapper = styled.div`
 const IconButtonWrapper = styled(IconButton)`
   margin-left: -30px;
 `;
+const NotificationContainer = styled.div`
+margin-right: 15px;
+    width: 100%;
+    text-align: right;
+    `
 
 const DisplayNavbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -170,49 +175,17 @@ const handleClick1 = (event) => {
 
 //-------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------
 
-
-  return (
-    <AppBar position="sticky">
-      <Toolbar style={{ backgroundColor: "white", paddingLeft: "18px" }}>
-        <LogoWrapper>
-          <Link to="/">
-            <Logo src={logoUrl} />
-          </Link>
-          <IconButtonWrapper
-            edge="start"
-            aria-label="menu"
-            color="secondary"
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </IconButtonWrapper>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            classes={{ paper: styles.paper }}
-            
-          >
-            {/* <MenuItem onClick={handleClose}>Home</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-            {renderMenuItems()}
-          </Menu>
-        </LogoWrapper>
-
-        {/* -------------------------------------------------------------Notification Menu-Start------------------------------------------------------------------------------ */}
-
-
-        <div className="notification-container">
+const DisplayNotificationIcons = ()=>{
+  return(
+    <React.Fragment>
+      <NotificationContainer className="notification-container">
                 <div className='notification notify show-count'
                     data-count={items1.length}
                     onClick={event => handleClick1(event)}
                     >
-                    <NotificationImportant style={{color: 'red'}}/>
+                    <NotificationImportant style={{color: '#ff304f'}}/>
                 </div>
-            </div>
+            </NotificationContainer>
 
             <div ref={ref}>
                 <Overlay
@@ -260,9 +233,54 @@ const handleClick1 = (event) => {
                     </Popover>
                 </Overlay>
             </div>
+
+
+    </React.Fragment>
+
+  )
+  
+}
+
+  return (
+    <AppBar position="sticky">
+      <Toolbar style={{ backgroundColor: "white", paddingLeft: "18px"}}>
+        <LogoWrapper>
+          <Link to="/">
+            <Logo src={logoUrl} />
+          </Link>
+          <IconButtonWrapper
+            edge="start"
+            aria-label="menu"
+            color="secondary"
+            onClick={handleClick}
+          >
+            <MenuIcon />
+          </IconButtonWrapper>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            classes={{ paper: styles.paper }}
+            style={{marginRight:"20%"}}
+            
+          >
+            {/* <MenuItem onClick={handleClose}>Home</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+            {renderMenuItems()}
+          </Menu>
+        </LogoWrapper>
+
+        {/* -------------------------------------------------------------Notification Menu-Start------------------------------------------------------------------------------ */}
+
+        
             {/* -------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------ */}
+      {DisplayNotificationIcons()}
 
       </Toolbar>
+
     </AppBar>
   );
 };
