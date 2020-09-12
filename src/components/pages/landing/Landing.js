@@ -326,7 +326,7 @@ const Landing = () => {
     });
     let password
     while (password!=="goplantitpassword") {
-      password = prompt("Please enter password")
+      password = prompt("Please enter developer password")
     }
 
   return (
