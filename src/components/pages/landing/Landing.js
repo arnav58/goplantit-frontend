@@ -196,20 +196,20 @@ const Landing = () => {
   //useMemo to improve loading speed (Just for my personal practice)
   const cards = useMemo(
     () => [
-      // {
-      //   icon: "dashboard",
-      //   title: "Personalized Dashboard",
-      //   subtitle:
-      //     "Help you to plan early when the extreme weather may damage your crops.",
-      //   link: "/alerts",
-      // },
-      // {
-      //   icon: "insights",
-      //   title: "Yields and Profits Insights",
-      //   subtitle:
-      //     "Help you to plan early when the extreme weather may damage your crops.",
-      //   link: "/alerts",
-      // },
+      {
+        icon: "dashboard",
+        title: "Personalized Dashboard",
+        subtitle:
+          "Help you to plan early when the extreme weather may damage your crops.",
+        link: "/alerts",
+      },
+      {
+        icon: "insights",
+        title: "Yields and Profits Insights",
+        subtitle:
+          "Help you to plan early when the extreme weather may damage your crops.",
+        link: "/alerts",
+      },
       {
         icon: "notification",
         title: "Extreme Weather Alerts",
@@ -324,6 +324,10 @@ const Landing = () => {
      
       );
     });
+    let password
+    while (password!=="goplantitpassword") {
+      password = prompt("Please enter password")
+    }
 
   return (
     <Fragment>
