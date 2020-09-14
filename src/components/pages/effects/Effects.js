@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import { Modal, Backdrop, Fade, Paper, Link, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EcoIcon from '@material-ui/icons/Eco';
+
 const ComponentWrapper = styled.section`
   width: 100%;
   display: flex;

@@ -324,10 +324,10 @@ const Landing = () => {
      
       );
     });
-    let password
-    while (password!=="goplantitpassword") {
-      password = prompt("Please enter developer password")
-    }
+    // let password
+    // while (password!=="goplantitpassword") {
+    //   password = prompt("Please enter developer password")
+    // }
 
   return (
     <Fragment>
