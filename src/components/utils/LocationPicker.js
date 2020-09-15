@@ -6,6 +6,8 @@ import { TextField } from "@material-ui/core";
 //http helpers
 import axios from "axios";
 import Geocode from "react-geocode";
+//cookies
+import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles((theme) => ({
   inputRoot: {
@@ -51,18 +53,21 @@ Geocode.enableDebug();
 
 
   const classes = useStyles();
-  const [address, setAddress] = useState("");
-  const [addressData, setAddressData] = useState([]);
+  // const [location, setlocation] = useState("");
+  const [locationData, setLocationData] = useState([]);
+  const [latLng, setLatLng] = useCookies(['latLng']);
+  const [location, setLocation] = useCookies(['location']);
+  
   const getLocations = async () => {
     let baseUrl = "http://localhost:5000/api";
     //get hardcoded locations from the nodejs endpoints
     let res = await axios.get(baseUrl + "/misc/location");
-    setAddressData(res.data);
+    setLocationData(res.data);
   };
 
 //   const getCoordination =()=>{
     
-//     Geocode.fromAddress(address+", Australia").then(
+//     Geocode.fromlocation(location+", Australia").then(
 //         response => {
 //           const { lat, lng } = response.results[0].geometry.location;
 //           console.log(lat, lng);
@@ -79,20 +84,21 @@ Geocode.enableDebug();
       <Autocomplete
         classes={classes}
         id="combo-box-demo"
-        value={address["suburb"]}
-        options={addressData}
+        value={location["suburb"]}
+        options={locationData}
         getOptionLabel={(option) => option.suburb+", "+option.postcode}
         style={{ width: 165 }}
         onChange={(event, newValue) => {
             console.log('selected')
           if (newValue) {
-            setAddress(newValue);
-            // setTimeout(()=>console.log("Setting address and get coordination"), 100)
+            setLocation(newValue);
+            // setTimeout(()=>console.log("Setting location and get coordination"), 100)
             console.log("start sending google maps")
-            Geocode.fromAddress(address+", Australia").then(
+            Geocode.fromlocation(location+", Australia").then(
                 response => {
                   const { lat, lng } = response.results[0].geometry.location;
                   console.log(lat, lng);
+                  setLatLng({lat,lng});
                 }
               ).catch(err =>console.log(err));
             
@@ -106,12 +112,12 @@ Geocode.enableDebug();
             onChange={(event) => {
               let newValue = event.target.value;
 
-              if (addressData.length < 1 && newValue && newValue.length > 2) {
+              if (locationData.length < 1 && newValue && newValue.length > 2) {
                 console.log("Getting locations");
                 getLocations();
               }
               // if (newValue) {
-              //   setAddress(newValue);
+              //   setlocation(newValue);
               // }
             }}
             InputLabelProps={{
