@@ -4,6 +4,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Paper, Grid, Typography,Box } from "@material-ui/core";
 import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
+import LocationPicker from "../../utils/LocationPicker"
 //////images import
 import cold from "./cold.jpg";
 import hot from "./hot.jpg"
@@ -68,6 +69,7 @@ const Dashboard = () => {
         <PaperGridWrapper item sm={9} xs={12}>
           <PaperWrapper>
             <Typography>Insights</Typography>
+            <LocationPicker/>
           </PaperWrapper>
         </PaperGridWrapper>
       </ComponentGrid>
