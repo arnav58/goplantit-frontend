@@ -2,12 +2,11 @@ import React, { Fragment, useState, useEffect } from "react";
 
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 //http helpers
 import axios from "axios";
 import Geocode from "react-geocode";
-//cookies
-import { useCookies } from 'react-cookie';
+
 
 const useStyles = makeStyles((theme) => ({
   inputRoot: {
@@ -32,11 +31,17 @@ const useStyles = makeStyles((theme) => ({
     "&.uiOutlinedInput-input": {
       display: "flex",
     },
+
     height: "45px",
   },
 }));
 
-const LocationPicker = () => {
+const LocationPicker = (props) => {
+  ///the state changes from dashboard components to pass the change in this component back
+  //up to parent component
+  const {displayLocation, setDisplayLocation, setCookie, setCoordinates} = props
+
+
  // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey("AIzaSyBbkrDU1ytf5g4Q95CjLtPB2Q0RcvDP8tQ");
  
@@ -51,15 +56,13 @@ Geocode.setLanguage("en");
 Geocode.enableDebug();
 
 
-
   const classes = useStyles();
   // const [location, setlocation] = useState("");
+
   const [locationData, setLocationData] = useState([]);
-  const [latLng, setLatLng] = useCookies(['latLng']);
-  const [location, setLocation] = useCookies(['location']);
   
   const getLocations = async () => {
-    let baseUrl = "http://localhost:5000/api";
+    let baseUrl = process.env.BASEURL?process.env.BASEURL:"http://localhost:5000/api";
     //get hardcoded locations from the nodejs endpoints
     let res = await axios.get(baseUrl + "/misc/location");
     setLocationData(res.data);
@@ -84,21 +87,27 @@ Geocode.enableDebug();
       <Autocomplete
         classes={classes}
         id="combo-box-demo"
-        value={location["suburb"]}
+        value={displayLocation}
+        disableClearable
         options={locationData}
         getOptionLabel={(option) => option.suburb+", "+option.postcode}
-        style={{ width: 165 }}
+        style={{ width: 220 }}
+        forcePopupIcon={false}
         onChange={(event, newValue) => {
-            console.log('selected')
           if (newValue) {
-            setLocation(newValue);
+            setCookie("location", newValue)
+            setDisplayLocation(newValue)
             // setTimeout(()=>console.log("Setting location and get coordination"), 100)
+
+            ///map the address for request
+            let requestAddress = `${newValue.suburb}, ${newValue.state} ${newValue.postcode},  Australia`
             console.log("start sending google maps")
-            Geocode.fromlocation(location+", Australia").then(
+            console.log(requestAddress)
+            Geocode.fromAddress(requestAddress).then(
                 response => {
                   const { lat, lng } = response.results[0].geometry.location;
-                  console.log(lat, lng);
-                  setLatLng({lat,lng});
+                  setCookie("latLng", {lat,lng});
+                  setCoordinates({lat,lng})
                 }
               ).catch(err =>console.log(err));
             
@@ -109,6 +118,7 @@ Geocode.enableDebug();
             {...params}
             label="Your Area"
             variant="outlined"
+            fullWidth
             onChange={(event) => {
               let newValue = event.target.value;
 
