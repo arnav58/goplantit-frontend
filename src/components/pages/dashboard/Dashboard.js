@@ -10,6 +10,7 @@ import cold from "./cold.jpg";
 import hot from "./hot.jpg";
 import sunny from "./sunny.jpg";
 /// http helpers import
+import axios from "axios"
 //cookies
 import { useCookies } from "react-cookie";
 /////styled components
@@ -34,7 +35,6 @@ height:${props=> props.height? props.height:'10px'};
 width:${props=> props.width? props.width:'10px'};
 `
 
-
 const backgroundWeather = (weather) => {
   const weatherImageMap = {
     cold: cold,
@@ -56,7 +56,30 @@ const Dashboard = () => {
   const [coordinates, setCoordinates] = useState(
     cookies.latLng ? cookies.latLng : DefaultCoordinates
   );
+  
 
+  ///weather data and crops data for making the cards
+    const [weatherData, setWeatherData] = useState(null)
+    const [cropsData, setCropsData] = useState(null)
+  
+    //in production pass in the base url via environmental variable
+  const baseUrl = process.env.BASEURL?process.env.BASEURL:"http://localhost:5000/api";
+
+  useEffect(()=>{
+    let url = `/weather_data?lat=${coordinates.lat}&long=${coordinates.lng}`
+    axios.get(baseUrl+url).then(res =>{
+      if(res.data){ ///incase of there is no return and app crashes
+        
+        ///hacky -> separate weather from current_day 
+      const { weather, ...current_day } = res.data.current_day
+      console.log(current_day)
+      setCropsData(current_day);
+      console.log(weather)
+      setWeatherData(weather);
+      }
+
+    })
+  },[baseUrl, coordinates, displayLocation])
   ////the left panel of weather
   const DisplayWeatherToday = () => {
     let backgroundUrl = backgroundWeather("sunny");
