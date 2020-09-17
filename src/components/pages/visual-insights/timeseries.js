@@ -10,8 +10,7 @@ import {
 
 import Temp from "./temps.json"
 
-const data_url = "http://localhost:5000/api/yields_data?area=50";
-
+const data_url = "https://goplantitbackend.herokuapp.com/api/yields_data?area=50";
 
 
   
