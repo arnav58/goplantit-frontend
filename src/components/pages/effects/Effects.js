@@ -25,6 +25,12 @@ const CardRow = styled.div`
   margin-bottom: 10px;
   flex-direction: column;
 `;
+const CardColum = styled.div`
+  display: flex;
+  width : 100%;
+  margin-bottom: 10px;
+  flex-direction: row;
+`;
 const Arti = styled(Card)`
   display: flex;
   width: 500px;
@@ -173,7 +179,7 @@ const cards = [
 const DisplayCategory = (color, name) => {
   const Category = styled(Typography)`
     display: flex;
-    width: 500px;
+    width: 505px;
     margin: 5px;
     margin-top: 5px;
     font-weight: 1200;
@@ -205,6 +211,22 @@ const DisplaySeason = (name) => {
   return (
     <Category>
       <Typography variant="h4" color="secondary"> {name}</Typography>
+    </Category>
+  );
+};
+const DisplayType = (color, name) => {
+  const Category = styled(Typography)`
+    display: flex;
+    height: 150px;
+    // margin: 5px;
+    margin-top: 5px;
+    font-weight: 1200;
+    color: #5d5d5a;
+    border-left: 5px solid ${color};
+  `;
+  return (
+    <Category>
+      <Typography variant="h6"> {name}</Typography>
     </Category>
   );
 };
@@ -308,6 +330,7 @@ const Effects = () => {
     let uis = [];
     cards.map((card) => {
       let url = process.env.PUBLIC_URL + "/" + card.crop + ".png";
+      
       uis.push(
         <React.Fragment>
           <Arti>
@@ -352,13 +375,59 @@ const Effects = () => {
           {/* { <Category >Winter Crops</Category> } */}
           {DisplaySeason("Winter Crops")}
           {DisplayCategory("#17b978", "")}
-          {mapCards(cards.slice(0, 6), "#17b978")}
+          <CardColum>
+          {DisplayType("#f469a9", "")}
+          {mapCards(cards.slice(0, 1), "#f469a9")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#f469a9", "")}
+          {mapCards(cards.slice(1, 2), "#f469a9")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#88bef5", "")}
+          {mapCards(cards.slice(2, 3), "#88bef5")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#88bef5", "")}
+          {mapCards(cards.slice(3, 4), "#88bef5")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#ba53de", "")}
+          {mapCards(cards.slice(4, 5), "#ba53de")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#ba53de", "")}
+          {mapCards(cards.slice(5, 6), "#ba53de")}
+          </CardColum>
         </CardRow>
         <CardRow>
           {/* <Category>Crop Yield and Production</Category> */}
           {DisplaySeason("Summer Crops")}
           {DisplayCategory("#17b978", "")}
-          {mapCards(cards.slice(6, 12), "#17b978")}
+          <CardColum>
+          {DisplayType("#fcb1b1", "")}
+          {mapCards(cards.slice(6, 7), "#fcb1b1")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#fcb1b1", "")}
+          {mapCards(cards.slice(7, 8), "#fcb1b1")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#ed733f", "")}
+          {mapCards(cards.slice(8, 9), "#ed733f")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#ed733f", "")}
+          {mapCards(cards.slice(9, 10), "#ed733f")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#4b89ac", "")}
+          {mapCards(cards.slice(10, 11), "#4b89ac")}
+          </CardColum>
+          <CardColum>
+          {DisplayType("#4b89ac", "")}
+          {mapCards(cards.slice(11, 12), "#4b89ac")}
+          </CardColum>
         </CardRow>
         {/* <CardRow>
           {/* <Category>Crop Compatibility</Category> */}
