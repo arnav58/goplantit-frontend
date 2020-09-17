@@ -201,7 +201,7 @@ const Landing = () => {
         title: "Personalized Dashboard",
         subtitle:
           "Help you to plan early when the extreme weather may damage your crops.",
-        link: "/alerts",
+        link: "/dashboard",
       },
       {
         icon: "insights",
@@ -356,9 +356,9 @@ const Landing = () => {
               variant="outlined"
               color="primary"
               component={Link}
-              to="/about-us"
+              to="/dashboard"
             >
-              about us
+              Dashboard
             </PageButton>
           </ButtonRow>
         </FadeInWrapper>

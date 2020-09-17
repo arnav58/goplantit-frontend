@@ -26,7 +26,7 @@ const PaperWrapper = styled(Paper)`
   padding: 10px;
 `;
 const InformationWrapper = styled.div`
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 5px;
 `;
 const DividerWrapper = styled(Divider)`
@@ -50,14 +50,14 @@ const WeatherCardsRow = styled.div`
 `;
 
 const WeatherCard = styled(Paper)`
-  width: 250px;
-  height: 180px;
+  width: 280px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   margin: 10px;
   background-color: white;
-  align-item:center;
-  padding:10px;
+  align-item: center;
+  padding: 10px;
 `;
 const Spacer = styled.div`
   height: ${(props) => (props.height ? props.height : "10px")};
@@ -69,6 +69,21 @@ const ContentRow = styled.div`
   width: 90%;
 `;
 
+const WeatherCropsTileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+  border: solid;
+  border-width: 0 1px;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+`;
+const scaleElement = styled.div`
+  display: flex;
+  width: 50px;
+`;
+
 const backgroundWeather = (weather) => {
   const weatherImageMap = {
     clear: clear,
@@ -77,9 +92,11 @@ const backgroundWeather = (weather) => {
     thunderstorm: thunderstorm,
     rain: rain,
     clouds: clouds,
-    default: clear
+    default: clear,
   };
-  return weatherImageMap[weather] ? weatherImageMap[weather] : weatherImageMap["default"];
+  return weatherImageMap[weather]
+    ? weatherImageMap[weather]
+    : weatherImageMap["default"];
 };
 
 const Dashboard = () => {
@@ -100,32 +117,34 @@ const Dashboard = () => {
   const [dailyData, setDailyData] = useState(null);
 
   ///weather data and crops data for making the cards
-  const [weatherData, setWeatherData] = useState(null)
-  const [cropsData, setCropsData] = useState(null)
+  const [weatherData, setWeatherData] = useState(null);
+  const [cropsData, setCropsData] = useState(null);
 
   //in production pass in the base url via environmental variable
-  const baseUrl = process.env.BASEURL ? process.env.BASEURL : "http://localhost:5000/api";
+  const baseUrl = process.env.BASEURL
+    ? process.env.BASEURL
+    : "http://localhost:5000/api";
 
   useEffect(() => {
-    let url = `/weather_data?lat=${coordinates.lat}&long=${coordinates.lng}`
-    axios.get(baseUrl + url).then(res => {
-      if (res.data) { ///incase of there is no return and app crashes
+    let url = `/weather_data?lat=${coordinates.lat}&long=${coordinates.lng}`;
+    axios.get(baseUrl + url).then((res) => {
+      if (res.data) {
+        ///incase of there is no return and app crashes
 
-        ///hacky -> separate weather from current_day 
-        const { weather, ...current_day } = res.data.current_day
-        console.log("current ", current_day)
+        ///hacky -> separate weather from current_day
+        const { weather, ...current_day } = res.data.current_day;
+        console.log("current ", current_day);
         setCropsData(current_day);
-        console.log("weather", weather)
+        console.log("weather", weather);
         setWeatherData(weather);
         setTodayWeatherData(weather);
         setDailyData(res.data.daily);
       }
-
-    })
-  }, [baseUrl, coordinates, displayLocation])
+    });
+  }, [baseUrl, coordinates, displayLocation]);
   ////the left panel of weather
   const DisplayWeatherToday = () => {
-    var weather_type = weatherData? weatherData[0].main : "default";
+    var weather_type = weatherData ? weatherData[0].main : "default";
 
     let backgroundUrl = backgroundWeather(weather_type.toLowerCase());
     return (
@@ -142,7 +161,7 @@ const Dashboard = () => {
             <Typography variant="h4" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
                 Weather today
-            </Box>
+              </Box>
             </Typography>
             <DividerWrapper />
             <Typography variant="h6" fontWeight={500}>
@@ -153,7 +172,7 @@ const Dashboard = () => {
             <Typography variant="h6" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
                 {cropsData?.temp} °C
-            </Box>
+              </Box>
             </Typography>
             <Typography variant="h6" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
@@ -165,32 +184,61 @@ const Dashboard = () => {
       </PaperGridWrapper>
     );
   };
-
+  const colorMap = {
+    green: "#17b978",
+    yellow: "#ffd615",
+    red: "#e41749",
+    maroon: "#85203b",
+  };
   //the right panel of concerns
   const DisplayColorBlock = (threatStatus, width, height) => {
-    let colorMap = {
-      green: "#17b978",
-      maroon: "#85203b",
-      yellow: "#ffd615",
-      red: "#e41749",
-    };
-
     return (
       <div
         style={{
           backgroundColor: colorMap[threatStatus],
           width: width,
           height: height,
-          padding:"2px"
+          padding: "2px",
         }}
       />
     );
   };
 
+  const ReturnCrops = (crop, status) => {
+    let url = process.env.PUBLIC_URL + "/" + crop + ".png";
+    return (
+      <WeatherCropsTileWrapper
+        style={{
+          borderRadius: "2px",
+          borderColor: colorMap[status],
+          borderWidth: "1px",
+        }}
+      >
+        <img
+          src={url}
+          style={{ objectFit: "contain", height: "20px", width: "20px" }}
+          alt={crop}
+        />
+        <Typography
+          color="secondary"
+          variant="caption"
+          style={{
+            marginRight: "5px",
+            borderRadius: "2px",
+            borderWidth: "1px",
+          }}
+        >
+          {crop}
+        </Typography>
+
+        {/* {DisplayColorBlock(status, "10px", "70%")} */}
+      </WeatherCropsTileWrapper>
+    );
+  };
+
   const DisplayWeekWeather = () => {
     //display weather cards for the week
-    let crops = ["canola", "barely", "wheat"];
-    console.log(dailyData);
+    let crops = ["wheat", "canola", "barley"];
     return (
       dailyData &&
       dailyData.map((daily) => (
@@ -198,38 +246,99 @@ const Dashboard = () => {
           <Typography variant="caption" color="primary">
             {daily.formatted_date}
           </Typography>
-          <Typography variant="h6" color="primary">
-            Threats:
+          <Typography variant="subtitle1" color="primary">
+            Weather Condition and Threats
           </Typography>
           <ContentRow>
-            <Typography variant="subtitle1" color="primary" style={{marginRight:"5px"}}>
+            <Typography
+              variant="subtitle1"
+              color="secondary"
+              style={{ marginRight: "5px" }}
+            >
               Wind:
             </Typography>
             {/* <Typography variant="caption" color="secondary">
               {daily.wind_speed_threat_desc}
             </Typography> */}
-            <Typography variant="subtitle1" color="primary" style={{marginRight:"5px", color:"#3e4a61"}}>
-            {daily.wind_speed_threat_desc.split(" ").slice(0,2).join(" ")}
+            <Typography
+              variant="subtitle1"
+              color="secondary"
+              style={{ marginRight: "5px", color: "#3e4a61" }}
+            >
+              {daily.wind_speed_threat_desc.split(" ").slice(0, 2).join(" ")}
             </Typography>
             {DisplayColorBlock(daily.wind_speed_threat_type, "10px", "70%")}
           </ContentRow>
-          {daily.rain_threat_desc &&
-          <ContentRow>
-            <Typography variant="subtitle1" color="primary" style={{marginRight:"10px"}}>
-              Rain:
-            </Typography>
-            {/* <Typography variant="caption" color="secondary">
+          {daily.rain_threat_desc && (
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "10px" }}
+              >
+                Rain:
+              </Typography>
+              {/* <Typography variant="caption" color="secondary">
               {daily.wind_speed_threat_desc}
             </Typography> */}
-            <Typography variant="subtitle1" color="primary" style={{marginRight:"5px", color:"#3e4a61"}}>
-            {daily.rain_threat_desc.split(" ").slice(0,2).join(" ")}
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px", color: "#3e4a61" }}
+              >
+                {daily.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
+              </Typography>
+              {DisplayColorBlock(daily.rain_threat_type, "10px", "70%")}
+            </ContentRow>
+          )}
+          <ContentRow>
+            <Typography
+              variant="subtitle1"
+              color="primary"
+              style={{ marginRight: "5px" }}
+            >
+              Temperature Effect
             </Typography>
-            {DisplayColorBlock(daily.rain_threat_type, "10px", "70%")}
           </ContentRow>
-  }
+          <ContentRow>
+            {crops.map((crop) =>
+              ReturnCrops(crop, daily[crop + "_temp_status_color"])
+            )}
+          </ContentRow>
         </WeatherCard>
       ))
     );
+  };
+  const DisplayColorScale = () => {
+    let conditionMap = {
+      green: "ideal",
+      yellow: "slightly unfavorable",
+      red: "concerning",
+      maroon: "severe",
+    };
+    return Object.keys(colorMap).map((element) => (
+      <div
+        style={{
+          display: "flex",
+          marginRight: "10px",
+          alignItems: "center",
+        }}
+      >
+        {DisplayColorBlock(element, "10px", "10px")}
+        <Typography
+          variant="body1"
+          color="secondary"
+          style={{
+            marginLeft: "2px",
+            textTransform: "capitalize",
+            color: "#3e4a61",
+            opacity: "0.5",
+          }}
+        >
+          {conditionMap[element]}
+        </Typography>
+      </div>
+    ));
   };
 
   const DisplayDashboard = () => {
@@ -246,6 +355,9 @@ const Dashboard = () => {
               setCookie={setCookie}
               setCoordinates={setCoordinates}
             />
+            <Typography color="secondary" variant="caption">
+              We store the location as cookie to provide personalized experience
+            </Typography>
             <Spacer height="20px" />
             <Typography color="secondary" variant="h5">
               <Box fontWeight="fontWeightMedium" m={1}>
@@ -261,6 +373,9 @@ const Dashboard = () => {
                 marginLeft: "9px",
               }}
             />
+            <ContentRow style={{ marginLeft: "15px" }}>
+              {DisplayColorScale()}
+            </ContentRow>
             <Spacer height="20px" />
             <WeatherCardsRow>{DisplayWeekWeather()}</WeatherCardsRow>
           </PaperWrapper>
@@ -272,7 +387,7 @@ const Dashboard = () => {
   return (
     <Fragment>
       {serviceTemplate({
-        title: "Extreme Weather Alerts",
+        title: "Dashboard",
         childComponent: DisplayDashboard(),
         custom: true,
       })}
