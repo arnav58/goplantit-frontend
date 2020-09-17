@@ -26,6 +26,7 @@ function App() {
             <Route exact path="/alerts" component={WeatherAlert} />	
             <Route exact path="/about-us" component={AboutUs} />	
             <Route exact path="/dashboard" component={Dashboard} />	
+            {/* <Route exact path="/visualize" component={Visualize} />	 */}
             
      </Switch>
      <FooterContainer />
