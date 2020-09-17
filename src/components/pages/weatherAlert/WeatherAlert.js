@@ -594,7 +594,7 @@ const WeatherAlert = () => {
     return (
       <ContentWrapper>
         <SecondTitle color="secondary" variant="h5">
-          RSS Weather Alerts
+          Weather Alerts
         </SecondTitle>
         {DisplaySelectionRow()}
         <DividerWrapper />
