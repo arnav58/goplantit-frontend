@@ -93,6 +93,7 @@ const DisplayNavbar = () => {
       { page: "Home", link: "/", icon: "home" },
       { page: "Alerts", link: "/alerts", icon: "notification" },
       { page: "Effects", link: "/effects", icon: "location" },
+      { page: "Insights", link: "/visualze", icon: "location" },
     ];
 
     let itemUi = [];
@@ -121,46 +122,198 @@ const DisplayNavbar = () => {
   const ref = useRef(null);
 
 
-  const [items1, setItems1] = useState([]);
+  // const [items1, setItems1] = useState([]);
 
-// Get the notification message
+const [itemsVIC, setItemsVIC] = useState([]);
+const [itemsNSW, setItemsNSW] = useState([]);
+const [itemsQLD, setItemsQLD] = useState([]);
+const [itemsWA, setItemsWA] = useState([]);
+const [itemsNT, setItemsNT] = useState([]);
+const [itemsSA, setItemsSA] = useState([]);
+const [itemsTAS, setItemsTAS] = useState([]);
+
+
   useEffect(() => {
-    Promise.all([
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=VIC"),
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=NSW"),
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=SA"),
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=QLD"),
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=NT"),
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=WA"),
-      fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=TAS")
-  ]).then(function (responses) {
-    // Get a JSON object from each of the responses
-    return Promise.all(responses.map(function (response) {
-      return response.json();
-    }));
-  }).then(function (data) {
-    // Log the data to the console
-    // You would do something with both sets of data here    
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=VIC")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsVIC(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
 
-    for(var i = 0; i<data.length; i++){
-      if(data[i].length !== 0 && data[i] !== undefined){
-        if('errorMessage' in data[i][0]){
-          console.log(data[i][0]);
-          // setItems1(data[i]);
-        } else {
-          console.log(data[i]);
-          setItems1(data[i]);
-        }       
-      }
-    }
-    
-    
-  }).catch(function (error) {
-    // if there's an error, log it
-    console.log(error);
-  });
-}, [])
+  useEffect(() => {
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=NSW")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsNSW(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
 
+  useEffect(() => {
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=QLD")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsQLD(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
+
+  useEffect(() => {
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=NT")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsNT(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
+
+  useEffect(() => {
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=WA")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsWA(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
+
+  useEffect(() => {
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=SA")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsSA(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
+
+  useEffect(() => {
+    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=TAS")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // setIsLoaded(true);
+          if(result.length !== 0 && result[0] !== undefined){
+            if('errorMessage' in result[0]){
+              console.log(result[0]);
+              // setItems1(data[i]);
+            } else {
+              console.log(result);
+              setItemsTAS(result);
+            }       
+          }
+          // console.log(result[0].title);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error);
+        }
+      )
+  }, [])
 
 
 // Hide the notification on clicking outside
@@ -180,7 +333,7 @@ const DisplayNotificationIcons = ()=>{
     <React.Fragment>
       <NotificationContainer className="notification-container">
                 <div className='notification notify show-count'
-                    data-count={items1.length}
+                    data-count={itemsVIC.length + itemsNSW.length + itemsQLD.length + itemsNT.length + itemsWA.length + itemsSA.length + itemsTAS.length}
                     onClick={event => handleClick1(event)}
                     >
                     <NotificationImportant style={{color: '#ff304f'}}/>
@@ -200,9 +353,177 @@ const DisplayNotificationIcons = ()=>{
                     <Popover id="popover-contained">
                         <Popover.Title as="h3" style={{ textAlign: 'center' }}>Alerts!</Popover.Title>
                         <Popover.Content style={{ padding: '3px 3px' }}>                            
-                            <ul className="notification-info-panel">
+                        <ul className="notification-info-panel">
                                 {
-                                    items1.map(item => (item !== undefined) ?
+                                    itemsVIC.map(item => (item !== undefined) ?
+                                    
+                                    (
+                                      <table className='notification-message'
+                                      key={item}>
+                                        <tbody>
+                                        <tr>
+                                          <td className="date">{item.pubDate}</td>
+                                          <td className="content">
+                                          <Link to="/alerts" style={{color: 'black'}}>
+                                            {item.title}
+                                          </Link>
+                                          </td>                                          
+                                           <td className="alertType">                                           
+                                             {item.tag}                                             
+                                           </td>
+                                          
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    ) :
+                                    <>
+                                        {/* <AlertTriangle color='#000000' size={32} />
+                                        <h5 className="nodata">No Notifications found!</h5> */}
+                                    </>
+                                    )}
+
+                                  {
+                                    itemsNSW.map(item => (item !== undefined) ?
+                                    
+                                    (
+                                      <table className='notification-message'
+                                      key={item}>
+                                        <tbody>
+                                        <tr>
+                                          <td className="date">{item.pubDate}</td>
+                                          <td className="content">
+                                          <Link to="/alerts" style={{color: 'black'}}>
+                                            {item.title}
+                                          </Link>
+                                          </td>                                          
+                                           <td className="alertType">                                           
+                                             {item.tag}                                             
+                                           </td>
+                                          
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    ) :
+                                    <>
+                                        {/* <AlertTriangle color='#000000' size={32} />
+                                        <h5 className="nodata">No Notifications found!</h5> */}
+                                    </>
+                                    )}
+
+                                  {
+                                    itemsQLD.map(item => (item !== undefined) ?
+                                    
+                                    (
+                                      <table className='notification-message'
+                                      key={item}>
+                                        <tbody>
+                                        <tr>
+                                          <td className="date">{item.pubDate}</td>
+                                          <td className="content">
+                                          <Link to="/alerts" style={{color: 'black'}}>
+                                            {item.title}
+                                          </Link>
+                                          </td>                                          
+                                           <td className="alertType">                                           
+                                             {item.tag}                                             
+                                           </td>
+                                          
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    ) :
+                                    <>
+                                        {/* <AlertTriangle color='#000000' size={32} />
+                                        <h5 className="nodata">No Notifications found!</h5> */}
+                                    </>
+                                    )}
+
+                                  {
+                                    itemsNT.map(item => (item !== undefined) ?
+                                    
+                                    (
+                                      <table className='notification-message'
+                                      key={item}>
+                                        <tbody>
+                                        <tr>
+                                          <td className="date">{item.pubDate}</td>
+                                          <td className="content">
+                                          <Link to="/alerts" style={{color: 'black'}}>
+                                            {item.title}
+                                          </Link>
+                                          </td>                                          
+                                           <td className="alertType">                                           
+                                             {item.tag}                                             
+                                           </td>
+                                          
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    ) :
+                                    <>
+                                        {/* <AlertTriangle color='#000000' size={32} />
+                                        <h5 className="nodata">No Notifications found!</h5> */}
+                                    </>
+                                    )}
+
+{
+                                    itemsWA.map(item => (item !== undefined) ?
+                                    
+                                    (
+                                      <table className='notification-message'
+                                      key={item}>
+                                        <tbody>
+                                        <tr>
+                                          <td className="date">{item.pubDate}</td>
+                                          <td className="content">
+                                          <Link to="/alerts" style={{color: 'black'}}>
+                                            {item.title}
+                                          </Link>
+                                          </td>                                          
+                                           <td className="alertType">                                           
+                                             {item.tag}                                             
+                                           </td>
+                                          
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    ) :
+                                    <>
+                                        {/* <AlertTriangle color='#000000' size={32} />
+                                        <h5 className="nodata">No Notifications found!</h5> */}
+                                    </>
+                                    )}
+
+{
+                                    itemsSA.map(item => (item !== undefined) ?
+                                    
+                                    (
+                                      <table className='notification-message'
+                                      key={item}>
+                                        <tbody>
+                                        <tr>
+                                          <td className="date">{item.pubDate}</td>
+                                          <td className="content">
+                                          <Link to="/alerts" style={{color: 'black'}}>
+                                            {item.title}
+                                          </Link>
+                                          </td>                                          
+                                           <td className="alertType">                                           
+                                             {item.tag}                                             
+                                           </td>
+                                          
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    ) :
+                                    <>
+                                        {/* <AlertTriangle color='#000000' size={32} />
+                                        <h5 className="nodata">No Notifications found!</h5> */}
+                                    </>
+                                    )}
+
+{
+                                    itemsTAS.map(item => (item !== undefined) ?
                                     
                                     (
                                       <table className='notification-message'

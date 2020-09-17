@@ -28,6 +28,7 @@ export function FooterContainer() {
                     <Footer.Link href="/alerts">Weather Alerts</Footer.Link>
                     <Footer.Link href="/effects">Know your effects</Footer.Link>
                     <Footer.Link href="/about-us">About us</Footer.Link>
+                    <Footer.Link href="/visualze">Insights</Footer.Link>
                 </Footer.Column>
             </Footer.Row>
                 <Footer.Copyright>©️2020 Upgraded. All Right Reserved. GoPlantIt. El Nino @Monash</Footer.Copyright>
