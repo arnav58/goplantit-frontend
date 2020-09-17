@@ -13,7 +13,7 @@ import { Modal, Backdrop, Fade, Paper, Link, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EcoIcon from '@material-ui/icons/Eco';
 const ComponentWrapper = styled.section`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -27,7 +27,7 @@ const CardRow = styled.div`
 `;
 const Arti = styled(Card)`
   display: flex;
-  width: 350px;
+  width: 500px;
   margin: 5px;
   background: #ffffff;
 `;
@@ -173,7 +173,7 @@ const cards = [
 const DisplayCategory = (color, name) => {
   const Category = styled(Typography)`
     display: flex;
-    width: 350px;
+    width: 500px;
     margin: 5px;
     margin-top: 5px;
     font-weight: 1200;
@@ -186,6 +186,25 @@ const DisplayCategory = (color, name) => {
   return (
     <Category>
       <Typography variant="h6"> {name}</Typography>
+    </Category>
+  );
+};
+const DisplaySeason = (name) => {
+  const Category = styled(Typography)`
+    display: flex;
+    width: 500px;
+    margin: 5px;
+    margin-top: 5px;
+    font-weight: 1200;
+    color: #5d5d5a;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+  `;
+  return (
+    <Category>
+      <Typography variant="h4" color="secondary"> {name}</Typography>
     </Category>
   );
 };
@@ -330,20 +349,22 @@ const Effects = () => {
       <ComponentWrapper>
         {/* <GridList cols={5}> */}
         <CardRow>
-          {/* <Category >Plant Grow</Category> */}
+          {/* { <Category >Winter Crops</Category> } */}
+          {DisplaySeason("Winter Crops")}
           {DisplayCategory("#17b978", "")}
-          {mapCards(cards.slice(0, 4), "#17b978")}
+          {mapCards(cards.slice(0, 6), "#17b978")}
         </CardRow>
         <CardRow>
           {/* <Category>Crop Yield and Production</Category> */}
+          {DisplaySeason("Summer Crops")}
           {DisplayCategory("#17b978", "")}
-          {mapCards(cards.slice(4, 8), "#17b978")}
+          {mapCards(cards.slice(6, 12), "#17b978")}
         </CardRow>
-        <CardRow>
+        {/* <CardRow>
           {/* <Category>Crop Compatibility</Category> */}
-          {DisplayCategory("#17b978", "")}
-          {mapCards(cards.slice(8, 12), "#17b978")}
-        </CardRow>
+          {/* {DisplayCategory("#17b978", "")}
+          {mapCards(cards.slice(8, 12), "#17b978")} */}
+        {/* </CardRow>} */}
         {DisplayModal()}
 
         {/* </GridList> */}
