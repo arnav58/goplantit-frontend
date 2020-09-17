@@ -6,9 +6,12 @@ import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
 import LocationPicker from "../../utils/LocationPicker";
 //////images import
-import cold from "./cold.jpg";
-import hot from "./hot.jpg";
-import sunny from "./sunny.jpg";
+import clear from "./1-clear-sky.png";
+import snow from "./2-snow.png";
+import mist from "./3-mist.png";
+import thunderstorm from "./4-thunderstorm.png";
+import rain from "./5-rain.png";
+import clouds from "./6-cloudy.png";
 /// http helpers import
 import axios from "axios";
 //cookies
@@ -21,6 +24,15 @@ const PaperWrapper = styled(Paper)`
   height: 100%;
   min-height: 70vh;
   padding: 10px;
+`;
+const InformationWrapper = styled.div`
+  background-color: rgba(0,0,0,0.4);
+  border-radius: 5px;
+`;
+const DividerWrapper = styled(Divider)`
+  background-color: #e2f3f5;
+  margin-top: 25px;
+  width: 100%;
 `;
 const PaperGridWrapper = styled(Grid)`
   height: 100%;
@@ -59,11 +71,15 @@ const ContentRow = styled.div`
 
 const backgroundWeather = (weather) => {
   const weatherImageMap = {
-    cold: cold,
-    hot: hot,
-    sunny: sunny,
+    clear: clear,
+    snow: snow,
+    mist: mist,
+    thunderstorm: thunderstorm,
+    rain: rain,
+    clouds: clouds,
+    default: clear
   };
-  return weatherImageMap[weather];
+  return weatherImageMap[weather] ? weatherImageMap[weather] : weatherImageMap["default"];
 };
 
 const Dashboard = () => {
@@ -83,32 +99,35 @@ const Dashboard = () => {
   const [todayWeatherData, setTodayWeatherData] = useState(null);
   const [dailyData, setDailyData] = useState(null);
 
+  ///weather data and crops data for making the cards
+  const [weatherData, setWeatherData] = useState(null)
+  const [cropsData, setCropsData] = useState(null)
+
   //in production pass in the base url via environmental variable
-  const baseUrl = process.env.BASEURL
-    ? process.env.BASEURL
-    : "http://localhost:5000/api";
+  const baseUrl = process.env.BASEURL ? process.env.BASEURL : "http://localhost:5000/api";
 
   useEffect(() => {
-    let url = `/weather_data?lat=${coordinates.lat}&long=${coordinates.lng}`;
-    axios
-      .get(baseUrl + url)
-      .then((res) => {
-        if (res.data) {
-          ///incase of there is no return and app crashes
+    let url = `/weather_data?lat=${coordinates.lat}&long=${coordinates.lng}`
+    axios.get(baseUrl + url).then(res => {
+      if (res.data) { ///incase of there is no return and app crashes
 
-          ///hacky -> separate weather from current_day
-          console.log(res.data);
-          const { weather, ...current_day } = res.data.current_day;
+        ///hacky -> separate weather from current_day 
+        const { weather, ...current_day } = res.data.current_day
+        console.log("current ", current_day)
+        setCropsData(current_day);
+        console.log("weather", weather)
+        setWeatherData(weather);
+        setTodayWeatherData(weather);
+        setDailyData(res.data.daily);
+      }
 
-          setTodayWeatherData(weather);
-          setDailyData(res.data.daily);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, [baseUrl, coordinates, displayLocation]);
+    })
+  }, [baseUrl, coordinates, displayLocation])
   ////the left panel of weather
   const DisplayWeatherToday = () => {
-    let backgroundUrl = backgroundWeather("sunny");
+    var weather_type = weatherData? weatherData[0].main : "default";
+
+    let backgroundUrl = backgroundWeather(weather_type.toLowerCase());
     return (
       <PaperGridWrapper item sm={3} xs={12}>
         <PaperWrapper
@@ -119,16 +138,29 @@ const Dashboard = () => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <Typography variant="h4" fontWeight={500}>
-            <Box fontWeight="fontWeightMedium" m={1}>
-              Weather today
+          <InformationWrapper>
+            <Typography variant="h4" fontWeight={500}>
+              <Box fontWeight="fontWeightMedium" m={1}>
+                Weather today
             </Box>
-          </Typography>
-          <Typography variant="h6" fontWeight={500}>
-            <Box fontWeight="fontWeightMedium" m={1}>
-              {displayLocation.suburb + ", " + displayLocation.state}
+            </Typography>
+            <DividerWrapper />
+            <Typography variant="h6" fontWeight={500}>
+              <Box fontWeight="fontWeightMedium" m={1}>
+                {displayLocation.suburb + ", " + displayLocation.state}
+              </Box>
+            </Typography>
+            <Typography variant="h6" fontWeight={500}>
+              <Box fontWeight="fontWeightMedium" m={1}>
+                {cropsData?.temp} °C
             </Box>
-          </Typography>
+            </Typography>
+            <Typography variant="h6" fontWeight={500}>
+              <Box fontWeight="fontWeightMedium" m={1}>
+                {weatherData && weatherData[0].main}
+              </Box>
+            </Typography>
+          </InformationWrapper>
         </PaperWrapper>
       </PaperGridWrapper>
     );
