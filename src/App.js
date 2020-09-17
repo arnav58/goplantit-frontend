@@ -9,6 +9,8 @@ import Effects from './components/pages/effects/Effects'
 import AboutUs from './components/pages/about-us/AboutUs'
 import WeatherAlert from './components/pages/weatherAlert/WeatherAlert';
 import {FooterContainer} from './containers/footer'
+import VisualizePage from './components/pages/visual-insights/visualize'
+
 
 function App() {
   return (
@@ -24,7 +26,8 @@ function App() {
             <Route exact path="/effects" component={Effects} />	
             <Route exact path="/alerts" component={WeatherAlert} />	
             <Route exact path="/about-us" component={AboutUs} />	
-            
+            <Route exact path="/visualze" component={VisualizePage} />
+
      </Switch>
      <FooterContainer />
     </React.Fragment>
