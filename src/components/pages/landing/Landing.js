@@ -208,7 +208,7 @@ const Landing = () => {
         title: "Yields and Profits Insights",
         subtitle:
           "Help you to plan early when the extreme weather may damage your crops.",
-        link: "/alerts",
+        link: "/visualize",
       },
       {
         icon: "notification",

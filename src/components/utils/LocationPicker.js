@@ -62,7 +62,7 @@ Geocode.enableDebug();
   const [locationData, setLocationData] = useState([]);
   
   const getLocations = async () => {
-    let baseUrl = process.env.BASEURL?process.env.BASEURL:"http://localhost:5000/api";
+    let baseUrl = process.env.BASEURL?process.env.BASEURL:"https://goplantitbackend.herokuapp.com/api";
     //get hardcoded locations from the nodejs endpoints
     let res = await axios.get(baseUrl + "/misc/location");
     setLocationData(res.data);

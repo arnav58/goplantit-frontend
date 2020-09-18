@@ -123,7 +123,7 @@ const Dashboard = () => {
   //in production pass in the base url via environmental variable
   const baseUrl = process.env.BASEURL
     ? process.env.BASEURL
-    : "http://localhost:5000/api";
+    : "https://goplantitbackend.herokuapp.com/api";
 
   useEffect(() => {
     let url = `/weather_data?lat=${coordinates.lat}&long=${coordinates.lng}`;

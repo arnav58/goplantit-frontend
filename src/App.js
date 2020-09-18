@@ -10,6 +10,7 @@ import AboutUs from './components/pages/about-us/AboutUs'
 import WeatherAlert from './components/pages/weatherAlert/WeatherAlert';
 import {FooterContainer} from './containers/footer'
 import Dashboard from './components/pages/dashboard/Dashboard';
+import Visualize from "./components/pages/visual-insights/visualize"
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             <Route exact path="/alerts" component={WeatherAlert} />	
             <Route exact path="/about-us" component={AboutUs} />	
             <Route exact path="/dashboard" component={Dashboard} />	
-            {/* <Route exact path="/visualize" component={Visualize} />	 */}
+            <Route exact path="/visualize" component={Visualize} />	
             
      </Switch>
      <FooterContainer />
