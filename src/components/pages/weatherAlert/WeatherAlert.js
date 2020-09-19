@@ -207,6 +207,7 @@ const alertToCropsMap = {
     Provides warnings of wet and windy conditions to enable sheep graziers 
     to take action to reduce losses among newly born lambs and newly shorn sheep due to hypothermia.
   `,
+    susceptibleCrops: ["barley"],
   },
   "severe weather": {
     suggestions: `
@@ -477,6 +478,12 @@ const WeatherAlert = () => {
           >
             {card.tag.toUpperCase()}
           </Typography>
+          <Link
+            variant="h6"
+            style={{ color: "#5c5757", fontWeight: 500, textAlign:"left", marginLeft:"5px" }}
+          >
+            {card.tag.toUpperCase()}
+          </Link>
         </CardTitleWrapper>
         <InfoWrapper>
           <Typography
@@ -587,7 +594,7 @@ const WeatherAlert = () => {
     return (
       <ContentWrapper>
         <SecondTitle color="secondary" variant="h5">
-          RSS Weather Alerts
+          Weather Alerts
         </SecondTitle>
         {DisplaySelectionRow()}
         <DividerWrapper />
