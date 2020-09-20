@@ -206,7 +206,7 @@ const Landing = () => {
         title: "Yields Insights",
         subtitle:
           "Understand and compare the historic and predicted yield and temperature patterns.",
-        link: "/visualize",
+        link: "/insights",
       },
       {
         icon: "notification",

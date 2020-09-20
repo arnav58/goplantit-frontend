@@ -24,7 +24,12 @@ export function FooterContainer() {
                 </Footer.Column>
                 <Footer.Column>
                 <Footer.Title>Pages</Footer.Title>
-                    <Footer.Link  href="/">Home</Footer.Link>                    
+                    <Footer.Link  href="/">Home</Footer.Link>   
+                    <Footer.Link  href="/dashboard">Dashboard</Footer.Link>                 
+                    <Footer.Link  href="/insights">Insights</Footer.Link> 
+                </Footer.Column>
+                <Footer.Column>
+                    <div style={{marginTop: '44px'}}></div>
                     <Footer.Link href="/alerts">Weather Alerts</Footer.Link>
                     <Footer.Link href="/effects">Know your effects</Footer.Link>
                     <Footer.Link href="/about-us">About us</Footer.Link>
