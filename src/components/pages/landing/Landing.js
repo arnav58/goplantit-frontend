@@ -2,7 +2,7 @@
 import React, { Fragment, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 //style imports
-import { Typography, Button, Paper, Link as UiLink } from "@material-ui/core";
+import { Typography, Button, Link as UiLink, Paper } from "@material-ui/core";
 import styled from "styled-components";
 //special effects
 import ReactTypingEffect from "react-typing-effect";
@@ -179,12 +179,10 @@ const RightGreenBar = styled.div`
 
 const MouseGraphicWrapper = styled.div`
   position: absolute;
-  left: 50%;
   bottom: 40px;
   border-radius: 16px;
-  height: 50px;
-  width: 30px;
-  margin-left: -17px;
+  height: 80px;
+  width: 80px;
   display: block;
   z-index: 10;
 `;
@@ -200,21 +198,21 @@ const Landing = () => {
         icon: "dashboard",
         title: "Personalized Dashboard",
         subtitle:
-          "Help you to plan early when the extreme weather may damage your crops.",
+          "Maintain oversight on the weather conditions and related threats to crops.",
         link: "/dashboard",
       },
       {
         icon: "insights",
-        title: "Yields and Profits Insights",
+        title: "Yields Insights",
         subtitle:
-          "Help you to plan early when the extreme weather may damage your crops.",
+          "Understand and compare the historic and predicted yield and temperature patterns.",
         link: "/visualize",
       },
       {
         icon: "notification",
         title: "Extreme Weather Alerts",
         subtitle:
-          "Help you to plan early when the extreme weather may damage your crops.",
+          "Plan early for extreme weather alerts issued in your state.",
         link: "/alerts",
       },
       {
@@ -336,9 +334,9 @@ const Landing = () => {
         <HomePageName variant="h2">GoPlantIt</HomePageName>
         <Subtitle>
           <ReactTypingEffect
-            speed={90}
-            typingDelay={600}
-            eraseDelay={10000000000}
+            speed={40}
+            typingDelay={100}
+            eraseDelay={10000}
             text="Providing Australian farmers with scientific plans to cope with
       extreme temperatures." //text=["Hello.", "World!"
           />
@@ -348,17 +346,17 @@ const Landing = () => {
             <PageButton
               variant="contained"
               color="primary"
-              onClick={executeScroll}
-            >
-              view our services
-            </PageButton>
-            <PageButton
-              variant="outlined"
-              color="primary"
               component={Link}
               to="/dashboard"
             >
               Dashboard
+            </PageButton>
+            <PageButton
+              variant="outlined"
+              color="primary"
+              onClick={executeScroll}
+            >
+              view all services
             </PageButton>
           </ButtonRow>
         </FadeInWrapper>
