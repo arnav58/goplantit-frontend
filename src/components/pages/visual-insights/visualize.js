@@ -9,14 +9,14 @@ import styled from "styled-components";
 import YieldData from "./yield.json"
 import Timeseries from "./timeseries"
 import serviceTemplate from "../../layout/serviceTemplate";
+import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+
 
 import {
-  Container,
   Typography,
-  Card,
   Divider,
-  CardContent,
-  CardMedia,
 } from "@material-ui/core";
 
 
@@ -45,11 +45,6 @@ const SectionWrapper = styled.section`
   // padding: 50px;
 `;
 
-const DividerWrapper = styled(Divider)`
-  background-color: #e2f3f5;
-  margin-top: 25px;
-  width: 100%;
-`;
 
 const SecondTitle = styled(Typography)`
   font-weight: 500;
@@ -57,26 +52,72 @@ const SecondTitle = styled(Typography)`
   margin-top: 15px;
 `;
 
-const TextContent = styled(Typography)`
-  font-weight: 400;
-  // color: black;
-  padding-bottom: 10px;
-  margin: 0 auto;
-  margin-top: 25px; 
-  width: 90%; 
-  text-justify: "inter-word";
-`;
 
 const ThirdTitle = styled(Typography)`
-  font-weight: 400;
+  font-weight: 300;
   // color: black;
   padding-bottom: 10px;
-  margin-top: 25px; 
+  margin-top: 2px; 
 `;
+
+const Arti = styled(Card)`
+  display: flex;
+  width: 32%;
+  margin-top: 2%;
+  margin-left: 65%;
+  background: #ffffff;
+  
+`;
+
+const ArtiSuggest = styled(Card)`
+  display: flex;
+  width: 30%;
+  margin-top: 2%;
+  margin-left: 2%;
+  background: #ffffff;
+  
+`;
+
+const Title = styled(Typography)`
+  display: flex;
+  margin-bottom: 5px;
+  font-weight: 500;
+  // height: 50px;
+  color: black;
+`;
+
+const CardContentWrapper = styled(CardContent)`
+  width: 100%;
+`;
+
+const ColorBlock = styled(Typography)`
+  width: 50px; 
+  height: 15px; 
+  border-radius: 3px;
+`;
+
 
 // Set your mapbox token here
 const MAPBOX_TOKEN = "pk.eyJ1Ijoic2F0eWF2aXZlayIsImEiOiJja2V4ejVkam8zNGhkMnNwbmRmN3VjYzFsIn0.x3SWl6lWW5zPYL8mmhfRWw"; // eslint-disable-line
 
+const ambientLight = new AmbientLight({
+  color: [255, 255, 255],
+  intensity: 1.0
+});
+
+const pointLight1 = new PointLight({
+  color: [255, 255, 255],
+  intensity: 0.8,
+  position: [-0.144528, 49.739968, 80000]
+});
+
+const pointLight2 = new PointLight({
+  color: [255, 255, 255],
+  intensity: 0.8,
+  position: [-3.807751, 54.104682, 8000]
+});
+
+const lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight2});
 
 const INITIAL_VIEW_STATE = {
   longitude: 133.16,
@@ -92,16 +133,180 @@ function getTooltip({object}) {
     return null;
   }
   const crop = object.Crop;
-  const yieldNum = object.yield;
+  const yieldNum = object.yield.toFixed(2);
   const year = object.Year
 
   return `\
     Crop: ${crop} \nYield: ${yieldNum} t/ht\nYear: ${year}`;
 }
 
+function getLegend() {  
+  return (
+
+    <Arti>
+      <CardContentWrapper>
+        <Title variant="subtitle2'" style={{fontSize: "16px"}}>
+          Legend
+        </Title>
+        <table color='primary'>
+          <tbody>
+            <tr>
+              <td>
+                <ColorBlock style={{backgroundColor: 'rgb(92, 192, 192)'}}></ColorBlock>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "wheat" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Wheat
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <ColorBlock style={{backgroundColor: 'rgb(67,67,72'}}></ColorBlock>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Barley
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <ColorBlock style={{backgroundColor: 'rgb(144,237,125)'}}></ColorBlock>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "canola" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Canola
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <ColorBlock style={{backgroundColor: 'rgb(247,163,92)'}}></ColorBlock>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "sorghum" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Sorghum
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <ColorBlock style={{backgroundColor: 'rgb(128,133,233)'}}></ColorBlock>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "cotton" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Cotton
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <ColorBlock style={{backgroundColor: 'rgb(241,92,128)'}}></ColorBlock>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "rice" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Rice
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </CardContentWrapper>
+    </Arti>
+
+  );
+}
+
+function getSuggestedCrops() {  
+  return (
+
+    <ArtiSuggest>
+      <CardContentWrapper>
+        
+        <Title variant="subtitle2'" style={{fontSize: "16px", marginTop: '2%'}}>
+          Suggested Crops
+        </Title>
+
+        <table color='primary'>
+          <tbody>
+            <tr>
+              <td>
+              <td style={{color: 'black', fontSize: '14px', fontWeight: '500'}}>
+                VIC
+              </td> 
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              Barley
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+              <td style={{color: 'black', fontSize: '14px', fontWeight: '500'}}>
+                QLD
+              </td>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "sorghum" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Sorghum
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+              <td style={{color: 'black', fontSize: '14px', fontWeight: '500'}}>
+                NSW
+              </td>
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "rice" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Rice
+              </td>
+            </tr>
+
+            <tr>
+              <td style={{color: 'black', fontSize: '14px', fontWeight: '500'}}>
+                WA
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Barley
+              </td>
+            </tr>
+
+            <tr>
+              <td style={{color: 'black', fontSize: '14px', fontWeight: '500'}}>
+                SA
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Barley
+              </td>
+            </tr>
+
+            <tr>
+              <td style={{color: 'black', fontSize: '14px', fontWeight: '500'}}>
+                TAS
+              </td>
+              <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
+              <img src={process.env.PUBLIC_URL + "wheat" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+                Wheat
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </CardContentWrapper>
+    </ArtiSuggest>
+
+  );
+}
+
 export default function App({
   data = YieldData,
-  mapStyle = 'mapbox://styles/mapbox/dark-v10'
+  mapStyle = 'mapbox://styles/mapbox/light-v10',
 }) {
 
   const layers = [
@@ -115,9 +320,10 @@ export default function App({
     pickable: true,
     elevationScale: 500,
     getPosition: d => [d.COORDINATES[0]-3.0, d.COORDINATES[1]],
-    getFillColor: () => [255, 0, 0, 128],
+    getFillColor: () => [92, 192, 192, 200],
     getLineColor: [0, 0, 0],
-    getElevation: d => d.yield*175
+    getElevation: d => d.yield*175,
+    
     
   }),
   new ColumnLayer({
@@ -129,7 +335,7 @@ export default function App({
     pickable: true,
     elevationScale: 500,
     getPosition: d => [d.COORDINATES[0]-1.5, d.COORDINATES[1]],
-    getFillColor: () => [0, 255, 0, 128],
+    getFillColor: () => [67,67,72, 128],
     getLineColor: [0, 0, 0],
     getElevation: d => d.yield*175
   }),
@@ -142,7 +348,7 @@ export default function App({
     pickable: true,
     elevationScale: 500,
     getPosition: d => [d.COORDINATES[0], d.COORDINATES[1]],
-    getFillColor: () => [0, 0, 255, 128],
+    getFillColor: () => [144,237,125, 128],
     getLineColor: [0, 0, 0],
     getElevation: d => d.yield*175
   }),
@@ -155,7 +361,7 @@ export default function App({
     pickable: true,
     elevationScale: 500,
     getPosition: d => [d.COORDINATES[0]+1.5, d.COORDINATES[1]],
-    getFillColor: () => [255, 255, 0, 128],
+    getFillColor: () => [247,163,92, 128],
     getLineColor: [0, 0, 0],
     getElevation: d => d.yield*175
   }),
@@ -168,7 +374,7 @@ export default function App({
     pickable: true,
     elevationScale: 500,
     getPosition: d => [d.COORDINATES[0]+3.0, d.COORDINATES[1]],
-    getFillColor: () => [0, 255, 255, 128],
+    getFillColor: () => [128,133,233, 128],
     getLineColor: [0, 0, 0],
     getElevation: d => d.yield*175
   }),
@@ -181,10 +387,10 @@ export default function App({
     pickable: true,
     elevationScale: 500,
     getPosition: d => [d.COORDINATES[0]+4.5, d.COORDINATES[1]],
-    getFillColor: () => [255, 0, 255, 128],
+    getFillColor: () => [241,92,128,128],
     getLineColor: [0, 0, 0],
     getElevation: d => d.yield*175
-  })
+  }),
 ]
 
 const DisplayVisualComponent = () => {
@@ -194,38 +400,40 @@ const DisplayVisualComponent = () => {
             Winter and Summer Crop Production Statistics
         </SecondTitle>
         <br></br>
-        <p style={{color: 'black'}}>
-        Around 22 million hectares are planted annually to commercial grain crops across Australia. 
+        <p style={{color: 'black', marginBottom: '1%'}}>
+        According to Bureau of Meteorology, around 22 million hectares are planted annually to commercial grain crops across Australia. 
         Climate/weather patterns effectively split Australia into two major grain cropping regions — northern and southern — and two crop growing periods — winter and summer.
-        Over the past decade, due to extreme temperatures the crop yield has been one of the major targeted and invested area to tackle Australia’s challenging environment.
-        Since 1996 — notwithstanding the devastating droughts of 2002 and 2006 — the nation has harvested an annual average grain production in excess of 35 million tonnes 
-        that is worth more than $7.9 billion each year.
-        </p>
-        <ThirdTitle color="secondary" variant="h5">Northern cropping region</ThirdTitle>
-        <p style={{color: 'black'}}> 
-        The northern region takes in central and southern Qld through to northern NSW down as far as the Dubbo region.
-        Most extreme weather in this northern region predicted be over the summer months, allowing for dryland summer crop production.
-        <br></br><br></br>
-        Winter crops - Wheat, barley, canola.
-        <br></br>
-        Summer crops - Sorghum, cotton and peanuts.
-        </p>
-        <ThirdTitle color="secondary" variant="h5">Southern  cropping region</ThirdTitle>
-        <p style={{color: 'black'}}>
-        The southern region stretches from central NSW (south of Dubbo) through to Victoria, Tasmania and South Australia and the southwest corner of Western Australia. 
-        The weather pattern ranges from uniform in central NSW through to winter-dominant in Victoria, Tasmania, SA and WA.
-        <br></br><br></br>
-        Winter crops - Wheat, barley, canola.
-        <br></br>
-        Summer crops - Rice.
+        
         </p>
 
-        <p style={{color: 'black'}}>
-        According to Bureau of Meteorology, Australian farmers are often said to operate in one of the riskiest environments in the world. 
-        While farming businesses face many sources of risk, the variability of Australian weather and climate is one of the most difficult risks to manage. 
-        Indeed most activities in Australian agriculture have at least some climate-related risk component.
-        <br></br><br></br>
-        The graphs provided below helps the farmer to mitigate rish of current yield and plan his future based on the temperature changes.
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <p style={{color: 'black'}}> 
+                <b>The northern region</b> takes in central and southern Qld through to northern NSW down as far as the Dubbo region.
+                Most extreme weather in this region predicted over the summer months, allowing for dryland summer crop production.
+                <br></br><br></br>
+                Winter crops - Wheat, barley, canola.
+                <br></br>
+                Summer crops - Sorghum, cotton and peanuts.
+                </p>
+              </td>
+              <td style={{paddingLeft: '7%'}}>
+                <p style={{color: 'black'}}>
+                <b>The southern region</b> stretches from central NSW (south of Dubbo) through to Victoria, Tasmania and South Australia and the southwest corner of Western Australia. 
+                The weather pattern ranges from uniform in central NSW through to winter-dominant in Victoria, Tasmania, SA and WA.
+                <br></br><br></br>
+                Winter crops - Wheat, barley, canola.
+                <br></br>
+                Summer crops - Rice.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p style={{color: 'black', marginTop: '1%',}}>        
+        The graphs provided below helps the farmer to mitigate risk of current yield and plan his future based on the temperature changes.
         </p>
       
         <SecondTitle color="secondary" variant="h4">
@@ -239,19 +447,35 @@ const DisplayVisualComponent = () => {
       </SecondTitle>
       <br></br>
       <p style={{color: 'black'}}>
-      The trend maps are a useful way to visualize how climate extremes were predicted in different regions of Australia over time. 
-      Trend values have been determined by Bureau of Meteorology for providing insights to the farmers in the time of extreme climate changes. 
-      <br></br><br></br>
-      The map shows the predicted yield for the selected Summer and Winter Crops in the year 2021 within every region of Australia.
+        The map shows the predicted yield and crop suggestion for the farmers from the selected Summer and Winter Crops in the year 2021 within every region of Australia.
       </p>
       <ComponentWrapper>
-        <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={getTooltip} >
+        <DeckGL initialViewState={INITIAL_VIEW_STATE} 
+                controller={true} 
+                layers={layers} 
+                getTooltip={getTooltip}
+                effects={[lightingEffect]} 
+                >
           <StaticMap
             reuseMaps
             mapStyle={mapStyle}
             preventStyleDiffing={true}
             mapboxApiAccessToken={MAPBOX_TOKEN}
           />
+          <table style={{tableLayout: 'fixed', width: '100%'}}>
+            <tbody>
+              <tr>
+                <td style={{width: '50%'}}>
+                {getSuggestedCrops()}               
+                </td>
+                <td style={{width: '50%'}}>
+                {getLegend()}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+          
         </DeckGL>
         </ComponentWrapper>
     
