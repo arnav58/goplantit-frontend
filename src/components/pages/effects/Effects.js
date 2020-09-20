@@ -14,10 +14,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import EcoIcon from '@material-ui/icons/Eco';
 
 const ComponentWrapper = styled.section`
-  width: 90%;
+  width: 110%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  layout: fixed;
+  padding: 2%;
 `;
 
 const CardRow = styled.div`
@@ -25,6 +27,7 @@ const CardRow = styled.div`
   height: 25%;
   margin-bottom: 10px;
   flex-direction: column;
+  width: 50%;
 `;
 const CardColum = styled.div`
   display: flex;

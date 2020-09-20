@@ -90,10 +90,11 @@ const DisplayNavbar = () => {
       return theIcon;
     };
     let items = [
-      { page: "Home", link: "/", icon: "home" },
+      { page: "Home", link: "/", icon: "home" },      
+      { page: "Dashboard", link: "/dashboard", icon: "notification" },
+      { page: "Insights", link: "/insights", icon: "location" },
       { page: "Alerts", link: "/alerts", icon: "notification" },
       { page: "Effects", link: "/effects", icon: "location" },
-      { page: "Visualize", link: "/visualize", icon: "location" },
     ];
 
     let itemUi = [];
