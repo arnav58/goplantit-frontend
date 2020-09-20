@@ -93,6 +93,7 @@ const DisplayNavbar = () => {
       { page: "Home", link: "/", icon: "home" },
       { page: "Alerts", link: "/alerts", icon: "notification" },
       { page: "Effects", link: "/effects", icon: "location" },
+      { page: "Visualize", link: "/visualize", icon: "location" },
     ];
 
     let itemUi = [];
