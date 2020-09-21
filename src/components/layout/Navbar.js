@@ -16,6 +16,8 @@ import {
   NotificationImportant,
   NotListedLocation,
   Home,
+  Dashboard, 
+  BarChart,
 } from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -83,6 +85,12 @@ const DisplayNavbar = () => {
         case "home":
           theIcon = <Home color="primary" />;
           break;
+        case "dashboard":
+          theIcon = <Dashboard color="#18b979" color="primary" />;
+          break;
+        case "insights":
+          theIcon = <BarChart color="#18b979" color="primary" />;
+          break;
         default:
           throw new Error("No icon found with that name");
       }
@@ -91,8 +99,8 @@ const DisplayNavbar = () => {
     };
     let items = [
       { page: "Home", link: "/", icon: "home" },      
-      { page: "Dashboard", link: "/dashboard", icon: "notification" },
-      { page: "Insights", link: "/insights", icon: "location" },
+      { page: "Dashboard", link: "/dashboard", icon: "dashboard" },
+      { page: "Insights", link: "/insights", icon: "insights" },
       { page: "Alerts", link: "/alerts", icon: "notification" },
       { page: "Effects", link: "/effects", icon: "location" },
     ];
