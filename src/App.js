@@ -49,7 +49,6 @@ function App() {
       alert("Wrong password");
     }
   };
-  console.log(auth);
   // eslint-disable-next-line eqeqeq
   if (auth != "true") {
     return (

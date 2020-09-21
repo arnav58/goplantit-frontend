@@ -1,7 +1,15 @@
 import React, { useState, useEffect, Fragment } from "react";
 
 ///ui components import
-import { Paper, Grid, Typography, Box, Divider } from "@material-ui/core";
+import {
+  Paper,
+  Grid,
+  Typography,
+  Box,
+  Divider,
+  Tooltip,
+  Button,
+} from "@material-ui/core";
 import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
 import LocationPicker from "../../utils/LocationPicker";
@@ -171,7 +179,7 @@ const Dashboard = () => {
             </Typography>
             <Typography variant="h6" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
-                {cropsData?.temp} °C
+                {cropsData && cropsData.temp.toString().slice(0, 2)} °C
               </Box>
             </Typography>
             <Typography variant="h6" fontWeight={500}>
@@ -211,7 +219,7 @@ const Dashboard = () => {
         style={{
           borderRadius: "2px",
           borderColor: colorMap[status],
-          borderWidth: "1px",
+          borderWidth: "3px",
         }}
       >
         <img
@@ -249,27 +257,35 @@ const Dashboard = () => {
           <Typography variant="subtitle1" color="primary">
             Weather Condition and Threats
           </Typography>
-          <ContentRow>
-            <Typography
-              variant="subtitle1"
-              color="secondary"
-              style={{ marginRight: "5px" }}
-            >
-              Wind:
-            </Typography>
-            {/* <Typography variant="caption" color="secondary">
-              {daily.wind_speed_threat_desc}
-            </Typography> */}
-            <Typography
-              variant="subtitle1"
-              color="secondary"
-              style={{ marginRight: "5px", color: "#3e4a61" }}
-            >
-              {daily.wind_speed_threat_desc.split(" ").slice(0, 2).join(" ")}
-            </Typography>
-            {DisplayColorBlock(daily.wind_speed_threat_type, "10px", "70%")}
-          </ContentRow>
-          {daily.rain_threat_desc && (
+          {daily.wind_speed_threat_desc && (
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px" }}
+              >
+                Wind:
+              </Typography>
+              {/* <Typography variant="caption" color="secondary">
+             {daily.wind_speed_threat_desc}
+           </Typography> */}
+              <Tooltip title={daily.wind_speed_threat_desc}>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px", color: "#3e4a61" }}
+                >
+                  {daily.wind_speed_threat_desc
+                    .split(" ")
+                    .slice(0, 2)
+                    .join(" ")}
+                </Typography>
+              </Tooltip>
+              {DisplayColorBlock(daily.wind_speed_threat_type, "10px", "70%")}
+            </ContentRow>
+          )}
+
+          {daily.rain_threat_desc ?(
             <ContentRow>
               <Typography
                 variant="subtitle1"
@@ -281,16 +297,39 @@ const Dashboard = () => {
               {/* <Typography variant="caption" color="secondary">
               {daily.wind_speed_threat_desc}
             </Typography> */}
+              <Tooltip title={daily.rain_threat_desc}>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px", color: "#3e4a61" }}
+                >
+                  {daily.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
+                </Typography>
+              </Tooltip>
+              {DisplayColorBlock(daily.rain_threat_type, "10px", "70%")}
+            </ContentRow>
+          ): (<ContentRow>
+            <Typography
+              variant="subtitle1"
+              color="secondary"
+              style={{ marginRight: "10px" }}
+            >
+              Rain:
+            </Typography>
+            {/* <Typography variant="caption" color="secondary">
+            {daily.wind_speed_threat_desc}
+          </Typography> */}
+            <Tooltip title={"No threat of lodging because of wind speed"}>
               <Typography
                 variant="subtitle1"
                 color="secondary"
                 style={{ marginRight: "5px", color: "#3e4a61" }}
               >
-                {daily.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
+                No threat
               </Typography>
-              {DisplayColorBlock(daily.rain_threat_type, "10px", "70%")}
-            </ContentRow>
-          )}
+            </Tooltip>
+            {DisplayColorBlock("green", "10px", "70%")}
+          </ContentRow>)}
           <ContentRow>
             <Typography
               variant="subtitle1"
