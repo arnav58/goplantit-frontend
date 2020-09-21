@@ -76,6 +76,7 @@ const SingleCardWrapper = styled(Card)`
   border-color: #17b978 !important;
   padding: 5px;
   margin-bottom:15px;
+  overflow: auto;
 `;
 
 const CardTitleWrapper = styled.div`

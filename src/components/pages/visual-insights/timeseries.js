@@ -16,14 +16,7 @@ const data_url = "https://goplantitbackend.herokuapp.com/api/yields_data?area=50
   
 const Timeseriesgraph = () => {
 
-    const StateSelections = [
-        { name: "VIC" },
-        { name: "NSW" },
-        { name: "SA" },
-        { name: "WA" },
-        { name: "QLD" },
-        { name: "TAS" },
-      ];
+    const StateSelections = ["VIC", "NSW", "SA", "WA", "QLD", "TAS"];
     
       const useStyles = makeStyles((theme) => ({
         inputRoot: {
@@ -75,7 +68,7 @@ const Timeseriesgraph = () => {
 
   const [items, setItems] = useState([]);
 
-  const [chartstate, setChartState] = useState(["VIC"]);
+  const [chartstate, setChartState] = useState("NSW");
 
 
   // Note: the empty deps array [] means
@@ -103,7 +96,7 @@ const Timeseriesgraph = () => {
 //   console.log(chartstate);
 
   if(items[chartstate] !== undefined){
-        // console.log(items[chartstate].series[0].data);
+        // console .log(items[chartstate].series[0].data);
         
         const state = {
         chartOptions: {
@@ -246,15 +239,15 @@ const Timeseriesgraph = () => {
         <div>
             <Autocomplete
           classes={classes}
-          id="combo-box-demo"
+          id="combo-box"
           loading={!chartstate}
-          value={{ name: chartstate }}
+          value={chartstate}
           options={StateSelections}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(option) => option}
           style={{ width: 165 }}
           onChange={(event, newValue) => {
             if (newValue) {
-                setChartState(newValue.name);
+                setChartState(newValue);
             }
           }}
           renderInput={(params) => (
