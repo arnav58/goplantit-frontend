@@ -44,7 +44,8 @@ function App() {
     const password = form.password
     if (password === "goplantitdev") {
       setCookie("auth", true);
-      setAuth(true);
+      setAuth("true");
+      window.location.reload();
     } else {
       alert("Wrong password");
     }
