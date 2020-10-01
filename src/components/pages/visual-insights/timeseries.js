@@ -8,13 +8,22 @@ import {
     TextField,
   } from "@material-ui/core";
 
-import Temp from "./temps.json"
+// import Temp from "./temps.json"
 
-const data_url = "https://goplantitbackend.herokuapp.com/api/yields_data?area=50";
+const data_url = "https://goplantitbackend.herokuapp.com/api/yields_data?area=1";
 
+const crops = {
+  "Wheat": [0, "rgb(124, 181, 236)"],
+  "Barley": [1, "rgb(67, 67, 72)"],
+  "Canola": [2, "rgb(144, 237, 125)"],
+  "Sorghum": [3, "rgb(247, 163, 92)"],
+  "Cotton": [4, "rgb(128, 133, 233)"],
+  "Rice": [5, "rgb(241, 92, 128)"]
+};
+  
+const Timeseriesgraph = (tempValue) => {
 
   
-const Timeseriesgraph = () => {
 
     const StateSelections = ["VIC", "NSW", "SA", "WA", "QLD", "TAS"];
     
@@ -64,51 +73,46 @@ const Timeseriesgraph = () => {
         },
       }));
     
-     const classes = useStyles();
+  const classes = useStyles();
 
   const [items, setItems] = useState([]);
 
   const [chartstate, setChartState] = useState("NSW");
 
-
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()
-  useEffect(() => {
-    fetch(data_url)
-      .then(res => res.json())
-      .then(
-        (result) => {
-            if(result !== undefined){
-                console.log(result)
-                setItems(result);
-            }          
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
 
-//   console.log(chartstate);
+  useEffect(() => {
+    if (!data_url) return;
+    const fetchData = async () => {
+        // setStatus('fetching');
+        const response = await fetch(data_url);
+        const data = await response.json();
+        if(data !== undefined){
+            console.log(data)
+            setItems(data);
+        }
+    };
+
+    fetchData();
+}, [data_url]);
+
 
   if(items[chartstate] !== undefined){
         // console .log(items[chartstate].series[0].data);
-        
+        // console.log(crops[tempValue]);
         const state = {
         chartOptions: {
             title: {
-                text: 'Yield of selected crops in '+chartstate+' over time'
+                text: 'Yield of <b>'+tempValue+'</b> in <b>'+chartstate+'</b> over time'
             },
             subtitle: {
                 text: 'Source: Department of Agriculture, Water and the Environment'
             },
             yAxis: {
                 title: {
-                    text: 'Yield (tonnes per 1000 hectre)'
+                    text: 'Yield (tonnes per 1000 hectres)'
                 }
             },
         
@@ -127,113 +131,97 @@ const Timeseriesgraph = () => {
                     label: {
                         connectorAllowed: true
                     },
-                    pointStart: 2014
+                    pointStart: 2014,
+                    color: crops[tempValue][1],
                 }
             },
-          series: [{
-              name: items[chartstate].series[0].name,
-              data: items[chartstate].series[0].data,
-              tooltip: {
-                  valueDecimals: 2
+            series: [           
+              {
+                name: items[chartstate].series[crops[tempValue][0]].name,
+                data: items[chartstate].series[crops[tempValue][0]].data,
+                tooltip: {
+                    valueDecimals: 2
+              }
             }
-          },
-          {
-            name: items[chartstate].series[1].name,
-            data: items[chartstate].series[1].data,
-            tooltip: {
-                  valueDecimals: 2
-            }
-          },
-          {
-            name: items[chartstate].series[2].name,
-            data: items[chartstate].series[2].data,
-            tooltip: {
-                  valueDecimals: 2
-            }
-          },
-          {
-            name: items[chartstate].series[3].name,
-            data: items[chartstate].series[3].data,
-            tooltip: {
-                  valueDecimals: 2
-            }
-          },
-          {
-            name: items[chartstate].series[4].name,
-            data: items[chartstate].series[4].data,
-            tooltip: {
-                  valueDecimals: 2
-            }
-          },
-          {
-            name: items[chartstate].series[5].name,
-            data: items[chartstate].series[5].data,
-            tooltip: {
-                  valueDecimals: 2
-            }
-          }
-          ],
+            ],
         },
       }
 
-    //   console.log(Temp.VIC.Temperature)
-
-      const extemp = {
-        chartOptions: {
-            chart: {
-                zoomType: 'x'
-            },
-            title: {
-                text: 'Temperature Change in '+chartstate+' over time'
-            },
-            subtitle: {
-                text: 'Source: Bureau of Meteorology'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Temperature (in Farenheit)'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    // threshold: null
-                }
-            },
-
-            series: [{
-                type: 'area',
-                name: 'Temperature',
-                data: Temp[chartstate].Temperature
-            }]
+      // console.log(items[chartstate].series[crops[tempValue][0]].data.reduce((result,number)=> result+number))
+      
+    const pieOptions = {
+      chart: {
+        type: 'pie'
+    },
+    title: {
+        text: 'Average % Yield of <b>'+tempValue+'</b> in <b>Australia</b> over time'
+    },
+    subtitle: {
+        text: 'Source: Department of Agriculture, Water and the Environment'
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Average Yield (tonnes per 1000 hectres)'
+        }
+    
+    },
+    plotOptions: {
+        series: {
+            pointPadding: 0.4,
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
         },
-      }
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',          
+          showInLegend: true
+        }
+    },
+    
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+    
+    series: [
+        {
+            name: "State",
+            colorByPoint: true,
+            data: [
+                {
+                    name: "VIC",
+                    y: items["VIC"].series[crops[tempValue][0]].data.reduce((result,number)=> result+number),
+                },
+                {
+                    name: "NSW",
+                    y: items["NSW"].series[crops[tempValue][0]].data.reduce((result,number)=> result+number),
+                },
+                {
+                    name: "SA",
+                    y: items["SA"].series[crops[tempValue][0]].data.reduce((result,number)=> result+number),
+                },
+                {
+                    name: "WA",
+                    y: items["WA"].series[crops[tempValue][0]].data.reduce((result,number)=> result+number),
+                },
+                {
+                    name: "QLD",
+                    y: items["QLD"].series[crops[tempValue][0]].data.reduce((result,number)=> result+number),
+                },
+                {
+                    name: "TAS",
+                    y: items["TAS"].series[crops[tempValue][0]].data.reduce((result,number)=> result+number),
+                }
+            ]
+        }
+    ],
+    };
 
       return (
         <div>
@@ -272,22 +260,32 @@ const Timeseriesgraph = () => {
 
               <tr>
 
-                <td style={{width:'50%'}}>
+                <td style={{width: "1000px"}}>
                 <HighchartsReact
                   highcharts={Highcharts}
-                  options={state.chartOptions}
+                  options={state.chartOptions}                  
                 />
                 </td>
-                <td style={{width:'50%'}}>
+                <td style={{width: "50%"}}>
+                  <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+                </td>
+                
+                {/* <td style={{width:'50%'}}>
 
                 <HighchartsReact
                   highcharts={Highcharts}
                   options={extemp.chartOptions}
                 />
 
-                </td>
+                </td> */}
 
               </tr>
+              <br></br><br></br>
+              {/* <tr>
+                <td>
+                  <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+                </td>
+              </tr> */}
 
             </tbody>
 
@@ -304,8 +302,8 @@ const Timeseriesgraph = () => {
 
       
     
-    const TimeSeries = () => {
-        return <React.Fragment>{Timeseriesgraph()}</React.Fragment>;
+    const TimeSeries = (cropvalue) => {
+        return <React.Fragment>{Timeseriesgraph(cropvalue.value)}</React.Fragment>;
       };
       
     export default TimeSeries;

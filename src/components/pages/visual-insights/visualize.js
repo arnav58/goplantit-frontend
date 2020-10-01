@@ -13,10 +13,22 @@ import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 
 import {
   Typography,
-  Divider,
+  Box,
+  Paper,
+  Grid
 } from "@material-ui/core";
 
 
@@ -35,43 +47,44 @@ const ComponentWrapper = styled.section`
   justify-content: center;
 `;
 
-const SectionWrapper = styled.section`
-  height: 100%;
-  max-width: 100%;
-  position: relative;
-  background: #fafaf6;
-  z-index: 1;
-  margin: 20px;
-  // padding: 50px;
-`;
-
 
 const SecondTitle = styled(Typography)`
   font-weight: 500;
   text-align: center;
   margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
+const PaperWrapper = styled(Paper)`
+  background-color: #fffafa !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 70vh;
+  padding: 10px;
+`;
 
-const ThirdTitle = styled(Typography)`
-  font-weight: 300;
-  // color: black;
-  padding-bottom: 10px;
-  margin-top: 2px; 
+const PaperGridWrapper = styled(Grid)`
+  height: 100%;
+  padding-left: 0px !important;
+`;
+const ComponentGrid = styled(Grid)`
+  height: 100%;
+  margin: 20px 0px 0px 0px;
 `;
 
 const Arti = styled(Card)`
   display: flex;
-  width: 32%;
+  width: 42%;
   margin-top: 2%;
-  margin-left: 65%;
+  margin-left: 56%;
   background: #ffffff;
   
 `;
 
 const ArtiSuggest = styled(Card)`
   display: flex;
-  width: 30%;
+  width: 40%;
   margin-top: 2%;
   margin-left: 2%;
   background: #ffffff;
@@ -95,6 +108,39 @@ const ColorBlock = styled(Typography)`
   height: 15px; 
   border-radius: 3px;
 `;
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
 
 
 // Set your mapbox token here
@@ -122,7 +168,7 @@ const lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight
 const INITIAL_VIEW_STATE = {
   longitude: 133.16,
   latitude: -26.26,
-  zoom: 3.2,
+  zoom: 3.0,
   maxZoom: 16,
   pitch: 50,
   // bearing: 0
@@ -155,7 +201,7 @@ function getLegend() {
                 <ColorBlock style={{backgroundColor: 'rgb(92, 192, 192)'}}></ColorBlock>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "wheat" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "wheat.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Wheat'/>
                 Wheat
               </td>
             </tr>
@@ -165,7 +211,7 @@ function getLegend() {
                 <ColorBlock style={{backgroundColor: 'rgb(67,67,72'}}></ColorBlock>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "barley.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Barley'/>
                 Barley
               </td>
             </tr>
@@ -175,7 +221,7 @@ function getLegend() {
                 <ColorBlock style={{backgroundColor: 'rgb(144,237,125)'}}></ColorBlock>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "canola" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "canola.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Canola'/>
                 Canola
               </td>
             </tr>
@@ -185,7 +231,7 @@ function getLegend() {
                 <ColorBlock style={{backgroundColor: 'rgb(247,163,92)'}}></ColorBlock>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "sorghum" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "sorghum.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Sorghum'/>
                 Sorghum
               </td>
             </tr>
@@ -195,7 +241,7 @@ function getLegend() {
                 <ColorBlock style={{backgroundColor: 'rgb(128,133,233)'}}></ColorBlock>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "cotton" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "cotton.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Cotton'/>
                 Cotton
               </td>
             </tr>
@@ -205,7 +251,7 @@ function getLegend() {
                 <ColorBlock style={{backgroundColor: 'rgb(241,92,128)'}}></ColorBlock>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "rice" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "rice.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Rice'/>
                 Rice
               </td>
             </tr>
@@ -237,7 +283,7 @@ function getSuggestedCrops() {
               </td> 
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "barley.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Barley'/>
               Barley
               </td>
             </tr>
@@ -249,7 +295,7 @@ function getSuggestedCrops() {
               </td>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "sorghum" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "sorghum.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Sorghum'/>
                 Sorghum
               </td>
             </tr>
@@ -261,7 +307,7 @@ function getSuggestedCrops() {
               </td>
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "rice" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "rice.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Rice'/>
                 Rice
               </td>
             </tr>
@@ -271,7 +317,7 @@ function getSuggestedCrops() {
                 WA
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "barley.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Barley'/>
                 Barley
               </td>
             </tr>
@@ -281,7 +327,7 @@ function getSuggestedCrops() {
                 SA
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "barley" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "barley.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Barley'/>
                 Barley
               </td>
             </tr>
@@ -291,7 +337,7 @@ function getSuggestedCrops() {
                 TAS
               </td>
               <td style={{color: 'black', fontSize: '14px', paddingLeft: '20px'}}>
-              <img src={process.env.PUBLIC_URL + "wheat" + ".png"} style={{width: '10%', height: '2%', marginRight: '10%'}}/>
+              <img src={process.env.PUBLIC_URL + "wheat.png"} style={{width: '10%', height: '2%', marginRight: '10%'}} alt='Wheat'/>
                 Wheat
               </td>
             </tr>
@@ -393,13 +439,106 @@ export default function App({
   }),
 ]
 
-const DisplayVisualComponent = () => {
+const [cropvalue, setCropValue] = React.useState('Wheat');
+
+const handleCropChange = (event) => {
+  setCropValue(event.target.value);
+};
+
+const DisplayCropTypes = () => {
+
   return (
-      <SectionWrapper>
-        <SecondTitle color="secondary" variant="h4">
-            Winter and Summer Crop Production Statistics
-        </SecondTitle>
-        <br></br>
+    <PaperGridWrapper item sm={3} xs={12}>
+      <PaperWrapper
+        style={{
+          backgroundColor: "rgb(255, 250, 250)",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+          <Typography variant="h4" fontWeight={500} color="secondary">
+              <Box fontWeight="fontWeightMedium" m={1}>
+                Select Crop
+              </Box>
+          </Typography>
+        {/* <InformationWrapper> */}
+          <RadioGroup aria-label="Select Crop" name="crop" value={cropvalue} onChange={handleCropChange}>
+          <Typography variant="h4" color="secondary">
+          <img src={process.env.PUBLIC_URL + "wheat.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Wheat'/>
+            <FormControlLabel value="Wheat" control={<Radio />} label="Wheat" />
+          </Typography>          
+          <Typography variant="h4" color="secondary">
+          <img src={process.env.PUBLIC_URL + "Barley.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Barley'/>
+            <FormControlLabel value="Barley" control={<Radio />} label="Barley" />
+          </Typography>
+          <Typography variant="h4" color="secondary">
+          <img src={process.env.PUBLIC_URL + "Canola.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Canola'/>
+            <FormControlLabel value="Canola" control={<Radio />} label="Canola" />
+          </Typography>
+          <Typography variant="h4" color="secondary">
+          <img src={process.env.PUBLIC_URL + "Sorghum.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Sorghum'/>
+            <FormControlLabel value="Sorghum" control={<Radio />} label="Sorghum" />
+          </Typography>
+          <Typography variant="h4" color="secondary">
+          <img src={process.env.PUBLIC_URL + "Cotton.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Cotton'/>
+            <FormControlLabel value="Cotton" control={<Radio />} label="Cotton" />
+          </Typography>
+          <Typography variant="h4" color="secondary">
+          <img src={process.env.PUBLIC_URL + "Rice.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Rice'/>
+            <FormControlLabel value="Rice" control={<Radio />} label="Rice" />
+          </Typography>
+          </RadioGroup>
+        {/* </InformationWrapper> */}
+      </PaperWrapper>
+    </PaperGridWrapper>
+  );
+};
+
+const theme = useTheme();
+const [value, setValue] = React.useState(0);
+const handleChange = (event, newValue) => {
+  setValue(newValue);
+};
+// const handleChangeIndex = (index) => {
+//   setValue(index);
+// };
+
+const DisplayVisualComponent = () => {
+  
+  return (
+
+    <ComponentGrid container spacing={4}>
+      {DisplayCropTypes()}
+
+    
+
+        <PaperGridWrapper item sm={9} xs={12}>
+          <PaperWrapper>
+          <SecondTitle color="secondary" variant="h4">
+            Winter and Summer Crop Statistics
+          </SecondTitle>
+          <AppBar position="static" color="transparent">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          style={{color: '#A64942'}} 
+          variant="fullWidth"
+          aria-label="Insights graphs"
+        >
+          <Tab label="Yields" {...a11yProps(0)}/>
+          <Tab label="Profits" {...a11yProps(1)} />
+          <Tab label="Recommendations" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={value}
+        // onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+        <Timeseries value={cropvalue}/>        
         <p style={{color: 'black', marginBottom: '1%'}}>
         According to Bureau of Meteorology, around 22 million hectares are planted annually to commercial grain crops across Australia. 
         Climate/weather patterns effectively split Australia into two major grain cropping regions — northern and southern — and two crop growing periods — winter and summer.
@@ -419,7 +558,7 @@ const DisplayVisualComponent = () => {
                 Summer crops - Sorghum, cotton and peanuts.
                 </p>
               </td>
-              <td style={{paddingLeft: '7%'}}>
+              <td>
                 <p style={{color: 'black'}}>
                 <b>The southern region</b> stretches from central NSW (south of Dubbo) through to Victoria, Tasmania and South Australia and the southwest corner of Western Australia. 
                 The weather pattern ranges from uniform in central NSW through to winter-dominant in Victoria, Tasmania, SA and WA.
@@ -432,25 +571,13 @@ const DisplayVisualComponent = () => {
             </tr>
           </tbody>
         </table>
-        <p style={{color: 'black', marginTop: '1%',}}>        
-        The graphs provided below helps the farmer to mitigate risk of current yield and plan his future based on the temperature changes.
-        </p>
-      
-        <SecondTitle color="secondary" variant="h4">
-            Graphical Overview
-        </SecondTitle>
-        <br></br>
-      <Timeseries/>     
-
-      <SecondTitle color="secondary" variant="h4">
-            Geographical Yield Predictions
-      </SecondTitle>
-      <br></br>
-      <p style={{color: 'black'}}>
-        The map shows the predicted yield and crop suggestion for the farmers from the selected Summer and Winter Crops in the year 2021 within every region of Australia.
-      </p>
-      <ComponentWrapper>
-        <DeckGL initialViewState={INITIAL_VIEW_STATE} 
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+        <p style={{color: "black"}}>Profit Insights goes here!</p>
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+        <ComponentWrapper>
+          <DeckGL initialViewState={INITIAL_VIEW_STATE} 
                 controller={true} 
                 layers={layers} 
                 getTooltip={getTooltip}
@@ -478,8 +605,14 @@ const DisplayVisualComponent = () => {
           
         </DeckGL>
         </ComponentWrapper>
-    
-      </SectionWrapper>
+        <p style={{color: 'black', marginTop: "5px"}}>
+           The map shows the predicted yield and crop suggestion for the farmers from the selected Summer and Winter Crops in the year <b>2021</b> within every region of Australia.
+        </p>
+        </TabPanel>
+      </SwipeableViews>
+          </PaperWrapper>
+        </PaperGridWrapper>
+      </ComponentGrid>
       
   );
 };
@@ -491,6 +624,7 @@ const DisplayVisualComponent = () => {
       {serviceTemplate({
                 title: "Visual Insights",
                 childComponent: DisplayVisualComponent(),
+                custom: true,
       })}
 
     </Fragment>
