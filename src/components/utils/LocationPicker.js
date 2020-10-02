@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Typography } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 //http helpers
 import axios from "axios";
 import Geocode from "react-geocode";
