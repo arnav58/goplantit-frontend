@@ -446,6 +446,9 @@ const handleCropChange = (event) => {
 };
 
 const DisplayCropTypes = () => {
+  const DisplayCropSelection = ()=>{
+    const crops = ['wheat', ]
+  }
 
   return (
     <PaperGridWrapper item sm={3} xs={12}>
@@ -464,7 +467,7 @@ const DisplayCropTypes = () => {
           </Typography>
         {/* <InformationWrapper> */}
           <RadioGroup aria-label="Select Crop" name="crop" value={cropvalue} onChange={handleCropChange}>
-          <Typography variant="h4" color="secondary">
+          {/* <Typography variant="h4" color="secondary">
           <img src={process.env.PUBLIC_URL + "wheat.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Wheat'/>
             <FormControlLabel value="Wheat" control={<Radio />} label="Wheat" />
           </Typography>          
@@ -487,7 +490,7 @@ const DisplayCropTypes = () => {
           <Typography variant="h4" color="secondary">
           <img src={process.env.PUBLIC_URL + "Rice.png"} style={{width: '20px', height: '75px', marginRight: '2%'}} alt='Rice'/>
             <FormControlLabel value="Rice" control={<Radio />} label="Rice" />
-          </Typography>
+          </Typography> */}
           </RadioGroup>
         {/* </InformationWrapper> */}
       </PaperWrapper>

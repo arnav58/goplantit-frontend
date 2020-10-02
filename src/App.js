@@ -50,26 +50,7 @@ function App() {
     }
   };
   // eslint-disable-next-line eqeqeq
-  if (auth != "true") {
-    return (
-      <PageWrapper>
-        <form onSubmit={event=>handleSubmit(event)} id="auth-form">
-          <PasswordWrapper>
-            <TextField
-              id="outlined-password-input"
-              label="Password"
-              type="password"
-              variant="outlined"
-              name="password"
-              onChange={e =>console.log(e.target.value)}
-              style={{ height: "50px", marginBottom: "20px" }}
-            />
-            <input type="submit" value="Confirm" />
-          </PasswordWrapper>
-        </form>
-      </PageWrapper>
-    );
-  } else {
+ 
     return (
       <Router>
         <React.Fragment>
@@ -88,7 +69,6 @@ function App() {
         </React.Fragment>
       </Router>
     );
-  }
 }
 
 export default App;
