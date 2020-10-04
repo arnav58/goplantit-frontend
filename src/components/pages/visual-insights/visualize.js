@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 import YieldData from "./yield.json"
 import Timeseries from "./timeseries"
+import Profitseries from "./profitseries"
 import serviceTemplate from "../../layout/serviceTemplate";
 import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
 import Card from "@material-ui/core/Card";
@@ -573,7 +574,8 @@ const DisplayVisualComponent = () => {
         </table>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        <p style={{color: "black"}}>Profit Insights goes here!</p>
+        <Profitseries value={cropvalue}/>  
+        <p style={{color: "black"}}></p>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
         <ComponentWrapper>
