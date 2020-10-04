@@ -6,8 +6,8 @@ import Fade from "react-reveal/Fade";
 
 const ComponentWrapper = styled.section`
   background: #17b978;
-  min-height: 90vh;
-  width: 100vw;
+  min-height: 100%;
+  width: 100%;
 `;
 const PageContainer = styled(Container)`
   height: 100%;
