@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
-import styled from 'styled-components'
+import styled from "styled-components";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { TextField } from "@material-ui/core";
 
 // import Temp from "./temps.json"
-import useWindowDimensions from '../../utils/useWindowWith'
+import useWindowDimensions from "../../utils/useWindowWith";
 
 const data_url =
   "https://goplantitbackend.herokuapp.com/api/yields_data?area=1";
@@ -77,8 +77,7 @@ const Timeseriesgraph = (tempValue) => {
 
   const [chartstate, setChartState] = useState("NSW");
 
-  const {  windowWidth } = useWindowDimensions();
-
+  const { windowWidth } = useWindowDimensions();
 
   // Note: the empty deps array [] means
   // this useEffect will run once
@@ -102,62 +101,62 @@ const Timeseriesgraph = (tempValue) => {
   if (items[chartstate] !== undefined) {
     // console .log(items[chartstate].series[0].data);
     // console.log(crops[tempValue]);
-    const state = {
-      chartOptions: {
-        chart: {
-          width: windowWidth>1000? 400:windowWidth/12*8
-        },
-        title: {
-          text:
-            "Yield of <b>" +
-            tempValue +
-            "</b> in <b>" +
-            chartstate +
-            "</b> over time",
-        },
-        subtitle: {
-          text: "Source: Department of Agriculture, Water and the Environment",
-        },
-        yAxis: {
-          title: {
-            text: "Yield (tonnes per 1000 hectres)",
-          },
-        },
+    // const state = {
+    //   chartOptions: {
+    //     chart: {
+    //       width: windowWidth > 1000 ? 400 : (windowWidth / 12) * 8,
+    //     },
+    //     title: {
+    //       text:
+    //         "Yield of <b>" +
+    //         tempValue +
+    //         "</b> in <b>" +
+    //         chartstate +
+    //         "</b> over time",
+    //     },
+    //     subtitle: {
+    //       text: "Source: Department of Agriculture, Water and the Environment",
+    //     },
+    //     yAxis: {
+    //       title: {
+    //         text: "Yield (tonnes per 1000 hectres)",
+    //       },
+    //     },
 
-        xAxis: {
-          accessibility: {
-            rangeDescription: "Range: 2010 to 2020",
-          },
-        },
-        legend: {
-          layout: "vertical",
-          align: "right",
-          verticalAlign: "middle",
-        },
-        plotOptions: {
-          series: {
-            label: {
-              connectorAllowed: true,
-            },
-            pointStart: 2014,
-            color: crops[tempValue][1],
-          },
-        },
-        series: [
-          {
-            name: items[chartstate].series[crops[tempValue][0]].name,
-            data: items[chartstate].series[crops[tempValue][0]].data,
-            tooltip: {
-              valueDecimals: 2,
-            },
-          },
-        ],
-      },
-    };
+    //     xAxis: {
+    //       accessibility: {
+    //         rangeDescription: "Range: 2010 to 2020",
+    //       },
+    //     },
+    //     legend: {
+    //       layout: "vertical",
+    //       align: "right",
+    //       verticalAlign: "middle",
+    //     },
+    //     plotOptions: {
+    //       series: {
+    //         label: {
+    //           connectorAllowed: true,
+    //         },
+    //         pointStart: 2014,
+    //         color: crops[tempValue][1],
+    //       },
+    //     },
+    //     series: [
+    //       {
+    //         name: items[chartstate].series[crops[tempValue][0]].name,
+    //         data: items[chartstate].series[crops[tempValue][0]].data,
+    //         tooltip: {
+    //           valueDecimals: 2,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // };
 
     // console.log(items[chartstate].series[crops[tempValue][0]].data.reduce((result,number)=> result+number))
 
-    const mapData = () => {
+    const mapPieChartData = () => {
       ///map the data in series
       let states = ["VIC", "NSW", "SA", "WA", "QLD", "TAS"];
       return states.map((state) => ({
@@ -171,7 +170,7 @@ const Timeseriesgraph = (tempValue) => {
     const pieOptions = {
       chart: {
         type: "pie",
-        width: windowWidth>1000? 400:windowWidth/12*8
+        width: windowWidth > 1000 ? 400 : (windowWidth / 12) * 8,
       },
       title: {
         text:
@@ -216,18 +215,110 @@ const Timeseriesgraph = (tempValue) => {
         {
           name: "State",
           colorByPoint: true,
-          data: mapData(),
+          data: mapPieChartData(),
         },
       ],
     };
+
+    
+
+    const columnOptions = {
+      /////bar chart options
+      chart: {
+        type: "column",
+        width: windowWidth > 1000 ? 400 : (windowWidth / 12) * 8,
+      },
+      title: {
+        text:
+          "Yield of <b>" +
+          tempValue +
+          "</b> in <b>" +
+          chartstate +
+          "</b> over time",
+      },
+      subtitle: {
+        text:
+          "Click the columns to view versions. Source: Department of Agriculture, Water and the Environment",
+      },
+      accessibility: {
+        announceNewData: {
+          enabled: true,
+        },
+      },
+      xAxis: {
+        type: "category",
+      },
+      yAxis: {
+        title: {
+          text: "Yield (tonnes per 1000 hectres)",
+        },
+      },
+      legend: {
+        enabled: false,
+      },
+      plotOptions: {
+        series: {
+          borderWidth: 0,
+          dataLabels: {
+            enabled: true,
+            format: "{point.y:.2f}",
+          },
+        },
+      },
+      tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat:
+          '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b><br/>',
+      },
+
+      series: [
+        {
+          name: "Yield",
+          // colorByPoint: false,
+          data: [
+            {
+              name: "2014-2015",
+              y: items[chartstate].series[crops[tempValue][0]].data[0],
+              drilldown: "Wheat",
+            },
+            {
+              name: "2015-2016",
+              y: items[chartstate].series[crops[tempValue][0]].data[1],
+              drilldown: "Barley",
+            },
+            {
+              name: "2016-2017",
+              y: items[chartstate].series[crops[tempValue][0]].data[2],
+              drilldown: "Canola",
+            },
+            {
+              name: "2017-2018",
+              y: items[chartstate].series[crops[tempValue][0]].data[3],
+              drilldown: "Sorghum",
+            },
+            {
+              name: "2018-2019",
+              y: items[chartstate].series[crops[tempValue][0]].data[4],
+              drilldown: "Cotton",
+            },
+            {
+              name: "2019-2020",
+              y: items[chartstate].series[crops[tempValue][0]].data[5],
+              drilldown: "Rice",
+            },
+          ],
+        },
+      ],
+    };
+
     const ChartsRow = styled.div`
-    display:flex;
-    width:100%;
-    justify-content:space-evenly;
-    @media only screen and (max-width: 1000px) {
-      flex-direction:column;
-    }
-    `
+      display: flex;
+      width: 100%;
+      justify-content: space-evenly;
+      @media only screen and (max-width: 1000px) {
+        flex-direction: column;
+      }
+    `;
 
     return (
       <div>
@@ -263,7 +354,7 @@ const Timeseriesgraph = (tempValue) => {
         <ChartsRow>
           <HighchartsReact
             highcharts={Highcharts}
-            options={state.chartOptions}
+            options={columnOptions}
           />
 
           <HighchartsReact highcharts={Highcharts} options={pieOptions} />
