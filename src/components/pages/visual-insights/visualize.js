@@ -25,6 +25,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Typography, Box, Paper, Grid } from "@material-ui/core";
 import useWindowDimensions from "../../utils/useWindowWith";
+import { get } from "jquery";
 
 const crops = ["Wheat", "Barley", "Canola", "Sorghum", "Cotton", "Rice"];
 
@@ -599,7 +600,7 @@ export default function App({
 
                       <DisplayLegendsRow>
                         {getSuggestedCrops()}
-                        {getSuggestedCrops()}
+                        {getLegend()}
                       </DisplayLegendsRow>
                       {/* <table style={{ tableLayout:windowWidth > 1000 && "fixed", width: "100%" }}>
                       <tbody>
@@ -615,7 +616,7 @@ export default function App({
                   ) : (
                     <DisplayLegendsRow>
                       {getSuggestedCrops()}
-                      {getSuggestedCrops()}
+                      {getLegend()}
                     </DisplayLegendsRow>
                   )}
                 </ComponentWrapper>
