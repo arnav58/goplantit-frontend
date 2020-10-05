@@ -24,6 +24,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Typography, Box, Paper, Grid } from "@material-ui/core";
+import useWindowDimensions from "../../utils/useWindowWith";
 
 const crops = ["Wheat", "Barley", "Canola", "Sorghum", "Cotton", "Rice"];
 
@@ -77,10 +78,19 @@ const Arti = styled(Card)`
 
 const ArtiSuggest = styled(Card)`
   display: flex;
-  width: 40%;
+  width: 20%;
   margin-top: 2%;
   margin-left: 2%;
   background: #ffffff;
+  @media only screen and (max-width: 1000px) {
+    width: 30%;
+  }
+  @media only screen and (max-width: 800px) {
+    width: 60%;
+  }
+  @media only screen and (max-width: 650px) {
+    width: 70%;
+  }
 `;
 
 const Title = styled(Typography)`
@@ -116,6 +126,16 @@ const SelectItemWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
+const DisplayLegendsRow = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-right:10px;
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -199,32 +219,36 @@ function getTooltip({ object }) {
 }
 
 function getLegend() {
-  const cropLegendMap=[
-    {name:"Wheat", color:'rgb(92, 192, 192)'},
-    {name:"Barley", color:"rgb(67,67,72"},
-    {name:"Canola", color:'rgb(144, 237, 125)'},
-    {name:"Sorghum", color:'rgb(247, 163, 92'},
-    {name:"Cotton", color:'rgb(128, 133, 233)'},
-    {name:"Rice", color:'rgb(241, 92, 128)'},
-
-
-  ]
-  const DisplayLegend=()=>{
-    return cropLegendMap.map(item => <SelectItemWrapper width='100%' style ={{alignItems:"center"}}>
-       <div
-                  style={{ backgroundColor: item.color,width:'50px',height:'15px', borderRadius:"3px" }}
-                />
-                <Typography variant='body1' color='secondary' style={{width:'55%'}} >
-                <img
-                  src={process.env.PUBLIC_URL + item.name+".png"}
-                  style={{ width: "10%", height: "25px", marginRight: "10%" }}
-                  alt="Wheat"
-                />
-                {item.name}
-                </Typography>
-    </SelectItemWrapper>)
-  }
-
+  const cropLegendMap = [
+    { name: "Wheat", color: "rgb(92, 192, 192)" },
+    { name: "Barley", color: "rgb(67,67,72" },
+    { name: "Canola", color: "rgb(144, 237, 125)" },
+    { name: "Sorghum", color: "rgb(247, 163, 92" },
+    { name: "Cotton", color: "rgb(128, 133, 233)" },
+    { name: "Rice", color: "rgb(241, 92, 128)" },
+  ];
+  const DisplayLegend = () => {
+    return cropLegendMap.map((item) => (
+      <SelectItemWrapper width="100%" style={{ alignItems: "center" }}>
+        <div
+          style={{
+            backgroundColor: item.color,
+            width: "50px",
+            height: "15px",
+            borderRadius: "3px",
+          }}
+        />
+        <Typography variant="body1" color="secondary" style={{ width: "55%" }}>
+          <img
+            src={process.env.PUBLIC_URL + item.name.toLowerCase() + ".png"}
+            style={{ width: "10%", height: "25px", marginRight: "10%" }}
+            alt="Wheat"
+          />
+          {item.name}
+        </Typography>
+      </SelectItemWrapper>
+    ));
+  };
 
   return (
     <Arti>
@@ -232,7 +256,7 @@ function getLegend() {
         <Title variant="subtitle2'" style={{ fontSize: "16px" }}>
           Legend
         </Title>
-        <div style={{display:'flex', flexDirection:"column"}}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {DisplayLegend()}
         </div>
       </CardContentWrapper>
@@ -248,12 +272,12 @@ function getSuggestedCrops() {
       }}
       width="100%"
     >
-      <Typography variant="body1" style ={{width:'20%'}} color='primary'>
-      {state}
+      <Typography variant="body1" style={{ width: "20%" }} color="primary">
+        {state}
       </Typography>
-      <Typography variant="body1" style ={{width:'60%'}} color='secondary'>
+      <Typography variant="body1" style={{ width: "60%" }} color="secondary">
         <img
-          src={process.env.PUBLIC_URL + crop + ".png"}
+          src={process.env.PUBLIC_URL + crop.toLowerCase() + ".png"}
           style={{ width: "10%", height: "20px", marginRight: "10%" }}
           alt={crop}
         />
@@ -287,7 +311,6 @@ function getSuggestedCrops() {
       state: "TAS",
       crop: "Wheat",
     },
-  
   ];
 
   const DisplayCropSuggestion = () => {
@@ -399,6 +422,7 @@ export default function App({
   ];
 
   const [cropvalue, setCropValue] = React.useState("Wheat");
+  const { windowWidth } = useWindowDimensions();
 
   const handleCropChange = (event) => {
     setCropValue(event.target.value);
@@ -420,7 +444,7 @@ export default function App({
           />
 
           <img
-            src={process.env.PUBLIC_URL + crop + ".png"}
+            src={process.env.PUBLIC_URL + crop.toLowerCase() + ".png"}
             style={{ width: "20px", height: "75px", marginRight: "2%" }}
             alt="Wheat"
           />
@@ -467,7 +491,7 @@ export default function App({
   // const handleChangeIndex = (index) => {
   //   setValue(index);
   // };
-  const DisplayTextBlocks = () => {};
+  // const DisplayTextBlocks = () => {};
   const DisplayVisualComponent = () => {
     return (
       <ComponentGrid container spacing={4}>
@@ -556,36 +580,52 @@ export default function App({
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
                 <ComponentWrapper>
-                  <DeckGL
-                    initialViewState={INITIAL_VIEW_STATE}
-                    controller={true}
-                    layers={layers}
-                    getTooltip={getTooltip}
-                    effects={[lightingEffect]}
-                  >
-                    <StaticMap
-                      reuseMaps
-                      mapStyle={mapStyle}
-                      preventStyleDiffing={true}
-                      mapboxApiAccessToken={MAPBOX_TOKEN}
-                    />
-                    <table style={{ tableLayout: "fixed", width: "100%" }}>
+                  {/* display the map with the recommendation when the window is wider than 800,
+                  else only display the recommendations */}
+                  {windowWidth > 800 ? (
+                    <DeckGL
+                      initialViewState={INITIAL_VIEW_STATE}
+                      controller={true}
+                      layers={layers}
+                      getTooltip={getTooltip}
+                      effects={[lightingEffect]}
+                    >
+                      <StaticMap
+                        reuseMaps
+                        mapStyle={mapStyle}
+                        preventStyleDiffing={true}
+                        mapboxApiAccessToken={MAPBOX_TOKEN}
+                      />
+
+                      <DisplayLegendsRow>
+                        {getSuggestedCrops()}
+                        {getSuggestedCrops()}
+                      </DisplayLegendsRow>
+                      {/* <table style={{ tableLayout:windowWidth > 1000 && "fixed", width: "100%" }}>
                       <tbody>
                         <tr>
-                          <td style={{ width: "50%" }}>
+                          <td style={{ width: windowWidth > 1000 ?"50%":'100%' }}>
                             {getSuggestedCrops()}
                           </td>
-                          <td style={{ width: "50%" }}>{getLegend()}</td>
+                          <td style={{ width: windowWidth > 1000 ?"50%":'100%' }}> {getSuggestedCrops()}</td>
                         </tr>
                       </tbody>
-                    </table>
-                  </DeckGL>
+                    </table> */}
+                    </DeckGL>
+                  ) : (
+                    <DisplayLegendsRow>
+                      {getSuggestedCrops()}
+                      {getSuggestedCrops()}
+                    </DisplayLegendsRow>
+                  )}
                 </ComponentWrapper>
-                <p style={{ color: "black", marginTop: "5px" }}>
-                  The map shows the predicted yield and crop suggestion for the
-                  farmers from the selected Summer and Winter Crops in the year{" "}
-                  <b>2021</b> within every region of Australia.
-                </p>
+                {windowWidth > 800 && (
+                  <p style={{ color: "black", marginTop: "5px" }}>
+                    The map shows the predicted yield and crop suggestion for
+                    the farmers from the selected Summer and Winter Crops in the
+                    year <b>2021</b> within every region of Australia.
+                  </p>
+                )}
               </TabPanel>
             </SwipeableViews>
           </PaperWrapper>
