@@ -95,11 +95,11 @@ const CardContentWrapper = styled(CardContent)`
   width: 100%;
 `;
 
-const ColorBlock = styled(Typography)`
-  width: 50px;
-  height: 15px;
-  border-radius: 3px;
-`;
+// const ColorBlock = styled(Typography)`
+//   width: 50px;
+//   height: 15px;
+//   border-radius: 3px;
+// `;
 
 const TextRow = styled.div`
   display: flex;
