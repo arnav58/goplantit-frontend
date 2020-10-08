@@ -234,41 +234,6 @@ const DisplaySeason = (name) => {
     text-align: center;
     align-items: center;
     justify-content: center;
-  `;
-  return (
-    <Category>
-      <Typography variant="h4" color="secondary"> {name}</Typography>
-    </Category>
-  );
-};
-
-const DisplayType = (color, name) => {
-  const Category = styled(Typography)`
-    display: flex;
-    height: 150px;
-    // margin: 5px;
-    margin-top: 5px;
-    font-weight: 1200;
-    color: #5d5d5a;
-    border-left: 5px solid ${color};
-  `;
-  return (
-    <Category>
-      <Typography variant="h6"> {name}</Typography>
-    </Category>
-  );
-};
-const DisplaySeason = (name) => {
-  const Category = styled(Typography)`
-    display: flex;
-    width: 500px;
-    margin: 5px;
-    margin-top: 5px;
-    font-weight: 1200;
-    color: #5d5d5a;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
 
   `;
   return (
