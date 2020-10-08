@@ -252,7 +252,7 @@ function getLegend() {
   };
 
   return (
-    <Arti>
+    <ArtiSuggest>
       <CardContentWrapper>
         <Title variant="subtitle2'" style={{ fontSize: "16px" }}>
           Legend
@@ -261,7 +261,7 @@ function getLegend() {
           {DisplayLegend()}
         </div>
       </CardContentWrapper>
-    </Arti>
+    </ArtiSuggest>
   );
 }
 
