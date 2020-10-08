@@ -120,6 +120,7 @@ const DisplayNavbar = () => {
       { page: "Insights", link: "/insights", icon: "insights" },
       { page: "Alerts", link: "/alerts", icon: "notification" },
       { page: "Effects", link: "/effects", icon: "location" },
+      { page: "Insights", link: "/visualze", icon: "location" },
     ];
 
     let itemUi = [];
@@ -395,6 +396,7 @@ const DisplayNotificationIcons = ()=>{
                                           </Link>
                                           </td>                                          
                                            <td className="alertType" style={{fontSize: '14px'}}>                                           
+
                                              {item.tag}                                             
                                            </td>
                                           
