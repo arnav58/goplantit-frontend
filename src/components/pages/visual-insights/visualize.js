@@ -6,9 +6,9 @@ import DeckGL from "@deck.gl/react";
 import { ColumnLayer } from "@deck.gl/layers";
 import styled from "styled-components";
 
-import YieldData from "./yield.json"
-import Timeseries from "./timeseries"
-import Profitseries from "./profitseries"
+import YieldData from "./yield.json";
+import Timeseries from "./timeseries";
+import Profitseries from "./profitseries";
 import serviceTemplate from "../../layout/serviceTemplate";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
 import Card from "@material-ui/core/Card";
@@ -26,10 +26,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Typography, Box, Paper, Grid } from "@material-ui/core";
 import useWindowDimensions from "../../utils/useWindowWith";
-import { get } from "jquery";
 
 const crops = ["Wheat", "Barley", "Canola", "Sorghum", "Cotton", "Rice"];
-
 
 ////Styled components
 const ComponentWrapper = styled.section`
@@ -502,74 +500,33 @@ export default function App({
 
         <PaperGridWrapper item sm={9} xs={12}>
           <PaperWrapper>
-          <SecondTitle color="secondary" variant="h4">
-            Winter and Summer Crop Statistics
-          </SecondTitle>
-          <AppBar position="static" color="transparent">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          style={{color: '#A64942'}} 
-          variant="fullWidth"
-          aria-label="Insights graphs"
-        >
-          <Tab label="Yields" {...a11yProps(0)}/>
-          <Tab label="Profits" {...a11yProps(1)} />
-          <Tab label="Recommendations" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        // onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-        <Timeseries value={cropvalue}/>        
-        <p style={{color: 'black', marginBottom: '1%'}}>
-        According to Bureau of Meteorology, around 22 million hectares are planted annually to commercial grain crops across Australia. 
-        Climate/weather patterns effectively split Australia into two major grain cropping regions — northern and southern — and two crop growing periods — winter and summer.
-        
-        </p>
-
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <p style={{color: 'black'}}> 
-                <b>The northern region</b> takes in central and southern Qld through to northern NSW down as far as the Dubbo region.
-                Most extreme weather in this region predicted over the summer months, allowing for dryland summer crop production.
-                <br></br><br></br>
-                Winter crops - Wheat, barley, canola.
-                <br></br>
-                Summer crops - Sorghum, cotton and peanuts.
-                </p>
-              </td>
-              <td>
-                <p style={{color: 'black'}}>
-                <b>The southern region</b> stretches from central NSW (south of Dubbo) through to Victoria, Tasmania and South Australia and the southwest corner of Western Australia. 
-                The weather pattern ranges from uniform in central NSW through to winter-dominant in Victoria, Tasmania, SA and WA.
-                <br></br><br></br>
-                Winter crops - Wheat, barley, canola.
-                <br></br>
-                Summer crops - Rice.
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-        <Profitseries value={cropvalue}/>  
-        <p style={{color: "black"}}></p>
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-        <ComponentWrapper>
-          <DeckGL initialViewState={INITIAL_VIEW_STATE} 
-                controller={true} 
-                layers={layers} 
-                getTooltip={getTooltip}
-                effects={[lightingEffect]} 
+            <SecondTitle color="secondary" variant="h4">
+              Winter and Summer Crop Statistics
+            </SecondTitle>
+            <AppBar position="static" color="transparent">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                style={{ color: "#A64942" }}
+                variant="fullWidth"
+                aria-label="Insights graphs"
+              >
+                <Tab label="Yields" {...a11yProps(0)} />
+                <Tab label="Profits" {...a11yProps(1)} />
+                <Tab label="Recommendations" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+              index={value}
+              // onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <Timeseries value={cropvalue} />
+                <Typography
+                  variant="subtitle1"
+                  style={{ color: "black", marginBottom: "1%" }}
                 >
                   According to Bureau of Meteorology, around 22 million hectares
                   are planted annually to commercial grain crops across
@@ -620,7 +577,18 @@ export default function App({
                 </div>
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                <p style={{ color: "black" }}>Profit Insights goes here!</p>
+              <Profitseries value={cropvalue}/>  
+              <Typography
+                  variant="subtitle1"
+                  style={{ color: "black", marginBottom: "1%" }}
+                >
+                  This section is about profit of crops between 1995 to 2020.
+                  Our data show how much profit that specific crops can make per tonnes across Australia. 
+                  The data only inclued wheat, barley, canola and sorghum.
+                  Based on the charts we given, wheat, canola and sorghum will be growing by 2021, 
+                  only barley will be less profitable.
+                </Typography>
+                <p style={{ color: "black" }}></p>
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
                 <ComponentWrapper>
