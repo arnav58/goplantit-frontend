@@ -5,7 +5,7 @@ export const Container = styled.div`
   // background-image: url(${Background});
   // opacity: 0.5;
   background: rgba(43,40,41,1);
-  @media (max-width: 500px) {
+  @media (max-width: 100%) {
     padding: 10px 10px;
   }
 `;
