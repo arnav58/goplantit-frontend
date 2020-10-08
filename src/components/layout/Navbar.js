@@ -7,6 +7,7 @@ import {
   IconButton,
   MenuItem,
   Menu,
+  Typography,
   Link as UiLink,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -50,6 +51,22 @@ margin-right: 15px;
     width: 100%;
     text-align: right;
     `
+
+const RowWrapper = styled.div`
+display: flex;
+height: 25%;
+margin-bottom: 10px;
+margin: 10px;
+flex-direction: row;
+width: 100%;
+  `;
+
+const ColumnWrapper = styled.div`
+display: flex;
+margin-left: 40px;
+
+
+  `;
 
 const DisplayNavbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -573,6 +590,64 @@ const DisplayNotificationIcons = ()=>{
   
 }
 
+const DisplayHorizatalBar = ()=>{
+  return(
+    <RowWrapper>
+    <ColumnWrapper>
+     <Link to="/"  style={{alignSelf:"flex-end"}} >
+          <Typography
+            variant="h6"
+            textAlign="left"
+            color="secondary">
+            Home
+          </Typography>
+      </Link>
+      </ColumnWrapper>
+      <ColumnWrapper>
+      <Link to="/dashboard"  style={{alignSelf:"flex-end"}} >
+          <Typography
+            variant="h6"
+            textAlign="left"
+            color="secondary">
+            Dashboard
+          </Typography>
+      </Link>
+      </ColumnWrapper>
+      <ColumnWrapper>
+      <Link to="/insights"  style={{alignSelf:"flex-end"}} >
+          <Typography
+            variant="h6"
+            textAlign="left"
+            color="secondary">
+            Insights
+          </Typography>
+      </Link>
+      </ColumnWrapper>
+      <ColumnWrapper>
+      <Link to="/alerts"  style={{alignSelf:"flex-end"}} >
+          <Typography
+            variant="h6"
+            textAlign="left"
+            color="secondary">
+            Alerts
+          </Typography>
+      </Link>
+      </ColumnWrapper>
+      <ColumnWrapper>
+      <Link to="/effects"  style={{alignSelf:"flex-end"}} >
+          <Typography
+            variant="h6"
+            textAlign="left"
+            color="secondary">
+            Effects
+          </Typography>
+      </Link>
+      </ColumnWrapper>
+      </RowWrapper>
+    
+  );
+};
+
   return (
     <AppBar position="sticky">
       <Toolbar style={{ backgroundColor: "white", paddingLeft: "18px"}}>
@@ -602,7 +677,9 @@ const DisplayNotificationIcons = ()=>{
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem> */}
             {renderMenuItems()}
+            
           </Menu>
+          {DisplayHorizatalBar()}
         </LogoWrapper>
 
         {/* -------------------------------------------------------------Notification Menu-Start------------------------------------------------------------------------------ */}
@@ -610,6 +687,7 @@ const DisplayNotificationIcons = ()=>{
         
             {/* -------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------ */}
       {DisplayNotificationIcons()}
+      
 
       </Toolbar>
 
