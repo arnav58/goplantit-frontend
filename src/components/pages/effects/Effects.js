@@ -242,6 +242,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     outline: 0,
+    
   },
   paper: {
     backgroundColor: "#fafaf6",
@@ -296,6 +297,7 @@ const Effects = () => {
           BackdropProps={{
             timeout: 500,
           }}
+          fullWidth={true}
         >
           <Fade in={open} style={{ outline: 'none' }}>
             <Paper className={classes.paper}>

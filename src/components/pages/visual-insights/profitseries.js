@@ -124,6 +124,7 @@ const Profitseriesgraph = (tempValue) => {
         
         const state = {
         chartOptions: {
+            type: "column",
             title: {
                 text: 'Profit of <b>'+tempValue+'</b> over time'
             },

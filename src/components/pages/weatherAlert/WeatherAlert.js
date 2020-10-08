@@ -280,10 +280,10 @@ const useStyles = makeStyles((theme) => ({
 const WeatherAlert = () => {
   const [suggestion, setSuggestion] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (suggestion) => {
-    setSuggestion(suggestion);
-    setOpen(true);
-  };
+  // const handleOpen = (suggestion) => {
+  //   setSuggestion(suggestion);
+  //   setOpen(true);
+  // };
 
   const handleClose = () => {
     setSuggestion(null);
@@ -421,6 +421,7 @@ const WeatherAlert = () => {
     if (alertToCropsMap[tag.toLowerCase()]) {
       let crops = alertToCropsMap[tag.toLowerCase()].susceptibleCrops;
 
+      // eslint-disable-next-line array-callback-return
       crops.map((crop) => {
         let url = process.env.PUBLIC_URL + "/" + crop + ".png";
         console.log(url);

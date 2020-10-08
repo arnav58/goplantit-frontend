@@ -54,11 +54,9 @@ margin-right: 15px;
 
 const RowWrapper = styled.div`
 display: flex;
-height: 25%;
-margin-bottom: 10px;
-margin: 10px;
 flex-direction: row;
 width: 100%;
+align-items: center;
   `;
 
 const ColumnWrapper = styled.div`
@@ -594,7 +592,7 @@ const DisplayHorizatalBar = ()=>{
     <ColumnWrapper>
      <Link to="/"  style={{alignSelf:"flex-end"}} >
           <Typography
-            variant="h6"
+            variant="h7"
             textAlign="left"
             color="secondary">
             Home
@@ -604,7 +602,7 @@ const DisplayHorizatalBar = ()=>{
       <ColumnWrapper>
       <Link to="/dashboard"  style={{alignSelf:"flex-end"}} >
           <Typography
-            variant="h6"
+            variant="h7"
             textAlign="left"
             color="secondary">
             Dashboard
@@ -614,7 +612,7 @@ const DisplayHorizatalBar = ()=>{
       <ColumnWrapper>
       <Link to="/insights"  style={{alignSelf:"flex-end"}} >
           <Typography
-            variant="h6"
+            variant="h7"
             textAlign="left"
             color="secondary">
             Insights
@@ -624,7 +622,7 @@ const DisplayHorizatalBar = ()=>{
       <ColumnWrapper>
       <Link to="/alerts"  style={{alignSelf:"flex-end"}} >
           <Typography
-            variant="h6"
+            variant="h7"
             textAlign="left"
             color="secondary">
             Alerts
@@ -634,7 +632,7 @@ const DisplayHorizatalBar = ()=>{
       <ColumnWrapper>
       <Link to="/effects"  style={{alignSelf:"flex-end"}} >
           <Typography
-            variant="h6"
+            variant="h7"
             textAlign="left"
             color="secondary">
             Effects
@@ -653,14 +651,14 @@ const DisplayHorizatalBar = ()=>{
           <Link to="/">
             <Logo src={logoUrl} />
           </Link>
-          <IconButtonWrapper
+          {/* <IconButtonWrapper
             edge="start"
             aria-label="menu"
             color="secondary"
             onClick={handleClick}
           >
             <MenuIcon />
-          </IconButtonWrapper>
+          </IconButtonWrapper> */}
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
