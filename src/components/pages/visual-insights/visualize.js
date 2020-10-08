@@ -29,6 +29,7 @@ import { get } from "jquery";
 
 const crops = ["Wheat", "Barley", "Canola", "Sorghum", "Cotton", "Rice"];
 
+
 ////Styled components
 const ComponentWrapper = styled.section`
   position: relative;

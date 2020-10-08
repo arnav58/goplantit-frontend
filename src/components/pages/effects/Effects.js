@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import EcoIcon from '@material-ui/icons/Eco';
 
 const ComponentWrapper = styled.section`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -46,6 +46,12 @@ const CardHorizontal = styled.div`
   margin-bottom: 10px;
   flex-direction: row;
   justify-content:center;
+`;
+const CardColum = styled.div`
+  display: flex;
+  width : 100%;
+  margin-bottom: 10px;
+  flex-direction: row;
 `;
 const Arti = styled(Card)`
   display: flex;
@@ -252,6 +258,41 @@ const DisplayType = (color, name) => {
     </Category>
   );
 };
+const DisplaySeason = (name) => {
+  const Category = styled(Typography)`
+    display: flex;
+    width: 500px;
+    margin: 5px;
+    margin-top: 5px;
+    font-weight: 1200;
+    color: #5d5d5a;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+  `;
+  return (
+    <Category>
+      <Typography variant="h4" color="secondary"> {name}</Typography>
+    </Category>
+  );
+};
+const DisplayType = (color, name) => {
+  const Category = styled(Typography)`
+    display: flex;
+    height: 150px;
+    // margin: 5px;
+    margin-top: 5px;
+    font-weight: 1200;
+    color: #5d5d5a;
+    border-left: 5px solid ${color};
+  `;
+  return (
+    <Category>
+      <Typography variant="h6"> {name}</Typography>
+    </Category>
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -351,6 +392,7 @@ const Effects = () => {
     let uis = [];
     cards.map((card) => {
       let url = process.env.PUBLIC_URL + "/" + card.crop + ".png";
+      
       uis.push(
         <React.Fragment>
           <Arti>
