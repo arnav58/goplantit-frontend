@@ -79,6 +79,7 @@ const Timeseriesgraph = (tempValue) => {
 
   const { windowWidth } = useWindowDimensions();
 
+
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()

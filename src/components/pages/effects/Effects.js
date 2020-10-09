@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import EcoIcon from '@material-ui/icons/Eco';
 
 const ComponentWrapper = styled.section`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -46,6 +46,12 @@ const CardHorizontal = styled.div`
   margin-bottom: 10px;
   flex-direction: row;
   justify-content:center;
+`;
+const CardColum = styled.div`
+  display: flex;
+  width : 100%;
+  margin-bottom: 10px;
+  flex-direction: row;
 `;
 const Arti = styled(Card)`
   display: flex;
@@ -228,6 +234,7 @@ const DisplaySeason = (name) => {
     text-align: center;
     align-items: center;
     justify-content: center;
+
   `;
   return (
     <Category>
@@ -235,7 +242,6 @@ const DisplaySeason = (name) => {
     </Category>
   );
 };
-
 const DisplayType = (color, name) => {
   const Category = styled(Typography)`
     display: flex;
@@ -351,6 +357,7 @@ const Effects = () => {
     let uis = [];
     cards.map((card) => {
       let url = process.env.PUBLIC_URL + "/" + card.crop + ".png";
+      
       uis.push(
         <React.Fragment>
           <Arti>

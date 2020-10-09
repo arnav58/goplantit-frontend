@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 import YieldData from "./yield.json";
 import Timeseries from "./timeseries";
+import Profitseries from "./profitseries";
 import serviceTemplate from "../../layout/serviceTemplate";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
 import Card from "@material-ui/core/Card";
@@ -25,7 +26,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Typography, Box, Paper, Grid } from "@material-ui/core";
 import useWindowDimensions from "../../utils/useWindowWith";
-import { get } from "jquery";
 
 const crops = ["Wheat", "Barley", "Canola", "Sorghum", "Cotton", "Rice"];
 
@@ -577,7 +577,18 @@ export default function App({
                 </div>
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                <p style={{ color: "black" }}>Profit Insights goes here!</p>
+              <Profitseries value={cropvalue}/>  
+              <Typography
+                  variant="subtitle1"
+                  style={{ color: "black", marginBottom: "1%" }}
+                >
+                  This section is about profit of crops between 1995 to 2020.
+                  Our data show how much profit that specific crops can make per tonnes across Australia. 
+                  The data only inclued wheat, barley, canola and sorghum.
+                  Based on the charts we given, wheat, canola and sorghum will be growing by 2021, 
+                  only barley will be less profitable.
+                </Typography>
+                <p style={{ color: "black" }}></p>
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
                 <ComponentWrapper>
