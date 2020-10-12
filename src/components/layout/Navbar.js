@@ -21,7 +21,7 @@ import {
   BarChart,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import useWindowDimensions from "../utils/useWindowWith"
+import useWindowDimensions from "../utils/useWindowWith";
 // ----------------Imports for Notifications-Start-----------------
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
@@ -63,6 +63,10 @@ const RowWrapper = styled.div`
 const ColumnWrapper = styled.div`
   display: flex;
   margin-left: 40px;
+`;
+
+const SingleNotification = styled.div`
+  display: flex;
 `;
 
 const DisplayNavbar = () => {
@@ -192,6 +196,7 @@ const DisplayNavbar = () => {
         .catch((err) => console.log(err));
       return null;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemsState]);
 
   // Hide the notification on clicking outside
@@ -214,38 +219,51 @@ const DisplayNavbar = () => {
     return count;
   };
 
+
   //-------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------
-  const DisplayNotificationItems = (itemsInTheState) => {
+  /** 
+* Display notification of each state
+* @param {Array} itemsInTheState Notification Items in the state.
+* @param {String} state Name of the state.
+* @return {JSX Array} return a list of notification component.
+*/
+  
+  const DisplayNotificationItems = (itemsInTheState, state) => {
     ////display the notification item in a state
     // console.log(itemsInTheState)
-    return (
-      <Fragment>
-        {itemsInTheState.map((item) =>
-          item !== undefined ? (
-            <table className="notification-message" key={item}>
-              <tbody>
-                <tr>
-                  <td className="date">{item.pubDate}</td>
-                  <td className="content">
-                    <Link to="/alerts" style={{ color: "black" }}>
-                      {item.title}
-                    </Link>
-                  </td>
-                  <td className="alertType" style={{ fontSize: "14px" }}>
-                    {item.tag}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <>
-              {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-            </>
-          )
-        )}
-      </Fragment>
-    );
+    if (itemsInTheState.length) {
+      return (
+        <Fragment>
+          {itemsInTheState.map(
+            (item) =>
+              item !== undefined && (
+                // <table className="notification-message" key={item}>
+                //   <tbody>
+                //     <tr>
+                //       <td className="date">{item.pubDate}</td>
+                //       <td className="content">
+
+                //       </td>
+                //       <td className="alertType" style={{ fontSize: "14px" }}>
+                //         {item.tag}
+                //       </td>
+                //     </tr>
+                //   </tbody>
+                // </table>
+                <SingleNotification>
+                  <Typography variant="subtitle2" color='primary'>{state}:</Typography>
+                  <Link to="/alerts" style={{ color: "black" }} color ='secondary'>
+                    {item.title}
+                  </Link>
+                  <Typography variant="subtitle2">{item.tag}</Typography>
+                </SingleNotification>
+              )
+          )}
+        </Fragment>
+      );
+    } else {
+      return <Typography variant="subtitle2" color='primary'>No Alerts In {state}</Typography>;
+    }
   };
   const DisplayNotificationIcons = () => {
     return (
@@ -277,7 +295,7 @@ const DisplayNavbar = () => {
               <Popover.Content style={{ padding: "3px 3px" }}>
                 <ul className="notification-info-panel">
                   {Object.keys(itemsState).map((state) =>
-                    DisplayNotificationItems(itemsState[state])
+                    DisplayNotificationItems(itemsState[state], state)
                   )}
                 </ul>
               </Popover.Content>
@@ -309,29 +327,32 @@ const DisplayNavbar = () => {
       </RowWrapper>
     );
   };
-  const DisplayHamburgerMenu =()=> <Fragment><IconButtonWrapper
-  edge="start"
-  aria-label="menu"
-  color="secondary"
-  onClick={handleClick}
->
-  <MenuIcon />
-</IconButtonWrapper>
-<Menu
-  id="simple-menu"
-  anchorEl={anchorEl}
-  keepMounted
-  open={Boolean(anchorEl)}
-  onClose={handleClose}
-  classes={{ paper: styles.paper }}
-  style={{ marginRight: "20%" }}
->
-  {/* <MenuItem onClick={handleClose}>Home</MenuItem>
+  const DisplayHamburgerMenu = () => (
+    <Fragment>
+      <IconButtonWrapper
+        edge="start"
+        aria-label="menu"
+        color="secondary"
+        onClick={handleClick}
+      >
+        <MenuIcon />
+      </IconButtonWrapper>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        classes={{ paper: styles.paper }}
+        style={{ marginRight: "20%" }}
+      >
+        {/* <MenuItem onClick={handleClose}>Home</MenuItem>
 <MenuItem onClick={handleClose}>My account</MenuItem>
 <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-  {renderMenuItems()}
-</Menu>
-</Fragment> 
+        {renderMenuItems()}
+      </Menu>
+    </Fragment>
+  );
 
   return (
     <AppBar position="sticky">
@@ -340,7 +361,7 @@ const DisplayNavbar = () => {
           <Link to="/">
             <Logo src={logoUrl} />
           </Link>
-          {windowWidth >800? DisplayHorizontalBar():DisplayHamburgerMenu()}
+          {windowWidth > 800 ? DisplayHorizontalBar() : DisplayHamburgerMenu()}
         </LogoWrapper>
 
         {/* -------------------------------------------------------------Notification Menu-Start------------------------------------------------------------------------------ */}

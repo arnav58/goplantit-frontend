@@ -69,28 +69,30 @@ const ComponentGrid = styled(Grid)`
   margin: 20px 0px 0px 0px;
 `;
 
-const Arti = styled(Card)`
-  display: flex;
-  width: 42%;
-  margin-top: 2%;
-  margin-left: 56%;
-  background: #ffffff;
-`;
+// const Arti = styled(Card)`
+//   display: flex;
+//   width: 42%;
+//   margin-top: 2%;
+//   margin-left: 56%;
+//   background: #ffffff;
+// `;
 
 const ArtiSuggest = styled(Card)`
   display: flex;
-  width: 20%;
+  width: 25%;
   margin-top: 2%;
   margin-left: 2%;
   background: #ffffff;
   @media only screen and (max-width: 1000px) {
-    width: 30%;
+    width: 40%;
   }
   @media only screen and (max-width: 800px) {
     width: 60%;
+    margin:auto;
   }
-  @media only screen and (max-width: 650px) {
-    width: 70%;
+  @media only screen and (max-width: 700px) {
+    width: 80%;
+    margin-bottom:15px;
   }
 `;
 
@@ -132,7 +134,7 @@ const DisplayLegendsRow = styled.div`
   width: 100%;
   justify-content: space-between;
   padding-right:10px;
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 755px) {
     flex-direction: column;
     align-items: center;
   }
@@ -443,7 +445,6 @@ export default function App({
               </Typography>
             }
           />
-
           <img
             src={process.env.PUBLIC_URL + crop.toLowerCase() + ".png"}
             style={{ width: "20px", height: "75px", marginRight: "2%" }}
@@ -454,7 +455,7 @@ export default function App({
     };
 
     return (
-      <PaperGridWrapper item sm={3} xs={12}>
+      <PaperGridWrapper item sm={4} md={3} xs={12}>
         <PaperWrapper
           style={{
             backgroundColor: "rgb(255, 250, 250)",
@@ -496,9 +497,10 @@ export default function App({
   const DisplayVisualComponent = () => {
     return (
       <ComponentGrid container spacing={4}>
+
         {DisplayCropTypes()}
 
-        <PaperGridWrapper item sm={9} xs={12}>
+        <PaperGridWrapper item sm={8} md ={9} xs={12}>
           <PaperWrapper>
             <SecondTitle color="secondary" variant="h4">
               Winter and Summer Crop Statistics
@@ -627,7 +629,6 @@ export default function App({
                   ) : (
                     <DisplayLegendsRow>
                       {getSuggestedCrops()}
-                      {getLegend()}
                     </DisplayLegendsRow>
                   )}
                 </ComponentWrapper>
