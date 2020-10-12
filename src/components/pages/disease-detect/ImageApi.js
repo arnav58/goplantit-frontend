@@ -1,7 +1,7 @@
 import fetch from  'isomorphic-fetch';
 
 
-const BASE_API_URL = "http://localhost:5000/api/"
+const BASE_API_URL = "https://goplantitbackend.herokuapp.com/api/"
 
 export function api(api_end_point, data) {
 
