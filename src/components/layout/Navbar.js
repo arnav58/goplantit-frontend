@@ -57,12 +57,12 @@ const RowWrapper = styled.div`
   margin-bottom: 10px;
   margin: 10px;
   flex-direction: row;
-  width: 100%;
+  width: 500px;
+  justify-content:space-around;
 `;
 
 const ColumnWrapper = styled.div`
   display: flex;
-  margin-left: 40px;
 `;
 
 const SingleNotification = styled.div`
