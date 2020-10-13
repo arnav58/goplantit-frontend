@@ -496,7 +496,8 @@ const Dashboard = () => {
             />
 {/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
             <Spacer width="30%" style={{paddingTop: '5%'}}/>
-            <Typography color="secondary" variant="h6" style={{paddingRight: "2%", paddingTop: "1%"}}>Know your Crop Disease</Typography><DisplayDiseaseDetector />
+            <Typography color="secondary" variant="h6" style={{paddingRight: "2%", paddingTop: "1%"}}>Know your Crop Disease</Typography>
+            <DisplayDiseaseDetector />
 
 {/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
             </HeaderRow>

@@ -80,7 +80,7 @@ export default class ImageOps extends React.Component {
 
             const cropDiseaseMap = {
                 Wheat: {
-                  "stemRust": {
+                  "stemrust": {
                     desc: ["Remove all infected parts and destroy them.", "Clean away all debris in between plants to prevent rust from spreading.", "Avoid splashing water onto the leaves, as this can help spread rust."],
                     link: "https://grdc.com.au/__data/assets/pdf_file/0020/142625/grdc_tips_and_tactics_stem_rust_web.pdf.pdf",
                   },
@@ -88,7 +88,7 @@ export default class ImageOps extends React.Component {
                     desc: ["Fusarium head blight is a seed-borne disease. Grading of seed, preferably on a gravity table, will improve germination and emergence.", "Prevent crown rot first.", "Vary sowing times and varieties to minimise the risk of the entire crop flowering when weather is favourable for infection."],
                     link: "https://grdc.com.au/resources-and-publications/groundcover/ground-cover-issue-32/fusarium-head-blight-in-cereals",
                   },
-                  "yellowRust": {
+                  "yellowrust": {
                     desc: ["Yellow rust is easier to control than brown rust with fungicides.", "it is advised to spray the crop with Propiconazole (Tilt) 25 EC @ 0.1 % (1 ml / litre) using power sprayer or tractor mounted boom sprayers"],
                     link: "https://www.agric.wa.gov.au/grains-research-development/managing-stripe-rust-and-leaf-rust-wheat-western-australia",
                   },
@@ -106,7 +106,7 @@ export default class ImageOps extends React.Component {
                       },
                 },
                 Canola: {
-                    "rootDamping": {
+                    "rootdamping": {
                         desc: [`Use sterilized pots or trays with good drainage and use clean, new potting soil to prevent damping off.`,
                         `Since Root Damping is a soilborne disease, do not reuse growing medium from infected plants.`,
                         `Remove diseased plants and plant residues from the growing area.`],
@@ -170,7 +170,7 @@ export default class ImageOps extends React.Component {
            
 
             return (
-                <Container maxWidth="md">
+                <Container maxWidth="md" height="100px">
                         <Grid container justify="center" spacing={3}>
                             <Typography variant="h4" color="secondary" component="h5">
                                 Intelligent Disease Analyser
@@ -244,7 +244,7 @@ export default class ImageOps extends React.Component {
                             </Grid>
                         </Grid>
                         <br></br><br></br>
-                            {this.state.image_object_details.disease && this.state.image_object_details.probability >= 0.6 &&
+                            {this.state.image_object_details.disease && this.state.image_object_details.probability >= 0.85 &&
                                     <>
                                             <Typography color="secondary">
                                                 Your crop is predicted as {this.state.image_object_details.disease.split(",")[0]} suffering from {this.state.image_object_details.disease.split(",")[1]} disease.
@@ -262,7 +262,7 @@ export default class ImageOps extends React.Component {
                                             </Typography>
                                     </>
                             }
-                            {this.state.image_object_details.probability < 0.6 &&
+                            {this.state.image_object_details.probability < 0.85 &&
                                     <>
                                             <Typography color="secondary">
                                                 {cropDiseaseMap.Default.suggestions}
