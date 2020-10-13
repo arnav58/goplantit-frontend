@@ -16,6 +16,7 @@ export const Wrapper = styled.div`
     justify-content: center;
     // max-width: 1000px;
     margin: 0 auto;
+    margin-top:10px;
     /* background: red; */
 `
 
@@ -30,6 +31,7 @@ export const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 16px;
+  margin-top:10px;
   @media (max-width: 1000px) {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
