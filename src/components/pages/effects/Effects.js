@@ -14,20 +14,39 @@ import { makeStyles } from "@material-ui/core/styles";
 import EcoIcon from '@material-ui/icons/Eco';
 
 const ComponentWrapper = styled.section`
-  width: 110%;
+  width: 100%;
+  margin:auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   layout: fixed;
   padding: 2%;
+  flex-wrap:wrap;
+  align-items:center;
+  @media only screen and (max-width: 710px) {
+    flex-direction:column;
+  }
+
 `;
 
-const CardRow = styled.div`
+const CardVertical = styled.div`
   display: flex;
   height: 25%;
   margin-bottom: 10px;
   flex-direction: column;
   width: 50%;
+  align-items:center;
+  @media only screen and (max-width: 710px) {
+    width:100%;
+  }
+
+`;
+const CardHorizontal = styled.div`
+  display: flex;
+  width:90%;
+  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content:center;
 `;
 const CardColum = styled.div`
   display: flex;
@@ -183,15 +202,20 @@ const cards = [
 const DisplayCategory = (color, name) => {
   const Category = styled(Typography)`
     display: flex;
-    width: 505px;
-    margin: 5px;
+    width: 500px;
+    // margin: 5px;
     margin-top: 5px;
+    margin-bottom:5px;
     font-weight: 1200;
+   
     color: #5d5d5a;
     text-align: center;
     align-items: center;
     justify-content: center;
     border-bottom: 5px solid ${color};
+    @media only screen and (max-width: 1000px) {
+      width:100%
+     };
   `;
   return (
     <Category>
@@ -203,7 +227,7 @@ const DisplayCategory = (color, name) => {
 const DisplaySeason = (name) => {
   const Category = styled(Typography)`
     display: flex;
-    width: 500px;
+    width: 100%;
     margin: 5px;
     margin-top: 5px;
     font-weight: 1200;
@@ -211,6 +235,7 @@ const DisplaySeason = (name) => {
     text-align: center;
     align-items: center;
     justify-content: center;
+
   `;
   return (
     <Category>
@@ -218,7 +243,6 @@ const DisplaySeason = (name) => {
     </Category>
   );
 };
-
 const DisplayType = (color, name) => {
   const Category = styled(Typography)`
     display: flex;
@@ -246,7 +270,6 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: "#fafaf6",
     boxShadow: theme.shadows[5],
-    padding: "40px 40px",
     display: "flex",
     width: "90vh",
     height: "60vh",
@@ -335,6 +358,7 @@ const Effects = () => {
     let uis = [];
     cards.map((card) => {
       let url = process.env.PUBLIC_URL + "/" + card.crop + ".png";
+      
       uis.push(
         <React.Fragment>
           <Arti>
@@ -365,7 +389,7 @@ const Effects = () => {
               </CardActionWrapper>
             </CardContentWrapper>
           </Arti>
-          <Divider style={{ color: { categoryColor } }} variant="middle" />
+          {/* <Divider style={{ color: { categoryColor } }} variant="middle" /> */}
         </React.Fragment>
       );
       return null;
@@ -377,64 +401,64 @@ const Effects = () => {
     return (
       <ComponentWrapper>
         {/* <GridList cols={5}> */}
-        <CardRow>
+        <CardVertical>
           {/* { <Category >Winter Crops</Category> } */}
           {DisplaySeason("Winter Crops")}
           {DisplayCategory("#17b978", "")}
-          <CardColum>
+          <CardHorizontal>
           {DisplayType("#f469a9", "")}
           {mapCards(cards.slice(0, 1), "#f469a9")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#f469a9", "")}
           {mapCards(cards.slice(1, 2), "#f469a9")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#88bef5", "")}
           {mapCards(cards.slice(2, 3), "#88bef5")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#88bef5", "")}
           {mapCards(cards.slice(3, 4), "#88bef5")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#ba53de", "")}
           {mapCards(cards.slice(4, 5), "#ba53de")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#ba53de", "")}
           {mapCards(cards.slice(5, 6), "#ba53de")}
-          </CardColum>
-        </CardRow>
-        <CardRow>
+          </CardHorizontal>
+        </CardVertical>
+        <CardVertical>
           {/* <Category>Crop Yield and Production</Category> */}
           {DisplaySeason("Summer Crops")}
           {DisplayCategory("#17b978", "")}
-          <CardColum>
+          <CardHorizontal>
           {DisplayType("#fcb1b1", "")}
           {mapCards(cards.slice(6, 7), "#fcb1b1")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#fcb1b1", "")}
           {mapCards(cards.slice(7, 8), "#fcb1b1")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#ed733f", "")}
           {mapCards(cards.slice(8, 9), "#ed733f")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#ed733f", "")}
           {mapCards(cards.slice(9, 10), "#ed733f")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#4b89ac", "")}
           {mapCards(cards.slice(10, 11), "#4b89ac")}
-          </CardColum>
-          <CardColum>
+          </CardHorizontal>
+          <CardHorizontal>
           {DisplayType("#4b89ac", "")}
           {mapCards(cards.slice(11, 12), "#4b89ac")}
-          </CardColum>
-        </CardRow>
+          </CardHorizontal>
+        </CardVertical>
         {DisplayModal()}
 
         {/* </GridList> */}

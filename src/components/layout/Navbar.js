@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -7,6 +7,7 @@ import {
   IconButton,
   MenuItem,
   Menu,
+  Typography,
   Link as UiLink,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -16,20 +17,19 @@ import {
   NotificationImportant,
   NotListedLocation,
   Home,
-  Dashboard, 
+  Dashboard,
   BarChart,
 } from "@material-ui/icons";
-import { makeStyles } from '@material-ui/core/styles';
-
+import { makeStyles } from "@material-ui/core/styles";
+import useWindowDimensions from "../utils/useWindowWith";
 // ----------------Imports for Notifications-Start-----------------
-import Overlay from 'react-bootstrap/Overlay';
-import Popover from 'react-bootstrap/Popover';
+import Overlay from "react-bootstrap/Overlay";
+import Popover from "react-bootstrap/Popover";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Notify.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Notify.css";
 
 // ----------------Imports for Notifications-End-----------------
-
 
 ///logo
 const logoUrl = process.env.PUBLIC_URL + "/goplantit-logo.png";
@@ -46,13 +46,42 @@ const IconButtonWrapper = styled(IconButton)`
   margin-left: -30px;
 `;
 const NotificationContainer = styled.div`
-margin-right: 15px;
-    width: 100%;
-    text-align: right;
-    `
+  margin-right: 15px;
+  width: 100%;
+  text-align: right;
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  height: 25%;
+  margin-bottom: 10px;
+  margin: 10px;
+  flex-direction: row;
+  width: 500px;
+  justify-content:space-around;
+`;
+
+const ColumnWrapper = styled.div`
+  display: flex;
+`;
+
+const SingleNotification = styled.div`
+  display: flex;
+`;
 
 const DisplayNavbar = () => {
+  const pageItems = [
+    { page: "Home", link: "/", icon: "home" },
+    { page: "Dashboard", link: "/dashboard", icon: "dashboard" },
+    { page: "Insights", link: "/insights", icon: "insights" },
+    { page: "Alerts", link: "/alerts", icon: "notification" },
+    { page: "Effects", link: "/effects", icon: "location" },
+  ];
+
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  const { windowWidth } = useWindowDimensions();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,9 +93,9 @@ const DisplayNavbar = () => {
 
   const useStyles = makeStyles({
     paper: {
-      background: 'whitesmoke',
-      color: 'white'
-    }
+      background: "whitesmoke",
+      color: "white",
+    },
   });
   const styles = useStyles();
 
@@ -86,10 +115,10 @@ const DisplayNavbar = () => {
           theIcon = <Home color="primary" />;
           break;
         case "dashboard":
-          theIcon = <Dashboard color="#18b979" color="primary" />;
+          theIcon = <Dashboard color="primary" />;
           break;
         case "insights":
-          theIcon = <BarChart color="#18b979" color="primary" />;
+          theIcon = <BarChart color="primary" />;
           break;
         default:
           throw new Error("No icon found with that name");
@@ -97,19 +126,12 @@ const DisplayNavbar = () => {
 
       return theIcon;
     };
-    let items = [
-      { page: "Home", link: "/", icon: "home" },      
-      { page: "Dashboard", link: "/dashboard", icon: "dashboard" },
-      { page: "Insights", link: "/insights", icon: "insights" },
-      { page: "Alerts", link: "/alerts", icon: "notification" },
-      { page: "Effects", link: "/effects", icon: "location" },
-    ];
 
     let itemUi = [];
-    items.map((item) => {
+    pageItems.map((item) => {
       let menuItem = (
-        <MenuItem style={{backgroundColor: 'whitesmoke'}}>
-        {RenderIcon(item.icon)}
+        <MenuItem style={{ backgroundColor: "whitesmoke" }}>
+          {RenderIcon(item.icon)}
           <UiLink href={item.link}>{item.page}</UiLink>
         </MenuItem>
       );
@@ -130,487 +152,223 @@ const DisplayNavbar = () => {
   // Useref for the overlay
   const ref = useRef(null);
 
-
   // const [items1, setItems1] = useState([]);
 
-const [itemsVIC, setItemsVIC] = useState([]);
-const [itemsNSW, setItemsNSW] = useState([]);
-const [itemsQLD, setItemsQLD] = useState([]);
-const [itemsWA, setItemsWA] = useState([]);
-const [itemsNT, setItemsNT] = useState([]);
-const [itemsSA, setItemsSA] = useState([]);
-const [itemsTAS, setItemsTAS] = useState([]);
-
-
-  useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=VIC")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsVIC(result);
-            }       
-          }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
+  const [itemsState, setItemsState] = useState({
+    VIC: [],
+    NSW: [],
+    QLD: [],
+    WA: [],
+    NT: [],
+    SA: [],
+    TAS: [],
+  });
 
   useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=NSW")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsNSW(result);
-            }       
+    Object.keys(itemsState).map((state) => {
+      let url =
+        "https://goplantitbackend.herokuapp.com/api/warnings?state=" + state;
+      fetch(url)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            // setIsLoaded(true);
+            if (result.length !== 0 && result[0] !== undefined) {
+              if ("errorMessage" in result[0]) {
+                // console.log(result[0]);
+                // setItems1(data[i]);
+              } else {
+                let newState = itemsState;
+                newState[state] = result;
+                setItemsState(newState);
+                setNotificationCount(getAllNotificationsLength());
+              }
+            }
+            // console.log(result[0].title);
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            console.log(error);
           }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
+        )
+        .catch((err) => console.log(err));
+      return null;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemsState]);
 
-  useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=QLD")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsQLD(result);
-            }       
-          }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
-
-  useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=NT")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsNT(result);
-            }       
-          }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
-
-  useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=WA")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsWA(result);
-            }       
-          }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
-
-  useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=SA")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsSA(result);
-            }       
-          }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
-
-  useEffect(() => {
-    fetch("https://goplantitbackend.herokuapp.com/api/warnings?state=TAS")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          if(result.length !== 0 && result[0] !== undefined){
-            if('errorMessage' in result[0]){
-              console.log(result[0]);
-              // setItems1(data[i]);
-            } else {
-              console.log(result);
-              setItemsTAS(result);
-            }       
-          }
-          // console.log(result[0].title);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log(error);
-        }
-      )
-  }, [])
-
-
-// Hide the notification on clicking outside
-const hide = () => {
+  // Hide the notification on clicking outside
+  const hide = () => {
     setShow(false);
-}
+  };
 
-const handleClick1 = (event) => {
-  setShow(!show);
-  setTarget(event.target);
-}
+  const handleClick1 = (event) => {
+    setShow(!show);
+    setTarget(event.target);
+  };
 
-//-------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------
-
-const DisplayNotificationIcons = ()=>{
-  return(
-    <React.Fragment>
-      <NotificationContainer className="notification-container">
-                <div className='notification notify show-count'
-                    data-count={itemsVIC.length + itemsNSW.length + itemsQLD.length + itemsNT.length + itemsWA.length + itemsSA.length + itemsTAS.length}
-                    onClick={event => handleClick1(event)}
-                    >
-                    <NotificationImportant style={{color: '#ff304f'}}/>
-                </div>
-            </NotificationContainer>
-
-            <div ref={ref}>
-                <Overlay
-                    show={show}
-                    target={target}
-                    placement="bottom"
-                    container={ref.current}
-                    containerPadding={20}
-                    rootClose={true}
-                    onHide={hide}
-                >
-                    <Popover id="popover-contained">
-                        <Popover.Title as="h3" style={{ textAlign: 'center' }}>Alerts!</Popover.Title>
-                        <Popover.Content style={{ padding: '3px 3px' }}>                            
-                        <ul className="notification-info-panel">
-                                {
-                                    itemsVIC.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-
-                                  {
-                                    itemsNSW.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-
-                                  {
-                                    itemsQLD.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-
-                                  {
-                                    itemsNT.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-
-{
-                                    itemsWA.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-
-{
-                                    itemsSA.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-
-{
-                                    itemsTAS.map(item => (item !== undefined) ?
-                                    
-                                    (
-                                      <table className='notification-message'
-                                      key={item}>
-                                        <tbody>
-                                        <tr>
-                                          <td className="date">{item.pubDate}</td>
-                                          <td className="content">
-                                          <Link to="/alerts" style={{color: 'black'}}>
-                                            {item.title}
-                                          </Link>
-                                          </td>                                          
-                                           <td className="alertType" style={{fontSize: '14px'}}>                                           
-                                             {item.tag}                                             
-                                           </td>
-                                          
-                                        </tr>
-                                        </tbody>
-                                      </table>
-                                    ) :
-                                    <>
-                                        {/* <AlertTriangle color='#000000' size={32} />
-                                        <h5 className="nodata">No Notifications found!</h5> */}
-                                    </>
-                                    )}
-                            </ul>
-                        </Popover.Content>
-                    </Popover>
-                </Overlay>
-            </div>
+  const getAllNotificationsLength = () => {
+    console.log("counting");
+    /////go through the items of each state and get the count
+    let count = 0;
+    Object.keys(itemsState).forEach((state) => {
+      count += itemsState[state].length;
+    });
+    return count;
+  };
 
 
-    </React.Fragment>
-
-  )
+  //-------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------
+  /** 
+* Display notification of each state
+* @param {Array} itemsInTheState Notification Items in the state.
+* @param {String} state Name of the state.
+* @return {JSX Array} return a list of notification component.
+*/
   
-}
+  const DisplayNotificationItems = (itemsInTheState, state) => {
+    ////display the notification item in a state
+    // console.log(itemsInTheState)
+    if (itemsInTheState.length) {
+      return (
+        <Fragment>
+          {itemsInTheState.map(
+            (item) =>
+              item !== undefined && (
+                // <table className="notification-message" key={item}>
+                //   <tbody>
+                //     <tr>
+                //       <td className="date">{item.pubDate}</td>
+                //       <td className="content">
+
+                //       </td>
+                //       <td className="alertType" style={{ fontSize: "14px" }}>
+                //         {item.tag}
+                //       </td>
+                //     </tr>
+                //   </tbody>
+                // </table>
+                <SingleNotification>
+                  <Typography variant="subtitle2" color='primary'>{state}:</Typography>
+                  <Link to="/alerts" style={{ color: "black" }} color ='secondary'>
+                    {item.title}
+                  </Link>
+                  <Typography variant="subtitle2">{item.tag}</Typography>
+                </SingleNotification>
+              )
+          )}
+        </Fragment>
+      );
+    } else {
+      return <Typography variant="subtitle2" color='primary'>No Alerts In {state}</Typography>;
+    }
+  };
+  const DisplayNotificationIcons = () => {
+    return (
+      <React.Fragment>
+        <NotificationContainer className="notification-container">
+          <div
+            className="notification notify show-count"
+            data-count={notificationCount}
+            onClick={(event) => handleClick1(event)}
+          >
+            <NotificationImportant style={{ color: "#ff304f" }} />
+          </div>
+        </NotificationContainer>
+
+        <div ref={ref}>
+          <Overlay
+            show={show}
+            target={target}
+            placement="bottom"
+            container={ref.current}
+            containerPadding={20}
+            rootClose={true}
+            onHide={hide}
+          >
+            <Popover id="popover-contained">
+              <Popover.Title as="h3" style={{ textAlign: "center" }}>
+                Alerts!
+              </Popover.Title>
+              <Popover.Content style={{ padding: "3px 3px" }}>
+                <ul className="notification-info-panel">
+                  {Object.keys(itemsState).map((state) =>
+                    DisplayNotificationItems(itemsState[state], state)
+                  )}
+                </ul>
+              </Popover.Content>
+            </Popover>
+          </Overlay>
+        </div>
+      </React.Fragment>
+    );
+  };
+
+  const DisplayHorizontalBar = () => {
+    const capitalize = (string) =>
+      string.charAt(0).toUpperCase() + string.slice(1);
+
+    const DisplaySingleLink = (pageItem) => {
+      return (
+        <ColumnWrapper>
+          <Link to={pageItem.link} style={{ alignSelf: "flex-end" }}>
+            <Typography variant="subtitle1" textAlign="left" color="secondary">
+              {capitalize(pageItem.page)}
+            </Typography>
+          </Link>
+        </ColumnWrapper>
+      );
+    };
+    return (
+      <RowWrapper>
+        {pageItems.map((page) => DisplaySingleLink(page))}
+      </RowWrapper>
+    );
+  };
+  const DisplayHamburgerMenu = () => (
+    <Fragment>
+      <IconButtonWrapper
+        edge="start"
+        aria-label="menu"
+        color="secondary"
+        onClick={handleClick}
+      >
+        <MenuIcon />
+      </IconButtonWrapper>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        classes={{ paper: styles.paper }}
+        style={{ marginRight: "20%" }}
+      >
+        {/* <MenuItem onClick={handleClose}>Home</MenuItem>
+<MenuItem onClick={handleClose}>My account</MenuItem>
+<MenuItem onClick={handleClose}>Logout</MenuItem> */}
+        {renderMenuItems()}
+      </Menu>
+    </Fragment>
+  );
 
   return (
     <AppBar position="sticky">
-      <Toolbar style={{ backgroundColor: "white", paddingLeft: "18px"}}>
+      <Toolbar style={{ backgroundColor: "white", paddingLeft: "18px" }}>
         <LogoWrapper>
           <Link to="/">
             <Logo src={logoUrl} />
           </Link>
-          <IconButtonWrapper
-            edge="start"
-            aria-label="menu"
-            color="secondary"
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </IconButtonWrapper>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            classes={{ paper: styles.paper }}
-            style={{marginRight:"20%"}}
-            
-          >
-            {/* <MenuItem onClick={handleClose}>Home</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-            {renderMenuItems()}
-          </Menu>
+          {windowWidth > 800 ? DisplayHorizontalBar() : DisplayHamburgerMenu()}
         </LogoWrapper>
 
         {/* -------------------------------------------------------------Notification Menu-Start------------------------------------------------------------------------------ */}
 
-        
-            {/* -------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------ */}
-      {DisplayNotificationIcons()}
-
+        {/* -------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------ */}
+        {DisplayNotificationIcons()}
       </Toolbar>
-
     </AppBar>
   );
 };
