@@ -279,6 +279,7 @@ const useStyles = makeStyles((theme) => ({
 
 const WeatherAlert = (props) => {
   const [suggestion, setSuggestion] = React.useState(null);
+  const [selected, setSelected] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   // const handleOpen = (suggestion) => {
   //   setSuggestion(suggestion);
@@ -308,7 +309,11 @@ const WeatherAlert = (props) => {
                 <EcoIcon color="primary" iconSize="large" />
                 {suggestion.text}
               </Typography>
-              <Link href={suggestion.link} style={{ alignSelf: "flex-start" }} target="_blank">
+              <Link
+                href={suggestion.link}
+                style={{ alignSelf: "flex-start" }}
+                target="_blank"
+              >
                 <Typography
                   variant="caption"
                   textAlign="left"
@@ -382,22 +387,28 @@ const WeatherAlert = (props) => {
   //////setups
 
   const [alerts, setAlerts] = useState([]);
-  const [state, setState] = useState(props.location.stateProps||"VIC");
+  const [state, setState] = useState(props.location.stateProps || "VIC");
+
+  const getWarnings = async () => {
+    let newState = selected ? state : props.location.stateProps || "VIC";
+    ///to make the autocomplete work, we need to read if user is selected from the autocomplete
+    //or arrived in with url
+    await setState(newState);
+    //without await the render data will not change because setState is async function
+    // so the data will render by calling the url before the state is set to the correct one
+    let url = `https://goplantitbackend.herokuapp.com/api/warnings?state=${state}`;
+    const res = await axios.get(url);
+    console.log(url);
+    await setAlerts(res.data);
+    ///same issue with this, without await it will set the alerts using the previous data
+  };
 
   useEffect(() => {
-    const getWarnings = async () => {
-     
-      await setState(props.location.stateProps||"VIC")
-      //without await the render data will not change because setState is async function
-      // so the data will render by calling the url before the state is set to the correct one
-      console.log("getting warnings from "+state);
-      let url = `https://goplantitbackend.herokuapp.com/api/warnings?state=${state}`;
-      const res = await axios.get(url);
-      console.log(url)
-      await setAlerts(res.data);
-      ///same issue with this, without await it will set the alerts using the previous data
-    };
     getWarnings();
+    return setSelected(false);
+    //clean up the selected, so user can still access via the link
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, props.location.stateProps]);
 
   const classes = useStyles();
@@ -510,16 +521,14 @@ const WeatherAlert = (props) => {
           <PageButton
             variant="contained"
             color="primary"
-            onClick ={()=>{
-              let tag = card.tag.toLowerCase()
-                let suggestion = {
-                  text:alertToCropsMap[tag].suggestions,
-                  link:alertToCropsMap[tag].link
-                }
-                setSuggestion(suggestion);
-                setOpen(true)
-
-
+            onClick={() => {
+              let tag = card.tag.toLowerCase();
+              let suggestion = {
+                text: alertToCropsMap[tag].suggestions,
+                link: alertToCropsMap[tag].link,
+              };
+              setSuggestion(suggestion);
+              setOpen(true);
             }}
           >
             Suggestions
@@ -559,6 +568,7 @@ const WeatherAlert = (props) => {
           style={{ width: 165 }}
           onChange={(event, newValue) => {
             if (newValue) {
+              setSelected(true);
               setState(newValue.name);
             }
           }}
