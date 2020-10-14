@@ -471,22 +471,32 @@ const Dashboard = () => {
             <Typography variant="subtitle1" color="primary">
               Rain Related Threats
           </Typography>
+            {todayWeatherData.rain_threat_desc ? (
             <ContentRow>
-              {DisplayColorBlock(todayWeatherData.wind_speed_threat_type, "12px", "12px")}
-              <Tooltip title={todayWeatherData.wind_speed_threat_desc}>
+              {DisplayColorBlock(todayWeatherData.rain_threat_type, "12px", "12px")}
+              <Tooltip title={todayWeatherData.rain_threat_desc}>
                 <Typography
                   variant="subtitle1"
                   color="secondary"
                   style={{ marginRight: "5px", color: "#3e4a61" }}
                 >
-                  {todayWeatherData.wind_speed_threat_desc
-                    .split(" ")
-                    .slice(0, 2)
-                    .join(" ")}
+                  {todayWeatherData.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
                 </Typography>
               </Tooltip>
-
             </ContentRow>
+          ) : (<ContentRow>
+            
+            {DisplayColorBlock("green", "12px", "12px")}
+            <Tooltip title={"No threat of lodging because of rain"}>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px", color: "#3e4a61" }}
+              >
+                No threat
+              </Typography>
+            </Tooltip>
+          </ContentRow>)}
 
           </WeatherCard>
           <WeatherCard>
