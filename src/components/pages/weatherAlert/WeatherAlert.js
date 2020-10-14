@@ -277,7 +277,7 @@ const useStyles = makeStyles((theme) => ({
 ////////The main return
 /////////////////////
 
-const WeatherAlert = () => {
+const WeatherAlert = (props) => {
   const [suggestion, setSuggestion] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   // const handleOpen = (suggestion) => {
@@ -382,20 +382,23 @@ const WeatherAlert = () => {
   //////setups
 
   const [alerts, setAlerts] = useState([]);
-  const [state, setState] = useState("VIC");
+  const [state, setState] = useState(props.location.stateProps||"VIC");
 
   useEffect(() => {
     const getWarnings = async () => {
-      console.log("getting warnings");
-      console.log(state);
+     
+      await setState(props.location.stateProps||"VIC")
+      //without await the render data will not change because setState is async function
+      // so the data will render by calling the url before the state is set to the correct one
+      console.log("getting warnings from "+state);
       let url = `https://goplantitbackend.herokuapp.com/api/warnings?state=${state}`;
-      console.log(url);
       const res = await axios.get(url);
-      console.log(res.data[0]);
-      setAlerts(res.data);
+      console.log(url)
+      await setAlerts(res.data);
+      ///same issue with this, without await it will set the alerts using the previous data
     };
     getWarnings();
-  }, [state]);
+  }, [state, props.location.stateProps]);
 
   const classes = useStyles();
 
@@ -424,7 +427,6 @@ const WeatherAlert = () => {
       // eslint-disable-next-line array-callback-return
       crops.map((crop) => {
         let url = process.env.PUBLIC_URL + "/" + crop + ".png";
-        console.log(url);
         uiArray.push(
           <Typography
             color="secondary"

@@ -261,7 +261,9 @@ const DisplayNavbar = () => {
                     {state}:
                   </Typography>
                   <Link
-                    to="/alerts"
+                    to={{
+                      pathname:`/alerts`,
+                    stateProps:state}}
                     style={{ color: "black", width: "150px" }}
                     color="secondary"
                   >
