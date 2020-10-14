@@ -9,10 +9,16 @@ import {
   Divider,
   Tooltip,
   Button,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
   Modal,
   Backdrop,
   Fade,
 } from "@material-ui/core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faWind, faCompass, faTint, faCloud, faCloudRain, faSun } from '@fortawesome/free-solid-svg-icons'
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
 import LocationPicker from "../../utils/LocationPicker";
@@ -74,6 +80,12 @@ const WeatherCard = styled(Paper)`
   align-item: center;
   padding: 10px;
 `;
+const ExpansionPanelWrapper = styled(ExpansionPanel)`
+  background-color: #fffafa;
+`
+const ExpansionPanelDetailsWrapper = styled(ExpansionPanelDetails)`
+  padding: 0;
+`
 const Spacer = styled.div`
   height: ${(props) => (props.height ? props.height : "10px")};
   width: ${(props) => (props.width ? props.width : "10px")};
@@ -93,6 +105,8 @@ const WeatherCropsTileWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2px;
+  width: 56px;
+  height: 56px;
 `;
 const scaleElement = styled.div`
   display: flex;
@@ -157,6 +171,7 @@ const Dashboard = () => {
   ///helpers functions and state for user to select an area and store in cookie
   const DefaultLocation = { postcode: 3000, suburb: "Melbourne", state: "VIC" };
   const DefaultCoordinates = { lat: -37.8152065, lng: 144.963937 };
+  let crops = ["sorghum", "cotton", "rice"];
 
   const [cookies, setCookie] = useCookies(["name"]);
   const [displayLocation, setDisplayLocation] = useState(
@@ -191,8 +206,10 @@ const Dashboard = () => {
         setCropsData(current_day);
         console.log("weather", weather);
         setWeatherData(weather);
-        setTodayWeatherData(weather);
-        setDailyData(res.data.daily);
+        var daily = res.data.daily;
+        setTodayWeatherData(daily.shift());
+        console.log("daily ", daily);
+        setDailyData(daily);
       }
     });
   }, [baseUrl, coordinates, displayLocation]);
@@ -218,17 +235,17 @@ const Dashboard = () => {
               </Box>
             </Typography>
             <DividerWrapper />
-            <Typography variant="h6" fontWeight={500}>
+            <Typography variant="h5" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
                 {displayLocation.suburb + ", " + displayLocation.state}
               </Box>
             </Typography>
-            <Typography variant="h6" fontWeight={500}>
+            <Typography variant="h5" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
                 {cropsData && cropsData.temp.toString().slice(0, 2)} °C
               </Box>
             </Typography>
-            <Typography variant="h6" fontWeight={500}>
+            <Typography variant="h5" fontWeight={500}>
               <Box fontWeight="fontWeightMedium" m={1}>
                 {weatherData && weatherData[0].main}
               </Box>
@@ -253,6 +270,7 @@ const Dashboard = () => {
           width: width,
           height: height,
           padding: "2px",
+          margin: "5px",
         }}
       />
     );
@@ -290,9 +308,293 @@ const Dashboard = () => {
     );
   };
 
+  const getWindSpeedDirection = (wind_deg) => {
+    var directions = ["North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"];
+    var index = Math.round(((wind_deg %= 360) < 0 ? wind_deg + 360 : wind_deg) / 45) % 8;
+
+    return directions[index];
+  }
+
+  const getFormattedCropName = (crop) => {
+    return crop.charAt(0).toUpperCase() + crop.slice(1);
+  }
+
+  const getUVIRelatedData = (uvi) => {
+    if (0 <= uvi && uvi < 2) {
+      return {
+        color: "green",
+        tag: "No threat"
+      }
+    }
+    else if (2 <= uvi && uvi < 5) {
+      return {
+        color: "yellow",
+        tag: "Moderate"
+      }
+    }
+    else if (5 <= uvi && uvi < 7) {
+      return {
+        color: "orange",
+        tag: "High"
+      }
+    }
+    else if (7 <= uvi && uvi < 10) {
+      return {
+        color: "red",
+        tag: "Very high"
+      }
+    }
+    else if (10 <= uvi) {
+      return {
+        color: "maroon",
+        tag: "Extreme"
+      }
+    }
+  }
+
+  const getIdealTemperatureRange = (crop) => {
+    if (crop === "sorghum") {
+      return "Between 12°C and 34°C"
+    } else if (crop === "rice") {
+      return "Between 16°C and 32°C"
+    } else if (crop === "cotton") {
+      return "Between 27°C and 32°C"
+    } else if (crop === "wheat") {
+      return "Between 20°C and 25°C"
+    } else if (crop === "canola") {
+      return "Between 20°C and 25°C"
+    } else if (crop === "barley") {
+      return "Between 12°C and 25°C"
+    }
+  }
+
+  const DisplayTodayWeather = () => {
+    if (todayWeatherData) {
+      let wind_direction = getWindSpeedDirection(todayWeatherData.wind_deg);
+      console.log("today's weather ", todayWeatherData);
+      return (
+        <>
+          <WeatherCard>
+            <Typography variant="subtitle1" color="primary">
+              Wind Conditions
+          </Typography>
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px" }}
+              >
+                Wind Speed: {todayWeatherData.wind_speed} m/s <FontAwesomeIcon icon={faWind} />
+              </Typography>
+            </ContentRow>
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px" }}
+              >
+                Wind Direction: {wind_direction} <FontAwesomeIcon icon={faCompass} />
+              </Typography>
+            </ContentRow>
+            <Divider
+              variant="middle"
+              style={{
+                backgroundColor: "grey",
+                width: "85%",
+                opacity: 0.5,
+                marginLeft: "9px",
+              }}
+            />
+            <Typography variant="subtitle1" color="primary">
+              Wind Related Threats
+          </Typography>
+            <ContentRow>
+              {DisplayColorBlock(todayWeatherData.wind_speed_threat_type, "12px", "12px")}
+              <Tooltip title={todayWeatherData.wind_speed_threat_desc}>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px", color: "#3e4a61" }}
+                >
+                  {todayWeatherData.wind_speed_threat_desc
+                    .split(" ")
+                    .slice(0, 2)
+                    .join(" ")}
+                </Typography>
+              </Tooltip>
+
+            </ContentRow>
+
+          </WeatherCard>
+          <WeatherCard>
+            <Typography variant="subtitle1" color="primary">
+              Rain Conditions
+            </Typography>
+            {todayWeatherData.rain && (
+              <ContentRow>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px" }}
+                >
+                  Rain: {todayWeatherData.rain}mm <FontAwesomeIcon icon={faCloudRain} />
+                </Typography>
+              </ContentRow>
+            )}
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px" }}
+              >
+                Cloudiness: {todayWeatherData.clouds}% <FontAwesomeIcon icon={faCloud} />
+              </Typography>
+            </ContentRow>
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px" }}
+              >
+                Humidity: {todayWeatherData.humidity}% <FontAwesomeIcon icon={faTint} />
+              </Typography>
+            </ContentRow>
+            <Divider
+              variant="middle"
+              style={{
+                backgroundColor: "grey",
+                width: "85%",
+                opacity: 0.5,
+                marginLeft: "9px",
+              }}
+            />
+            <Typography variant="subtitle1" color="primary">
+              Rain Related Threats
+          </Typography>
+            {todayWeatherData.rain_threat_desc ? (
+            <ContentRow>
+              {DisplayColorBlock(todayWeatherData.rain_threat_type, "12px", "12px")}
+              <Tooltip title={todayWeatherData.rain_threat_desc}>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px", color: "#3e4a61" }}
+                >
+                  {todayWeatherData.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
+                </Typography>
+              </Tooltip>
+            </ContentRow>
+          ) : (<ContentRow>
+            
+            {DisplayColorBlock("green", "12px", "12px")}
+            <Tooltip title={"No threat of lodging because of rain"}>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px", color: "#3e4a61" }}
+              >
+                No threat
+              </Typography>
+            </Tooltip>
+          </ContentRow>)}
+
+          </WeatherCard>
+          <WeatherCard>
+            <Typography variant="subtitle1" color="primary">
+              UV Conditions
+          </Typography>
+            <ContentRow>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                style={{ marginRight: "5px" }}
+              >
+                UV Index: {todayWeatherData.uvi} <FontAwesomeIcon icon={faSun} />
+              </Typography>
+            </ContentRow>
+            <Divider
+              variant="middle"
+              style={{
+                backgroundColor: "grey",
+                width: "85%",
+                opacity: 0.5,
+                marginLeft: "9px",
+              }}
+            />
+            <Typography variant="subtitle1" color="primary">
+              UVI Related Threats
+            </Typography>
+            <ContentRow>
+              {DisplayColorBlock(getUVIRelatedData(todayWeatherData.uvi).color, "12px", "12px")}
+              <Tooltip title={getUVIRelatedData(todayWeatherData.uvi).tag}>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px", color: "#3e4a61" }}
+                >
+                  {getUVIRelatedData(todayWeatherData.uvi).tag}
+                </Typography>
+              </Tooltip>
+            </ContentRow>
+          </WeatherCard>
+
+          {crops.map((crop) => (
+            <WeatherCard>
+              <Typography variant="subtitle1" color="primary">
+                Conditions for {getFormattedCropName(crop)}
+                <img
+                  src={process.env.PUBLIC_URL + "/" + crop + ".png"}
+                  style={{ objectFit: "contain", height: "20px", width: "20px" }}
+                  alt={crop}
+                />
+              </Typography>
+              <ContentRow>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary"
+                  style={{ marginRight: "5px" }}
+                >
+                  Ideal Temperature Range: {getIdealTemperatureRange(crop)}
+                </Typography>
+
+              </ContentRow>
+              <Divider
+                variant="middle"
+                style={{
+                  backgroundColor: "grey",
+                  width: "85%",
+                  opacity: 0.5,
+                  marginLeft: "9px",
+                }}
+              />
+              <Typography variant="subtitle1" color="primary">
+                Temperature Related Threats
+              </Typography>
+              <ContentRow>
+                {DisplayColorBlock(todayWeatherData[crop + "_temp_status_color"], "12px", "12px")}
+                <Tooltip title={todayWeatherData[crop + "_temp_status_tag"]}>
+                  <Typography
+                    variant="subtitle1"
+                    color="secondary"
+                    style={{ marginRight: "5px", color: "#3e4a61" }}
+                  >
+                    {getFormattedCropName(todayWeatherData[crop + "_temp_status_tag"])}
+                  </Typography>
+                </Tooltip>
+              </ContentRow>
+            </WeatherCard>
+          ))}
+
+        </>
+
+      )
+    }
+    return
+
+  }
+
   const DisplayWeekWeather = () => {
     //display weather cards for the week
-    let crops = ["wheat", "canola", "barley"];
     return (
       dailyData &&
       dailyData.map((daily) => (
@@ -327,11 +629,11 @@ const Dashboard = () => {
                     .join(" ")}
                 </Typography>
               </Tooltip>
-              {DisplayColorBlock(daily.wind_speed_threat_type, "10px", "70%")}
+              {DisplayColorBlock(daily.wind_speed_threat_type, "12px", "12px")}
             </ContentRow>
           )}
 
-          {daily.rain_threat_desc ?(
+          {daily.rain_threat_desc ? (
             <ContentRow>
               <Typography
                 variant="subtitle1"
@@ -352,9 +654,9 @@ const Dashboard = () => {
                   {daily.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
                 </Typography>
               </Tooltip>
-              {DisplayColorBlock(daily.rain_threat_type, "10px", "70%")}
+              {DisplayColorBlock(daily.rain_threat_type, "12px", "12px")}
             </ContentRow>
-          ): (<ContentRow>
+          ) : (<ContentRow>
             <Typography
               variant="subtitle1"
               color="secondary"
@@ -374,7 +676,7 @@ const Dashboard = () => {
                 No threat
               </Typography>
             </Tooltip>
-            {DisplayColorBlock("green", "10px", "70%")}
+            {DisplayColorBlock("green", "12px", "12px")}
           </ContentRow>)}
           <ContentRow>
             <Typography
@@ -409,7 +711,7 @@ const Dashboard = () => {
           alignItems: "center",
         }}
       >
-        {DisplayColorBlock(element, "10px", "10px")}
+        {DisplayColorBlock(element, "12px", "12px")}
         <Typography
           variant="body1"
           color="secondary"
@@ -448,9 +750,9 @@ const Dashboard = () => {
         <PageButton
           variant="contained"
           color="primary"
-          onClick ={handleOpen}
-          >
-            Click here &nbsp; <p style={{fontSize: "10px"}}> Beta </p>
+          onClick={handleOpen}
+        >
+          Click here &nbsp; <p style={{ fontSize: "10px" }}> Beta </p>
         </PageButton>
 
         <Modal
@@ -468,8 +770,8 @@ const Dashboard = () => {
               <ImageOps />
             </Paper>
           </Fade>
-        </Modal>    
-      
+        </Modal>
+
       </>
 
     );
@@ -489,17 +791,17 @@ const Dashboard = () => {
             <Spacer />
             <HeaderRow>
               <LocationPicker
-              displayLocation={displayLocation}
-              setDisplayLocation={setDisplayLocation}
-              setCookie={setCookie}
-              setCoordinates={setCoordinates}
-            />
-{/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
-            <Spacer width="30%" style={{paddingTop: '5%'}}/>
-            <Typography color="secondary" variant="h6" style={{paddingRight: "2%", paddingTop: "1%"}}>Know your Crop Disease</Typography>
-            <DisplayDiseaseDetector />
+                displayLocation={displayLocation}
+                setDisplayLocation={setDisplayLocation}
+                setCookie={setCookie}
+                setCoordinates={setCoordinates}
+              />
+              {/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
+              <Spacer width="30%" style={{ paddingTop: '5%' }} />
+              <Typography color="secondary" variant="h6" style={{ paddingRight: "2%", paddingTop: "1%" }}>Know your Crop Disease</Typography>
+              <DisplayDiseaseDetector />
 
-{/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
+              {/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
             </HeaderRow>
             <Typography color="secondary" variant="caption">
               We store the location as cookie to provide personalized experience
@@ -507,7 +809,13 @@ const Dashboard = () => {
             <Spacer height="20px" />
             <Typography color="secondary" variant="h5">
               <Box fontWeight="fontWeightMedium" m={1}>
-                Crop status and concerns in 7 days
+                Crop status and concerns today
+              </Box>
+            </Typography>
+            <WeatherCardsRow>{DisplayTodayWeather()}</WeatherCardsRow>
+            <Typography color="secondary" variant="h5">
+              <Box fontWeight="fontWeightMedium" m={1}>
+                Crop status and concerns in next 7 days
               </Box>
             </Typography>
             <Divider
@@ -519,11 +827,17 @@ const Dashboard = () => {
                 marginLeft: "9px",
               }}
             />
-            <ContentRow style={{ marginLeft: "15px" }}>
-              {DisplayColorScale()}
-            </ContentRow>
-            <Spacer height="20px" />
-            <WeatherCardsRow>{DisplayWeekWeather()}</WeatherCardsRow>
+            <ExpansionPanelWrapper title="Crop status and concerns in next 7 days">
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "black" }} />}>
+                <ContentRow style={{ marginLeft: "15px" }}>
+                  {DisplayColorScale()}
+                </ContentRow>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetailsWrapper>
+                <Spacer height="20px" />
+                <WeatherCardsRow>{DisplayWeekWeather()}</WeatherCardsRow>
+              </ExpansionPanelDetailsWrapper>
+            </ExpansionPanelWrapper>
           </PaperWrapper>
         </PaperGridWrapper>
       </ComponentGrid>
