@@ -11,7 +11,10 @@ import {
   Button,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
+  Modal,
+  Backdrop,
+  Fade,
 } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWind, faCompass, faTint, faCloud, faCloudRain, faSun } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +32,10 @@ import clouds from "./6-cloudy.png";
 import axios from "axios";
 //cookies
 import { useCookies } from "react-cookie";
+
+import { makeStyles } from '@material-ui/core/styles';
+
+import ImageOps from "../disease-detect/ImageOps";
 /////styled components
 const PaperWrapper = styled(Paper)`
   background-color: #fffafa !important;
@@ -96,6 +103,45 @@ const scaleElement = styled.div`
   display: flex;
   width: 50px;
 `;
+
+// ----------------------------------------------------- Disease Detector - Start -------------------------------------------------------- //
+
+const HeaderRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const PageButton = styled(Button)`
+  width: 150px;
+  height: 45px;
+  color: white;
+`;
+
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    outline: 0,
+  },
+  modalPaper: {
+    backgroundColor: "#fafaf6",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    display: "flex",
+    width: "90vh",
+    height: "95vh",
+    color: "#3e3636",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderRadius: "5px",
+  },
+}));
+
+// ----------------------------------------------------- Disease Detector - End -------------------------------------------------------- //
+
 
 const backgroundWeather = (weather) => {
   const weatherImageMap = {
@@ -644,6 +690,59 @@ const Dashboard = () => {
     ));
   };
 
+  // ----------------------------------------------------- Disease Detector - Start -------------------------------------------------------- 
+
+
+  const DisplayDiseaseDetector = () => {
+
+    const [open, setOpen] = React.useState(false);
+    const classes = useStyles();
+
+    const handleOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    return (
+
+      <>
+        <PageButton
+          variant="contained"
+          color="primary"
+          onClick ={handleOpen}
+          >
+            Click here &nbsp; <p style={{fontSize: "10px"}}> Beta </p>
+        </PageButton>
+
+        <Modal
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open} style={{ outline: "none" }}>
+            <Paper className={classes.modalPaper}>
+              <ImageOps />
+            </Paper>
+          </Fade>
+        </Modal>    
+      
+      </>
+
+    );
+
+  }
+
+  // ----------------------------------------------------- Disease Detector - End -------------------------------------------------------- 
+
+
   const DisplayDashboard = () => {
     return (
       <ComponentGrid container spacing={4}>
@@ -652,12 +751,20 @@ const Dashboard = () => {
         <PaperGridWrapper item sm={9} xs={12}>
           <PaperWrapper>
             <Spacer />
-            <LocationPicker
+            <HeaderRow>
+              <LocationPicker
               displayLocation={displayLocation}
               setDisplayLocation={setDisplayLocation}
               setCookie={setCookie}
               setCoordinates={setCoordinates}
             />
+{/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
+            <Spacer width="30%" style={{paddingTop: '5%'}}/>
+            <Typography color="secondary" variant="h6" style={{paddingRight: "2%", paddingTop: "1%"}}>Know your Crop Disease</Typography>
+            <DisplayDiseaseDetector />
+
+{/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
+            </HeaderRow>
             <Typography color="secondary" variant="caption">
               We store the location as cookie to provide personalized experience
             </Typography>
