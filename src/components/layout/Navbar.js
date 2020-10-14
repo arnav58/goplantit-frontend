@@ -58,7 +58,7 @@ const RowWrapper = styled.div`
   margin: 10px;
   flex-direction: row;
   width: 500px;
-  justify-content:space-around;
+  justify-content: space-around;
 `;
 
 const ColumnWrapper = styled.div`
@@ -67,6 +67,14 @@ const ColumnWrapper = styled.div`
 
 const SingleNotification = styled.div`
   display: flex;
+  min-width: 200px;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+const PopoverWrapper = styled(Popover)`
+  min-width: 200px;
+  width: 100%;
 `;
 
 const DisplayNavbar = () => {
@@ -219,15 +227,13 @@ const DisplayNavbar = () => {
     return count;
   };
 
-
   //-------------------------------------------------------------Notification Menu-End------------------------------------------------------------------------------
-  /** 
-* Display notification of each state
-* @param {Array} itemsInTheState Notification Items in the state.
-* @param {String} state Name of the state.
-* @return {JSX Array} return a list of notification component.
-*/
-  
+  /**
+   * Display notification of each state
+   * @param {Array} itemsInTheState Notification Items in the state.
+   * @param {String} state Name of the state.
+   * @return {JSX Array} return a list of notification component.
+   */
   const DisplayNotificationItems = (itemsInTheState, state) => {
     ////display the notification item in a state
     // console.log(itemsInTheState)
@@ -251,18 +257,34 @@ const DisplayNavbar = () => {
                 //   </tbody>
                 // </table>
                 <SingleNotification>
-                  <Typography variant="subtitle2" color='primary'>{state}:</Typography>
-                  <Link to="/alerts" style={{ color: "black" }} color ='secondary'>
-                    {item.title}
+                  <Typography variant="subtitle2" color="primary">
+                    {state}:
+                  </Typography>
+                  <Link
+                    to="/alerts"
+                    style={{ color: "black", width: "150px" }}
+                    color="secondary"
+                  >
+                    {item.title.slice(0, 25)}...
                   </Link>
-                  <Typography variant="subtitle2">{item.tag}</Typography>
+                  <Typography variant="subtitle2" color="secondary">
+                    {item.tag}
+                  </Typography>
                 </SingleNotification>
               )
           )}
         </Fragment>
       );
     } else {
-      return <Typography variant="subtitle2" color='primary'>No Alerts In {state}</Typography>;
+      return (
+        <Typography
+          variant="subtitle2"
+          color="primary"
+          style={{ textAlign: "center", marginBottom: "10px" }}
+        >
+          No Alerts In {state}
+        </Typography>
+      );
     }
   };
   const DisplayNotificationIcons = () => {
@@ -288,7 +310,7 @@ const DisplayNavbar = () => {
             rootClose={true}
             onHide={hide}
           >
-            <Popover id="popover-contained">
+            <PopoverWrapper id="popover-contained">
               <Popover.Title as="h3" style={{ textAlign: "center" }}>
                 Alerts!
               </Popover.Title>
@@ -299,7 +321,7 @@ const DisplayNavbar = () => {
                   )}
                 </ul>
               </Popover.Content>
-            </Popover>
+            </PopoverWrapper>
           </Overlay>
         </div>
       </React.Fragment>

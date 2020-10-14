@@ -126,7 +126,9 @@ const ServiceCard = styled(Paper)`
   background: white;
   justify-content: space-around;
   align-items: center;
-  
+  @media only screen and (max-width: 450px) {
+    width:${props=> props.windowWidth*0.9}px
+  };
 `;
 
 
@@ -284,7 +286,7 @@ const Landing = () => {
     cards.map((card) => {
       return (
         <ServiceCardContainer>
-          <ServiceCard>
+          <ServiceCard windowWidth={windowWidth}>
             <ServiceCardInnerWrapper>
               <UiLink underline="none" href={card.link}>
                 <CardIconContainer>{RenderIcon(card.icon)}</CardIconContainer>
@@ -301,7 +303,7 @@ const Landing = () => {
                     color="secondary"
                     variant="subtitle1"
                     align="center"
-                    style={{ width: "300px" }}
+                    style={{ width: windowWidth>600? "300px":"200px" }}
                   >
                     {card.subtitle}
                   </Typography>
