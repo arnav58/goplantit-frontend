@@ -18,6 +18,7 @@ import {
 } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWind, faCompass, faTint, faCloud, faCloudRain, faSun } from '@fortawesome/free-solid-svg-icons'
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
 import LocationPicker from "../../utils/LocationPicker";
@@ -79,6 +80,12 @@ const WeatherCard = styled(Paper)`
   align-item: center;
   padding: 10px;
 `;
+const ExpansionPanelWrapper = styled(ExpansionPanel)`
+  background-color: #fffafa;
+`
+const ExpansionPanelDetailsWrapper = styled(ExpansionPanelDetails)`
+  padding: 0;
+`
 const Spacer = styled.div`
   height: ${(props) => (props.height ? props.height : "10px")};
   width: ${(props) => (props.width ? props.width : "10px")};
@@ -98,6 +105,8 @@ const WeatherCropsTileWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2px;
+  width: 56px;
+  height: 56px;
 `;
 const scaleElement = styled.div`
   display: flex;
@@ -310,6 +319,39 @@ const Dashboard = () => {
     return crop.charAt(0).toUpperCase() + crop.slice(1);
   }
 
+  const getUVIRelatedData = (uvi) => {
+    if (0 <= uvi && uvi < 2) {
+      return {
+        color: "green",
+        tag: "No threat"
+      }
+    }
+    else if (2 <= uvi && uvi < 5) {
+      return {
+        color: "yellow",
+        tag: "Moderate"
+      }
+    }
+    else if (5 <= uvi && uvi < 7) {
+      return {
+        color: "orange",
+        tag: "High"
+      }
+    }
+    else if (7 <= uvi && uvi < 10) {
+      return {
+        color: "red",
+        tag: "Very high"
+      }
+    }
+    else if (10 <= uvi) {
+      return {
+        color: "maroon",
+        tag: "Extreme"
+      }
+    }
+  }
+
   const getIdealTemperatureRange = (crop) => {
     if (crop === "sorghum") {
       return "Between 12°C and 34°C"
@@ -471,33 +513,19 @@ const Dashboard = () => {
             />
             <Typography variant="subtitle1" color="primary">
               UVI Related Threats
-          </Typography>
-            {todayWeatherData.rain_threat_desc ? (
-              <ContentRow>
-                {DisplayColorBlock(todayWeatherData.rain_threat_type, "12px", "12px")}
-                <Tooltip title={todayWeatherData.rain_threat_desc}>
-                  <Typography
-                    variant="subtitle1"
-                    color="secondary"
-                    style={{ marginRight: "5px", color: "#3e4a61" }}
-                  >
-                    {todayWeatherData.rain_threat_desc.split(" ").slice(0, 2).join(" ")}
-                  </Typography>
-                </Tooltip>
-              </ContentRow>
-            ) : (<ContentRow>
-              {DisplayColorBlock("green", "12px", "12px")}
-              <Tooltip title={"No threat of lodging because of wind speed"}>
+            </Typography>
+            <ContentRow>
+              {DisplayColorBlock(getUVIRelatedData(todayWeatherData.uvi).color, "12px", "12px")}
+              <Tooltip title={getUVIRelatedData(todayWeatherData.uvi).tag}>
                 <Typography
                   variant="subtitle1"
                   color="secondary"
                   style={{ marginRight: "5px", color: "#3e4a61" }}
                 >
-                  No threat
-              </Typography>
+                  {getUVIRelatedData(todayWeatherData.uvi).tag}
+                </Typography>
               </Tooltip>
-            </ContentRow>)}
-
+            </ContentRow>
           </WeatherCard>
 
           {crops.map((crop) => (
@@ -712,9 +740,9 @@ const Dashboard = () => {
         <PageButton
           variant="contained"
           color="primary"
-          onClick ={handleOpen}
-          >
-            Click here &nbsp; <p style={{fontSize: "10px"}}> Beta </p>
+          onClick={handleOpen}
+        >
+          Click here &nbsp; <p style={{ fontSize: "10px" }}> Beta </p>
         </PageButton>
 
         <Modal
@@ -732,8 +760,8 @@ const Dashboard = () => {
               <ImageOps />
             </Paper>
           </Fade>
-        </Modal>    
-      
+        </Modal>
+
       </>
 
     );
@@ -753,17 +781,17 @@ const Dashboard = () => {
             <Spacer />
             <HeaderRow>
               <LocationPicker
-              displayLocation={displayLocation}
-              setDisplayLocation={setDisplayLocation}
-              setCookie={setCookie}
-              setCoordinates={setCoordinates}
-            />
-{/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
-            <Spacer width="30%" style={{paddingTop: '5%'}}/>
-            <Typography color="secondary" variant="h6" style={{paddingRight: "2%", paddingTop: "1%"}}>Know your Crop Disease</Typography>
-            <DisplayDiseaseDetector />
+                displayLocation={displayLocation}
+                setDisplayLocation={setDisplayLocation}
+                setCookie={setCookie}
+                setCoordinates={setCoordinates}
+              />
+              {/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
+              <Spacer width="30%" style={{ paddingTop: '5%' }} />
+              <Typography color="secondary" variant="h6" style={{ paddingRight: "2%", paddingTop: "1%" }}>Know your Crop Disease</Typography>
+              <DisplayDiseaseDetector />
 
-{/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
+              {/* ----------------------------------------------------- Disease Detector - Start --------------------------------------------------------  */}
             </HeaderRow>
             <Typography color="secondary" variant="caption">
               We store the location as cookie to provide personalized experience
@@ -789,17 +817,17 @@ const Dashboard = () => {
                 marginLeft: "9px",
               }}
             />
-            <ExpansionPanel title="7 day predicted weather">
-              <ExpansionPanelSummary>
+            <ExpansionPanelWrapper title="Crop status and concerns in next 7 days">
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "black" }} />}>
                 <ContentRow style={{ marginLeft: "15px" }}>
                   {DisplayColorScale()}
                 </ContentRow>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+              <ExpansionPanelDetailsWrapper>
                 <Spacer height="20px" />
                 <WeatherCardsRow>{DisplayWeekWeather()}</WeatherCardsRow>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+              </ExpansionPanelDetailsWrapper>
+            </ExpansionPanelWrapper>
           </PaperWrapper>
         </PaperGridWrapper>
       </ComponentGrid>
