@@ -368,6 +368,7 @@ const DisplayNavbar = () => {
         classes={{ paper: styles.paper }}
         style={{ marginRight: "20%" }}
       >
+      
         {/* <MenuItem onClick={handleClose}>Home</MenuItem>
 <MenuItem onClick={handleClose}>My account</MenuItem>
 <MenuItem onClick={handleClose}>Logout</MenuItem> */}
