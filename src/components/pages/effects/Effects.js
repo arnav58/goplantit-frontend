@@ -272,13 +272,15 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     display: "flex",
     width: "90vh",
-    height: "60vh",
+    height: "80vh",
     color: "#3e3636",
     flexDirection: "column",
     // justifyContent: "space-around",
     alignItems: "center",
     borderRadius: "5px",
     overflow: "auto",
+    padding:'25px',
+    maxHeight:"900px"
   },
   images: {
     height: "40vh",
@@ -329,7 +331,7 @@ const Effects = () => {
               <br></br>
               <img src={url} alt={displayCard.imageTitle} className={classes.images}/>
               <br></br> 
-              <Typography style={{alignSelf:"flex-start"}} variant="h6" fontWeight="fontWeightMedium">
+              <Typography style={{alignSelf:"flex-start", paddingLeft:"20px"}} variant="h6" fontWeight="fontWeightMedium" p>
                 Key Insights
               </Typography>
               <ul>{listItems}</ul>
