@@ -68,9 +68,7 @@ const ColumnWrapper = styled.div`
 const SingleNotification = styled.div`
   display: flex;
   min-width: 200px;
-  justify-content: space-around;
   margin-bottom: 10px;
-  text-align: center;
 `;
 const PopoverWrapper = styled(Popover)`
   min-width: 200px;
@@ -264,7 +262,7 @@ const DisplayNavbar = () => {
                     to={{
                       pathname:`/alerts`,
                     stateProps:state}}
-                    style={{ color: "black", width: "150px" }}
+                    style={{ color: "black", width: "150px" , textAlign:'center'}}
                     color="secondary"
                   >
                     {item.title.slice(0, 25)}...
