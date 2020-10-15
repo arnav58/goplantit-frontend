@@ -544,55 +544,68 @@ const Dashboard = () => {
                 <img src={url} alt={type} className={alert_classes.images}/>
                 <br></br>
                   <Typography>
-                  <b>Lodging</b> is the bending over of the stems near ground level of grain crops, which makes them very difficult to harvest, and can dramatically reduce yield. Lodging in cereals is often a result of the combined effects of inadequate standing power of the crop, and conditions such as rain, wind, hail, topography, soil, previous crop, and others.
+                  Plants are highly sensitive to UV-B radiation because of their sessile nature. In plants, UV-B radiation damages cell membranes and all organelles within the cell, including the chloroplasts, mitochondria, and deoxyribonucleic acid (DNA) within the nucleus. Consequently, UV-B damage harms crop yield and quality. An overview of various processes affected by UV-B radiation at cellular and plant levels. However, the effect of UV-B radiation varies with intensity and duration of irradiation and stage of plant development.
                   </Typography>
                   <Spacer height="20px" /><br></br>
-                  {/* <Typography variant="h5" style={{alignSelf:"flex-start"}}>
-                      Precautions
+                  <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                      Effects
                   </Typography>
                   <Spacer height="10px" /><br></br>
                   <Typography  style={{alignSelf:"flex-start"}}>
-                    <b>Pre-Harvest</b>
+                    <b>Plant Morphology and Architecture</b>
                   </Typography>  
                   <Spacer height="10px" />
                   <Typography>
                     <ul>
                       <li>
-                      <b>Inspect Fields</b>. Producers should inspect susceptible fields regularly during late August and early September to estimate the rate of development of stalk rots which may be present.
+                      It induces a range of strong morphological effects in plants, including leaf thickness, leaf discoloration, cotyledon curling, inhibition of hypocotyl growth, stem and leaf elongation, axillary branching, and shifts in root-shoot ratio (Jansen, 2002).
                       </li>
                       <li>
-                      <b>Identify the extent of the problem</b>. Is it isolated in only one area of a field, or is it spread evenly throughout the field? Also, is only one field affected, or are all fields affected? Once you have determined the extent of the problem, consider the following harvest options.
+                      Elevated UV-B radiation can result in slower stem extension rates, shorter internode lengths leading to shorter plant height, decreased individual leaf size, fewer leaves leading to less leaf area, and fewer tillers and branch lengths.
+                      </li>
+                      <li>
+                      In addition, enhanced UV-B radiation causes increased leaf epicuticular wax and stomatal index, and reductions in thickness of palisade and mesophyll tissues without altering the thinness of the epidermal layers.
                       </li>
                     </ul>  
                   </Typography>    
                   <Spacer height="10px" />
                   <Typography  style={{alignSelf:"flex-start"}}>
-                    <b>Harvest</b>
+                    <b>Plant Development and Growth</b>
                   </Typography>  
                   <Spacer height="10px" />
                   <Typography>
                     <ul>
                       <li>
-                      <b>Harvest the affected areas first</b>. Do not allow lodged fields to remain unharvested any longer than absolutely necessary.
+                      Elevated UV-B radiation can delay flowering time in several different crops like cotton, etc.
                       </li>
                       <li>
-                      <b>Harvest the affected areas slower than usual</b>. A ground speed of 2 mph is usually adequate for harvesting lodged corn. By harvesting at a slower speed, your ability to pick up lodged ears that would otherwise be missed will increase.
+                      UV-B radiation does affect flower size, anther number, and pollen production, germination, and tube growth in many plant species. Cotton flowers produced on plants exposed to elevated UV-B were smaller due to reduced petal and bract size, and had fewer anthers.
                       </li>
                       <li>
-                      <b>Under severe stalk lodging conditions, harvest against the direction of the lodging</b>. For example, if the corn plants are lodged toward the east, come into the field from the east. Harvesting the field from the west will only lodge the plants further, making it almost impossible to pick up the ears.
+                      Exposure to UV-B radiation decreases pollen germination and rate of pollen tube growth by 10% - 25% in several crop species. Increased UV-B radiation decreased total pollen production, pollen germination, and tube growth.
                       </li>
                     </ul>  
                   </Typography>    
                   <Spacer height="10px" />
                   <Typography  style={{alignSelf:"flex-start"}}>
-                    <b>Post-Harvest</b>
+                    <b>Pest Damage</b>
                   </Typography>  
                   <Spacer height="10px" />
                   <Typography>
-                  While the cultural and harvest management options above will help you reduce the harvest losses you incur during the current growing season, you need to evaluate why certain fields or areas of fields lodged. Think carefully about the causes discussed earlier. Did you make the best choices as to hybrid selection, fertility levels, plant populations, pest control, or cultural practices? If not, which factors can be changed to avoid the problem next year?  
+                  <ul>
+                      <li>
+                      The impact of elevated UV-B radiation on plant species is well understood, but knowledge of the effects of UV-B on insect pests and disease-causing pathogens (fungi and bacteria) is limited.
+                      </li>
+                      <li>
+                      Solar UV-B can affect insect herbivores through reduced growth, survivorship, and fecundity through changes in leaf characteristics (appearance and composition).
+                      </li>
+                      <li>
+                      The effect of UV-B on plant pathogens can occur either through direct effects on various stages of pathogen development, such as spore germination, germ tube extension, and sporulation or indirectly by influencing host-plant resistance by damaging cells, decreasing plant growth and morphology (decreasing leaf and cuticle thickness), or modifying gene expression.
+                      </li>
+                    </ul>  
                   </Typography>    
                   <Spacer height="10px" />  
-                  <Link href="https://www.extension.purdue.edu/extmedia/AY/AY-262.html" style={{alignSelf:"flex-end"}} target="_blank">
+                  <Link href="https://www.climate-policy-watcher.org/ultraviolet-radiation-2/specific-effects-of-uvb-radiation-on-plants.html" style={{alignSelf:"flex-end"}} target="_blank">
                   <Typography
                     variant="caption"
                     textAlign="left"
@@ -600,7 +613,7 @@ const Dashboard = () => {
                   >
                     Learn more...
                   </Typography> 
-                  </Link>*/}
+                  </Link>
                   </>
               }
               {type == "sorghum" &&
