@@ -15,6 +15,7 @@ import {
   Modal,
   Backdrop,
   Fade,
+  Link
 } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWind, faCompass, faTint, faCloud, faCloudRain, faSun } from '@fortawesome/free-solid-svg-icons'
@@ -127,6 +128,12 @@ const PageButton = styled(Button)`
   color: white;
 `;
 
+const PageButtonAlert = styled(Button)`
+  width: 120px;
+  height: 30px;
+  color: white;
+`;
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -137,15 +144,37 @@ const useStyles = makeStyles((theme) => ({
   modalPaper: {
     backgroundColor: "#fafaf6",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
     display: "flex",
     width: "90vh",
-    height: "95vh",
+    height: "75vh",
     color: "#3e3636",
     flexDirection: "column",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
     alignItems: "center",
     borderRadius: "5px",
+    overflow: "auto",
+    padding: "20px",
+  },
+  modalPaperAlert: {
+    backgroundColor: "#fafaf6",
+    boxShadow: theme.shadows[5],
+    display: "flex",
+    width: "90vh",
+    height: "60vh",
+    color: "#3e3636",
+    flexDirection: "column",
+    // justifyContent: "space-around",
+    alignItems: "center",
+    borderRadius: "5px",
+    overflow: "auto",
+    padding: "20px",
+  },
+  backDrop: {
+    background: 'rgba(0,0,0,0.1)',
+  },
+  images: {
+    height: "30vh",
+    width: "30vh",
   },
 }));
 
@@ -368,10 +397,463 @@ const Dashboard = () => {
     }
   }
 
+  
+
   const DisplayTodayWeather = () => {
+
+    const [summary, setSummary] = React.useState(false);
+    const [type, setType] = React.useState();
+    const alert_classes = useStyles();
+    const handleOpen = (event) => {
+      setSummary(true);
+      setType(event);
+    };
+    const handleClose = () => {
+      setSummary(false);
+    };
+
+    const getAlertModal = () => {
+
+      let url = process.env.PUBLIC_URL + "/alert_images/" + type + ".jpg";
+
+      console.log(type);
+      return(
+        <>
+          <Modal
+            className={alert_classes.modal}
+            open={summary}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={summary} style={{ outline: "none" }}>
+              <Paper className={alert_classes.modalPaperAlert}>
+                {type == "wind" &&
+                <>
+                <img src={url} alt={type} className={alert_classes.images}/>
+                <br></br>
+                  <Typography>
+                  <b>Lodging</b> is the bending over of the stems near ground level of grain crops, which makes them very difficult to harvest, and can dramatically reduce yield. Lodging in cereals is often a result of the combined effects of inadequate standing power of the crop, and conditions such as rain, wind, hail, topography, soil, previous crop, and others.
+                  </Typography>
+                  <Spacer height="20px" /><br></br>
+                  <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                      Precautions
+                  </Typography>
+                  <Spacer height="10px" /><br></br>
+                  <Typography  style={{alignSelf:"flex-start"}}>
+                    <b>Pre-Harvest</b>
+                  </Typography>  
+                  <Spacer height="10px" />
+                  <Typography>
+                    <ul>
+                      <li>
+                      <b>Inspect Fields</b>. Producers should inspect susceptible fields regularly during late August and early September to estimate the rate of development of stalk rots which may be present.
+                      </li>
+                      <li>
+                      <b>Identify the extent of the problem</b>. Is it isolated in only one area of a field, or is it spread evenly throughout the field? Also, is only one field affected, or are all fields affected? Once you have determined the extent of the problem, consider the following harvest options.
+                      </li>
+                    </ul>  
+                  </Typography>    
+                  <Spacer height="10px" />
+                  <Typography  style={{alignSelf:"flex-start"}}>
+                    <b>Harvest</b>
+                  </Typography>  
+                  <Spacer height="10px" />
+                  <Typography>
+                    <ul>
+                      <li>
+                      <b>Harvest the affected areas first</b>. Do not allow lodged fields to remain unharvested any longer than absolutely necessary.
+                      </li>
+                      <li>
+                      <b>Harvest the affected areas slower than usual</b>. A ground speed of 2 mph is usually adequate for harvesting lodged corn. By harvesting at a slower speed, your ability to pick up lodged ears that would otherwise be missed will increase.
+                      </li>
+                      <li>
+                      <b>Under severe stalk lodging conditions, harvest against the direction of the lodging</b>. For example, if the corn plants are lodged toward the east, come into the field from the east. Harvesting the field from the west will only lodge the plants further, making it almost impossible to pick up the ears.
+                      </li>
+                    </ul>  
+                  </Typography>    
+                  <Spacer height="10px" />
+                  <Typography  style={{alignSelf:"flex-start"}}>
+                    <b>Post-Harvest</b>
+                  </Typography>  
+                  <Spacer height="10px" />
+                  <Typography>
+                  While the cultural and harvest management options above will help you reduce the harvest losses you incur during the current growing season, you need to evaluate why certain fields or areas of fields lodged. Think carefully about the causes discussed earlier. Did you make the best choices as to hybrid selection, fertility levels, plant populations, pest control, or cultural practices? If not, which factors can be changed to avoid the problem next year?  
+                  </Typography>    
+                  <Spacer height="10px" />  
+                  <Link href="https://www.extension.purdue.edu/extmedia/AY/AY-262.html" style={{alignSelf:"flex-end"}} target="_blank">
+                  <Typography
+                    variant="caption"
+                    textAlign="left"
+                    color="secondary"
+                  >
+                    Learn more...
+                  </Typography>
+                  </Link>
+                  </>
+              }
+              {type == "rain" &&
+                <>
+                <img src={url} alt={type} className={alert_classes.images}/>
+                <br></br>
+                  <Typography>
+                  <b>Lodging</b> is the bending over of the stems near ground level of grain crops, which makes them very difficult to harvest, and can dramatically reduce yield. Lodging in cereals is often a result of the combined effects of inadequate standing power of the crop, and conditions such as rain, wind, hail, topography, soil, previous crop, and others.
+                  </Typography>
+                  <Spacer height="20px" /><br></br>
+                  <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                      Precautions
+                  </Typography>
+                  <Spacer height="10px" /><br></br>
+                  <Typography>
+                    <ul>
+                      <li>
+                      <b>Irrigation timing</b>. Do not irrigate when you expect winds. Irrigate in late afternoon when winds tend to subside, or early morning if that is the calmest time of day in your area. Particularly avoid irrigating if high winds are forecast.
+                      </li>
+                      <li>
+                      <b>Late irrigation</b>. Avoid over wetting the soil during late grain filling.
+                      </li>
+                      <li>
+                      <b>Variety</b>. Change to a shorter variety if your area is prone to high winds or rainstorms during the later stages of growth.
+                      </li>
+                      <li>
+                      <b>Nitrogen</b>. Reduce nitrogen applications to unimproved, tall varieties, particularly very late applications.
+                      </li>
+                      <li>
+                      <b>Diseases</b>. Control crown and root diseases by appropriate agronomy and/or seed dressings.
+                      </li>
+                    </ul>  
+                  </Typography>    
+                     
+                  <Spacer height="10px" />  
+                  <Link href="http://wheatdoctor.org/lodging" style={{alignSelf:"flex-end"}} target="_blank">
+                  <Typography
+                    variant="caption"
+                    textAlign="left"
+                    color="secondary"
+                  >
+                    Learn more...
+                  </Typography>
+                  </Link>
+                  </>
+              }
+              {type == "uv" &&
+                <>
+                <img src={url} alt={type} className={alert_classes.images}/>
+                <br></br>
+                  <Typography>
+                  <b>Lodging</b> is the bending over of the stems near ground level of grain crops, which makes them very difficult to harvest, and can dramatically reduce yield. Lodging in cereals is often a result of the combined effects of inadequate standing power of the crop, and conditions such as rain, wind, hail, topography, soil, previous crop, and others.
+                  </Typography>
+                  <Spacer height="20px" /><br></br>
+                  {/* <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                      Precautions
+                  </Typography>
+                  <Spacer height="10px" /><br></br>
+                  <Typography  style={{alignSelf:"flex-start"}}>
+                    <b>Pre-Harvest</b>
+                  </Typography>  
+                  <Spacer height="10px" />
+                  <Typography>
+                    <ul>
+                      <li>
+                      <b>Inspect Fields</b>. Producers should inspect susceptible fields regularly during late August and early September to estimate the rate of development of stalk rots which may be present.
+                      </li>
+                      <li>
+                      <b>Identify the extent of the problem</b>. Is it isolated in only one area of a field, or is it spread evenly throughout the field? Also, is only one field affected, or are all fields affected? Once you have determined the extent of the problem, consider the following harvest options.
+                      </li>
+                    </ul>  
+                  </Typography>    
+                  <Spacer height="10px" />
+                  <Typography  style={{alignSelf:"flex-start"}}>
+                    <b>Harvest</b>
+                  </Typography>  
+                  <Spacer height="10px" />
+                  <Typography>
+                    <ul>
+                      <li>
+                      <b>Harvest the affected areas first</b>. Do not allow lodged fields to remain unharvested any longer than absolutely necessary.
+                      </li>
+                      <li>
+                      <b>Harvest the affected areas slower than usual</b>. A ground speed of 2 mph is usually adequate for harvesting lodged corn. By harvesting at a slower speed, your ability to pick up lodged ears that would otherwise be missed will increase.
+                      </li>
+                      <li>
+                      <b>Under severe stalk lodging conditions, harvest against the direction of the lodging</b>. For example, if the corn plants are lodged toward the east, come into the field from the east. Harvesting the field from the west will only lodge the plants further, making it almost impossible to pick up the ears.
+                      </li>
+                    </ul>  
+                  </Typography>    
+                  <Spacer height="10px" />
+                  <Typography  style={{alignSelf:"flex-start"}}>
+                    <b>Post-Harvest</b>
+                  </Typography>  
+                  <Spacer height="10px" />
+                  <Typography>
+                  While the cultural and harvest management options above will help you reduce the harvest losses you incur during the current growing season, you need to evaluate why certain fields or areas of fields lodged. Think carefully about the causes discussed earlier. Did you make the best choices as to hybrid selection, fertility levels, plant populations, pest control, or cultural practices? If not, which factors can be changed to avoid the problem next year?  
+                  </Typography>    
+                  <Spacer height="10px" />  
+                  <Link href="https://www.extension.purdue.edu/extmedia/AY/AY-262.html" style={{alignSelf:"flex-end"}} target="_blank">
+                  <Typography
+                    variant="caption"
+                    textAlign="left"
+                    color="secondary"
+                  >
+                    Learn more...
+                  </Typography> 
+                  </Link>*/}
+                  </>
+              }
+              {type == "sorghum" &&
+                <>
+                <img src={url} alt={type} className={alert_classes.images}/>
+                <br></br>
+                <Typography>
+                Higher sorghum prices mean higher profitability. Areas where sorghum is now a major crop are likely to include a bigger percentage of sorghum in the rotation. In most other areas, other than full-irrigation areas, profit comparisons detailed in the report show sorghum to be equally or more profitable per hectare than alternative crops (based on projected returns).
+                </Typography>
+                <Spacer height="20px" /><br></br>
+                <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                    Precautions
+                </Typography>  
+                <Spacer height="10px" /><br></br>
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Sowing earlier</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    Milder temperatures lead to higher water-use efficiency (WUE) and yield. Farm observations show WUE for early-sown sorghum at Dalby can be as high as 16 kilograms a hectare per millimetre of rain, but with a December sowing yield drops by 33 per cent to 10.8kg/ha/mm.
+                    </li>
+                    <li>
+                    Early sowing should use varieties with 'cold tolerance'. Suitable fungicide and insecticide seed dressings, combined with accurate shallow planting - with disc planters, which mix less dry soil with wet soil around the seed - press-wheels and pest monitoring all combine to make early sowing more reliable.
+                    </li>
+                    <li>
+                    Moisture seeking (where dry topsoil is removed in front of the sowing unit) contributes to timely sowing.
+                    </li>
+                  </ul>  
+                </Typography>    
+                <Spacer height="10px" />
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Soil fertility, especially nitrogen</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    High soil fertility is essential to maximise yields in high-yielding seasons, the time when farmers make the greatest profit.
+                    </li>
+                    <li>
+                    Growers should not skimp on nitrogen following a poor year. One way to have some extra nitrogen in reserve in good years is to use feedlot manure in the fertiliser program.
+                    </li>
+                  </ul>  
+                </Typography>    
+                <Spacer height="10px" />
+                <Spacer height="10px" />
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Plant population and row spacing</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    The row spacing being more than one metre in a skip-row configuration, except where yield is unlikely to go much higher than 2.5 to 3.0t/ha.
+                    </li>
+                    <li>
+                    Recommended populations are 60,000 to 80,000 plants/ha for higher rainfall and 40,000 for hotter, drier environments. Research indicates higher populations may be needed for wide-row sowing (for example, 150cm rows or skip row).
+                    </li>
+                  </ul>  
+                </Typography>  
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Weeds and pest control</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                High standard of weed control is essential for sorghum, with an integrated control program involving various herbicides and techniques such as shielded sprays and rotations. Pests such as midge and heliothis need to be carefully monitored, and treated if thresholds are reached. Variety tolerance will not solve all midge problems. 
+                </Typography>    
+                
+                <Spacer height="10px" />  
+                <Link href="https://grdc.com.au/resources-and-publications/groundcover/ground-cover-issue-68-may-june-2007/sorghum-best-practice-key-to-sorghum-boom" style={{alignSelf:"flex-end"}} target="_blank">
+                <Typography
+                  variant="caption"
+                  textAlign="left"
+                  color="secondary"
+                >
+                  Learn more...
+                </Typography>
+                </Link>
+                </>
+              }
+              {type == "cotton" &&
+                <>
+                <img src={url} alt={type} className={alert_classes.images}/>
+                <br></br>
+                <Typography>
+                Cotton is a natural fibre grown on a plant related to the commonly-found garden species hibiscus. Cotton seeds are planted in spring and the plant grows into green, bushy shrubs about one metre in height. In Australia, cotton is picked with large mechanical harvesters and gathered into large, round, wrapped modules. The modules are then sent off to a cotton gin for processing.
+                </Typography>
+                <Spacer height="20px" /><br></br>
+                <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                    Precautions
+                </Typography>
+                <Spacer height="10px" /><br></br>
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Planting</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    Growers check the soil temperature regularly before planting. Cotton seed is planted in the spring, as soon as the soil is warm enough to be sure of satisfactory seed germination and crop establishment.
+                    </li>
+                    <li>
+                    Cotton seeds emerge from the ground five to 14 days after planting - depending on soil temperature and moisture.
+                    </li>
+                    <li>
+                    Refuge crops are also established at this time, which help slow down resistance to Bt proteins from evolving in the pest population by producing susceptible Helicoverpa moths that have not been exposed to the Bt toxins. Moths produced in the refuge crops will disperse and mate with any potentially resistant moths from the Bollgard 3 crops. This tactic is called genetic dilution.
+                    </li>
+                  </ul>  
+                </Typography>    
+                <Spacer height="10px" />
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Growing season</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    Growers protect their crops from pests during this period using Integrated Pest Management (IPM). The UN's Food and Agriculture Organisation defines IPM as "the careful consideration of all available pest control techniques and subsequent integration of appropriate measures that discourage the development of pest populations and keep pesticides and other interventions to levels that are economically justified and reduce or minimize risks to human health and the environment.”
+                    </li>
+                    <li>
+                    Growers conserve beneficial insects (natural enemies to pests), and manage their natural resources to help suppress pests, which is at the heart of IPM.
+                    </li>
+                    <li>
+                    The use of biotechnology in cotton has made a significant contribution to the dramatic reduction in insecticides applied to Australian cotton crops. There has been a 97% decrease in insecticide use since 1992, coinciding with the introduction of Bt cotton and strong IPM.
+                    </li>
+                  </ul>  
+                </Typography>    
+                <Spacer height="10px" />
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Picking (harvesting)</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    Defoliation is then carried out to remove the plant’s leaves and to crack the bolls open. Growers usually choose to harvest the cotton crop once most bolls have opened and fully matured.
+                    </li>
+                    <li>
+                    It is extremely important that cotton is dry when it is picked, or discolouration may occur and reduce quality.
+                    </li>
+                    <li>
+                    When mature, the crop is harvested mechanically and placed into large modules. The modules are loaded onto trucks and transported from the farm to a cotton gin. Cotton gins are factories that separate cottonseed and trash from the lint (raw cotton fibre).
+                    </li>
+                  </ul>  
+                </Typography>   
+                <Spacer height="10px" />  
+                <Link href="https://www.cottonaustralia.com.au/how-is-cotton-grown" style={{alignSelf:"flex-end"}} target="_blank">
+                <Typography
+                  variant="caption"
+                  textAlign="left"
+                  color="secondary"
+                >
+                  Learn more...
+                </Typography>
+                </Link>
+                </>
+              }
+              {type == "rice" &&
+                <>
+                <img src={url} alt={type} className={alert_classes.images}/>
+                <br></br>
+                <Typography>
+                Rice is the third-largest crop production, after sugarcane and maize. The main producers of rice are the nations of China, India, Indonesia, Bangladesh, and Vietnam. Rice is a staple crop. More than half the people in the world, about 3.5 billion people, rely on its production.
+                </Typography>
+                <Spacer height="20px" /><br></br>
+                <Typography variant="h5" style={{alignSelf:"flex-start"}}>
+                    Precautions
+                </Typography>
+                <Spacer height="10px" /><br></br>
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Pre-plant Practices</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    Pre-plant practices mainly refer to the variety selection.
+                    </li>
+                    <li>
+                    Rice has over 40,000 varieties and hybrids. It’s important for a farmer to use healthy seed of locally adapted varieties to get a crop with a good potential yield.
+                    </li>
+                    <li>
+                    A good pre-plant management practice is also to plan and determine crop season, inputs and labor requirements. That way a farmer can manage his resources, plan a potential credit, and organize his workers.
+                    </li>
+                  </ul>  
+                </Typography>    
+                <Spacer height="10px" />
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Growth Practices</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                  <ul>
+                    <li>
+                    Growth management starts with proper planting or sowing practices.
+                    </li>
+                    <li>
+                    Rice crops can be seeded directly into the field, or sown in seedbeds and then transplanted in the field.
+                    </li>
+                    <li>
+                    Choosing the best planting practice depends on location and rice ecosystem, soil type, and the availability of input and physical labor.
+                    </li>
+                    <li>
+                    Improving soil fertility is also an important farm practice in the management of rice production. Soil fertilization can be practiced with mineral and organic fertilizers, depending upon the production type required. However, organic fertilizers are always recommended practice for the improvement of soil organic matter
+                    </li>
+                    <li>
+                    Rice is a crop extremely sensitive to water shortages. Shallow tillage is a desirable practice to prevent water losses due to land soaking.
+                    </li>
+                  </ul>  
+                </Typography>    
+                <Spacer height="10px" />
+                <Typography  style={{alignSelf:"flex-start"}}>
+                  <b>Harvest Practices</b>
+                </Typography>  
+                <Spacer height="10px" />
+                <Typography>
+                <ul>
+                    <li>
+                    Good harvest practices are important to maximize grain yield and minimize yield losses and quality spoilage.
+                    </li>
+                    <li>
+                    By practicing the harvest at the right time, a farmer can preserve his yields. It’s also important for a farmer to avoid delays in threshing after the harvesting, and use a threshing machine. After threshing, it is recommended practice to clean and dry the grains.
+                    </li>
+                    <li>
+                    Embracing good farm practices is the right path to ensure high yields and sustainable crop production.
+                    </li>
+                  </ul> 
+                </Typography>    
+                <Spacer height="10px" />  
+                <Link href="https://blog.agrivi.com/post/sustainable-farm-practices-for-rice-farming" style={{alignSelf:"flex-end"}} target="_blank">
+                <Typography
+                  variant="caption"
+                  textAlign="left"
+                  color="secondary"
+                >
+                  Learn more...
+                </Typography>
+                </Link>
+                </>
+              }
+              </Paper>
+              </Fade>
+              </Modal>
+        </>
+      );
+    }
+
     if (todayWeatherData) {
       let wind_direction = getWindSpeedDirection(todayWeatherData.wind_deg);
-      console.log("today's weather ", todayWeatherData);
+      console.log("today's weather ", todayWeatherData);      
+
       return (
         <>
           <WeatherCard>
@@ -424,6 +906,23 @@ const Dashboard = () => {
               </Tooltip>
 
             </ContentRow>
+
+            <ContentRow>
+          {todayWeatherData.wind_speed_threat_type != "green" && 
+          <PageButtonAlert
+              variant="contained"
+              color="primary"
+              onClick={() => handleOpen("wind")}
+            >
+              suggestions
+            </PageButtonAlert>
+          }
+
+            {getAlertModal()}
+          
+              </ContentRow>
+
+            
 
           </WeatherCard>
           <WeatherCard>
@@ -498,6 +997,19 @@ const Dashboard = () => {
             </Tooltip>
           </ContentRow>)}
 
+          <ContentRow>
+          {todayWeatherData.rain_threat_type != "green" && 
+          <PageButtonAlert
+              variant="contained"
+              color="primary"
+              onClick={() => handleOpen("rain")}
+            >
+              suggestions
+            </PageButtonAlert>
+          }
+          {getAlertModal}
+              </ContentRow>
+
           </WeatherCard>
           <WeatherCard>
             <Typography variant="subtitle1" color="primary">
@@ -536,6 +1048,18 @@ const Dashboard = () => {
                 </Typography>
               </Tooltip>
             </ContentRow>
+            <ContentRow>
+          {getUVIRelatedData(todayWeatherData.uvi).color != "green" && 
+          <PageButtonAlert
+              variant="contained"
+              color="primary"
+              onClick={() => handleOpen("uv")}
+            >
+              suggestions
+            </PageButtonAlert>
+          }
+          {getAlertModal}
+              </ContentRow>
           </WeatherCard>
 
           {crops.map((crop) => (
@@ -581,6 +1105,18 @@ const Dashboard = () => {
                     {getFormattedCropName(todayWeatherData[crop + "_temp_status_tag"])}
                   </Typography>
                 </Tooltip>
+              </ContentRow>
+              <ContentRow>
+          {todayWeatherData[crop + "_temp_status_color"] != "green" && 
+          <PageButtonAlert
+              variant="contained"
+              color="primary"
+              onClick={() => handleOpen(crop)}
+            >
+              suggestions
+            </PageButtonAlert>
+          }
+          {getAlertModal}
               </ContentRow>
             </WeatherCard>
           ))}
