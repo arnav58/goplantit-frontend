@@ -594,9 +594,7 @@ const WeatherAlert = (props) => {
             color="secondary"
             style={{ marginLeft: "5px" }}
           >
-            A collection of RSS feeds has been developed to assist people who
-            need to stay up to date with the latest information issued by the
-            Bureau of Meteorology.
+            A collection of extreme weather alerts issued by the Bureau of Meteorology in your state.
           </Typography>
         </DescriptionWrapper>
       </SelectStateRowWrapper>
