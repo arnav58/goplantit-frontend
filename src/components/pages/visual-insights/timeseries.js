@@ -335,6 +335,7 @@ const Timeseriesgraph = (tempValue) => {
             if (newValue) {
               setChartState(newValue);
             }
+            event.preventDefault();
           }}
           renderInput={(params) => (
             <TextField

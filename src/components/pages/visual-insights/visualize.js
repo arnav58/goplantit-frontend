@@ -428,6 +428,7 @@ export default function App({
   const { windowWidth } = useWindowDimensions();
 
   const handleCropChange = (event) => {
+    event.preventDefault();
     setCropValue(event.target.value);
   };
 

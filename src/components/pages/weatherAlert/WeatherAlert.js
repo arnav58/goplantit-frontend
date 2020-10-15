@@ -277,8 +277,9 @@ const useStyles = makeStyles((theme) => ({
 ////////The main return
 /////////////////////
 
-const WeatherAlert = () => {
+const WeatherAlert = (props) => {
   const [suggestion, setSuggestion] = React.useState(null);
+  const [selected, setSelected] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   // const handleOpen = (suggestion) => {
   //   setSuggestion(suggestion);
@@ -308,7 +309,11 @@ const WeatherAlert = () => {
                 <EcoIcon color="primary" iconSize="large" />
                 {suggestion.text}
               </Typography>
-              <Link href={suggestion.link} style={{ alignSelf: "flex-start" }} target="_blank">
+              <Link
+                href={suggestion.link}
+                style={{ alignSelf: "flex-start" }}
+                target="_blank"
+              >
                 <Typography
                   variant="caption"
                   textAlign="left"
@@ -382,20 +387,29 @@ const WeatherAlert = () => {
   //////setups
 
   const [alerts, setAlerts] = useState([]);
-  const [state, setState] = useState("VIC");
+  const [state, setState] = useState(props.location.stateProps || "VIC");
+
+  const getWarnings = async () => {
+    let newState = selected ? state : props.location.stateProps || "VIC";
+    ///to make the autocomplete work, we need to read if user is selected from the autocomplete
+    //or arrived in with url
+    await setState(newState);
+    //without await the render data will not change because setState is async function
+    // so the data will render by calling the url before the state is set to the correct one
+    let url = `https://goplantitbackend.herokuapp.com/api/warnings?state=${state}`;
+    const res = await axios.get(url);
+    console.log(url);
+    await setAlerts(res.data);
+    ///same issue with this, without await it will set the alerts using the previous data
+  };
 
   useEffect(() => {
-    const getWarnings = async () => {
-      console.log("getting warnings");
-      console.log(state);
-      let url = `https://goplantitbackend.herokuapp.com/api/warnings?state=${state}`;
-      console.log(url);
-      const res = await axios.get(url);
-      console.log(res.data[0]);
-      setAlerts(res.data);
-    };
     getWarnings();
-  }, [state]);
+    return setSelected(false);
+    //clean up the selected, so user can still access via the link
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, props.location.stateProps]);
 
   const classes = useStyles();
 
@@ -424,7 +438,6 @@ const WeatherAlert = () => {
       // eslint-disable-next-line array-callback-return
       crops.map((crop) => {
         let url = process.env.PUBLIC_URL + "/" + crop + ".png";
-        console.log(url);
         uiArray.push(
           <Typography
             color="secondary"
@@ -508,16 +521,14 @@ const WeatherAlert = () => {
           <PageButton
             variant="contained"
             color="primary"
-            onClick ={()=>{
-              let tag = card.tag.toLowerCase()
-                let suggestion = {
-                  text:alertToCropsMap[tag].suggestions,
-                  link:alertToCropsMap[tag].link
-                }
-                setSuggestion(suggestion);
-                setOpen(true)
-
-
+            onClick={() => {
+              let tag = card.tag.toLowerCase();
+              let suggestion = {
+                text: alertToCropsMap[tag].suggestions,
+                link: alertToCropsMap[tag].link,
+              };
+              setSuggestion(suggestion);
+              setOpen(true);
             }}
           >
             Suggestions
@@ -557,6 +568,7 @@ const WeatherAlert = () => {
           style={{ width: 165 }}
           onChange={(event, newValue) => {
             if (newValue) {
+              setSelected(true);
               setState(newValue.name);
             }
           }}
