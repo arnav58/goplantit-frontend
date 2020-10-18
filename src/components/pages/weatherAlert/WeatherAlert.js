@@ -226,6 +226,22 @@ const alertToCropsMap = {
       "rice",
     ],
   },
+  thunderstorm: {
+    suggestions: `
+    To prevent severe weather damage to plants, tie up interior branches with pantyhose so they do not flatten or split in the middle under heavy wind and rain.
+    Small plants that tend to flatten in wind and rain, can be covered with a 5-gallon bucket or another sturdy container. Just be sure to weigh this container down with brick or a boulder to ensure that it doesn’t fly off in high wind, and remove the container immediately after the threat of severe weather has passed.
+    After a storm, assess any plant damage so you know how to properly prepare for the next storm. Preparation is the key to preventing thunderstorm plant damage.
+    `,
+    link: "https://www.gardeningknowhow.com/plant-problems/environmental/thunderstorm-plant-damage.htm",
+    susceptibleCrops: [
+      "wheat",
+      "barley",
+      "sorghum",
+      "canola",
+      "cotton",
+      "rice",
+    ]
+  },
 };
 
 const useStyles = makeStyles((theme) => ({
