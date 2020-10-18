@@ -90,13 +90,13 @@ const DisplayNavbar = () => {
   const [notificationCount, setNotificationCount] = useState(0);
 
   const { windowWidth } = useWindowDimensions();
+  // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie] = useCookies(["name"]);
 
   // eslint-disable-next-line no-unused-vars
   const [userState, setUserState] = useState(
-    cookies.location ? cookies.location : "VIC"
+    cookies.location ? cookies.location : undefined
   );
-  console.log(userState);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -182,7 +182,9 @@ const DisplayNavbar = () => {
   useEffect(() => {
     Object.keys(itemsState).map((state) => {
       //filter based on user state if exist
-      if (userState && userState.toLowerCase() === state.toLowerCase()) {
+      let filterState = userState.state || state
+      console.log(filterState)
+      if (filterState.toLowerCase() === state.toLowerCase()) {
         let url =
           "https://goplantitbackend.herokuapp.com/api/warnings?state=" + state;
         fetch(url)
@@ -339,10 +341,10 @@ const DisplayNavbar = () => {
               <Popover.Content style={{ padding: "3px 3px" }}>
                 <ul className="notification-info-panel">
                   {Object.keys(itemsState).map((state) => {
-                    if (userState) {
+                    if (userState.state) {
                       ///if user state exist, filter the state
 
-                      if (state.toLowerCase() === userState.toLowerCase()) {
+                      if (state.toLowerCase() === userState.state.toLowerCase()) {
                         return DisplayNotificationItems(
                           itemsState[state],
                           state
