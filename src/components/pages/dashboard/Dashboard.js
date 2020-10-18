@@ -109,10 +109,10 @@ const WeatherCropsTileWrapper = styled.div`
   width: 56px;
   height: 56px;
 `;
-const scaleElement = styled.div`
-  display: flex;
-  width: 50px;
-`;
+// const scaleElement = styled.div`
+//   display: flex;
+//   width: 50px;
+// `;
 
 // ----------------------------------------------------- Disease Detector - Start -------------------------------------------------------- //
 

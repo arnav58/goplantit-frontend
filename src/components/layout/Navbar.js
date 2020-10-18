@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import {
   AppBar,
@@ -19,6 +20,7 @@ import {
   Home,
   Dashboard,
   BarChart,
+  SignalCellularNullTwoTone,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import useWindowDimensions from "../utils/useWindowWith";
@@ -88,6 +90,13 @@ const DisplayNavbar = () => {
   const [notificationCount, setNotificationCount] = useState(0);
 
   const { windowWidth } = useWindowDimensions();
+  const [cookies, setCookie] = useCookies(["name"]);
+
+  // eslint-disable-next-line no-unused-vars
+  const [userState, setUserState] = useState(
+    cookies.location ? cookies.location : "VIC"
+  );
+  console.log(userState);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -172,34 +181,38 @@ const DisplayNavbar = () => {
 
   useEffect(() => {
     Object.keys(itemsState).map((state) => {
-      let url =
-        "https://goplantitbackend.herokuapp.com/api/warnings?state=" + state;
-      fetch(url)
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            // setIsLoaded(true);
-            if (result.length !== 0 && result[0] !== undefined) {
-              if ("errorMessage" in result[0]) {
-                // console.log(result[0]);
-                // setItems1(data[i]);
-              } else {
-                let newState = itemsState;
-                newState[state] = result;
-                setItemsState(newState);
-                setNotificationCount(getAllNotificationsLength());
+      //filter based on user state if exist
+      if (userState && userState.toLowerCase() === state.toLowerCase()) {
+        let url =
+          "https://goplantitbackend.herokuapp.com/api/warnings?state=" + state;
+        fetch(url)
+          .then((res) => res.json())
+          .then(
+            (result) => {
+              // setIsLoaded(true);
+
+              if (result.length !== 0 && result[0] !== undefined) {
+                if ("errorMessage" in result[0]) {
+                  // console.log(result[0]);
+                  // setItems1(data[i]);
+                } else {
+                  let newState = itemsState;
+                  newState[state] = result;
+                  setItemsState(newState);
+                  setNotificationCount(getAllNotificationsLength());
+                }
               }
+              // console.log(result[0].title);
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              console.log(error);
             }
-            // console.log(result[0].title);
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            console.log(error);
-          }
-        )
-        .catch((err) => console.log(err));
+          )
+          .catch((err) => console.log(err));
+      }
       return null;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -216,7 +229,6 @@ const DisplayNavbar = () => {
   };
 
   const getAllNotificationsLength = () => {
-    console.log("counting");
     /////go through the items of each state and get the count
     let count = 0;
     Object.keys(itemsState).forEach((state) => {
@@ -260,9 +272,14 @@ const DisplayNavbar = () => {
                   </Typography>
                   <Link
                     to={{
-                      pathname:`/alerts`,
-                    stateProps:state}}
-                    style={{ color: "black", width: "150px" , textAlign:'center'}}
+                      pathname: `/alerts`,
+                      stateProps: state,
+                    }}
+                    style={{
+                      color: "black",
+                      width: "150px",
+                      textAlign: "center",
+                    }}
                     color="secondary"
                   >
                     {item.title.slice(0, 25)}...
@@ -287,6 +304,11 @@ const DisplayNavbar = () => {
       );
     }
   };
+  // const filterNotifications =()=>{
+  //   Object.keys(itemsState).map((state) =>
+  //                   DisplayNotificationItems(itemsState[state], state)
+
+  // }
   const DisplayNotificationIcons = () => {
     return (
       <React.Fragment>
@@ -316,9 +338,21 @@ const DisplayNavbar = () => {
               </Popover.Title>
               <Popover.Content style={{ padding: "3px 3px" }}>
                 <ul className="notification-info-panel">
-                  {Object.keys(itemsState).map((state) =>
-                    DisplayNotificationItems(itemsState[state], state)
-                  )}
+                  {Object.keys(itemsState).map((state) => {
+                    if (userState) {
+                      ///if user state exist, filter the state
+
+                      if (state.toLowerCase() === userState.toLowerCase()) {
+                        return DisplayNotificationItems(
+                          itemsState[state],
+                          state
+                        );
+                      }
+                      return null;
+                    } else {
+                      return DisplayNotificationItems(itemsState[state], state);
+                    }
+                  })}
                 </ul>
               </Popover.Content>
             </PopoverWrapper>
@@ -368,7 +402,6 @@ const DisplayNavbar = () => {
         classes={{ paper: styles.paper }}
         style={{ marginRight: "20%" }}
       >
-      
         {/* <MenuItem onClick={handleClose}>Home</MenuItem>
 <MenuItem onClick={handleClose}>My account</MenuItem>
 <MenuItem onClick={handleClose}>Logout</MenuItem> */}
