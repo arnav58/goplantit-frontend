@@ -92,6 +92,8 @@ Geocode.enableDebug();
         options={locationData}
         getOptionLabel={(option) => option.suburb+", "+option.postcode}
         style={{ width: 220 }}
+        loadingText="Loading...."
+        loading={!locationData.length}
         forcePopupIcon={false}
         onChange={(event, newValue) => {
           if (newValue) {
@@ -101,8 +103,6 @@ Geocode.enableDebug();
 
             ///map the address for request
             let requestAddress = `${newValue.suburb}, ${newValue.state} ${newValue.postcode},  Australia`
-            console.log("start sending google maps")
-            console.log(requestAddress)
             Geocode.fromAddress(requestAddress).then(
                 response => {
                   const { lat, lng } = response.results[0].geometry.location;

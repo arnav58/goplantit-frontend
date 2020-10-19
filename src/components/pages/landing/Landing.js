@@ -198,7 +198,7 @@ const MouseGraphicWrapper = styled.div`
   height: 80px;
   width: 80px;
   display: block;
-  z-index: 10;
+  z-index: 120;
 `;
 
 //////////the main rendering components
@@ -375,7 +375,7 @@ const Landing = () => {
             </PageButton>
           </ButtonRow>
         </FadeInWrapper>
-        <MouseGraphicWrapper><img src={scroll} alt="scroll..." style={{ height: "80px" }} /></MouseGraphicWrapper>
+        <MouseGraphicWrapper><img src={scroll} alt="scroll..." style={{ height: "80px", zIndex:120 }} /></MouseGraphicWrapper>
       </ComponentWrapper>
       {/* the services section after the landing page */}
 

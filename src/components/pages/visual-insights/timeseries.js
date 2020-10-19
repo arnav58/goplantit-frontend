@@ -9,6 +9,7 @@ import { TextField } from "@material-ui/core";
 
 // import Temp from "./temps.json"
 import useWindowDimensions from "../../utils/useWindowWith";
+import { useCookies } from "react-cookie";
 
 const data_url =
   "https://goplantitbackend.herokuapp.com/api/yields_data?area=1";
@@ -74,8 +75,10 @@ const Timeseriesgraph = (tempValue) => {
   const classes = useStyles();
 
   const [items, setItems] = useState([]);
-
-  const [chartstate, setChartState] = useState("NSW");
+  // eslint-disable-next-line no-unused-vars
+  const [cookies, setCookie] = useCookies(["name"]);
+  
+  const [chartstate, setChartState] = useState(cookies.location? cookies.location.state:"NSW");
 
   const { windowWidth } = useWindowDimensions();
 
