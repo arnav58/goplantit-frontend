@@ -7,7 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
     toTop: {
-        zIndex: 2,
+        zIndex: 101,
         position: 'fixed',
         bottom: '3vh',
         backgroundColor: '#DCDCDC',

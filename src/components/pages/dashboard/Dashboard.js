@@ -23,6 +23,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
 import LocationPicker from "../../utils/LocationPicker";
+import useWindowDimensions from "../../utils/useWindowWith";
 //////images import
 import clear from "./1-clear-sky.png";
 import snow from "./2-snow.png";
@@ -109,10 +110,10 @@ const WeatherCropsTileWrapper = styled.div`
   width: 56px;
   height: 56px;
 `;
-const scaleElement = styled.div`
-  display: flex;
-  width: 50px;
-`;
+// const scaleElement = styled.div`
+//   display: flex;
+//   width: 50px;
+// `;
 
 // ----------------------------------------------------- Disease Detector - Start -------------------------------------------------------- //
 
@@ -217,7 +218,7 @@ const Dashboard = () => {
   ///weather data and crops data for making the cards
   const [weatherData, setWeatherData] = useState(null);
   const [cropsData, setCropsData] = useState(null);
-
+  const { windowWidth } = useWindowDimensions();
   //in production pass in the base url via environmental variable
   const baseUrl = process.env.BASEURL
     ? process.env.BASEURL
@@ -1248,7 +1249,7 @@ const Dashboard = () => {
   const DisplayColorScale = () => {
     let conditionMap = {
       green: "ideal",
-      yellow: "slightly unfavorable",
+      yellow: windowWidth > 500? "slightly unfavorable":"unfavorable",
       red: "concerning",
       maroon: "severe",
     };
@@ -1258,6 +1259,7 @@ const Dashboard = () => {
           display: "flex",
           marginRight: "10px",
           alignItems: "center",
+          flexDirection:windowWidth > 500?'row':"column"
         }}
       >
         {DisplayColorBlock(element, "12px", "12px")}
