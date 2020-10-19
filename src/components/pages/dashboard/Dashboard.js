@@ -23,6 +23,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import styled from "styled-components";
 import serviceTemplate from "../../layout/serviceTemplate";
 import LocationPicker from "../../utils/LocationPicker";
+import useWindowDimensions from "../../utils/useWindowWith";
 //////images import
 import clear from "./1-clear-sky.png";
 import snow from "./2-snow.png";
@@ -109,10 +110,10 @@ const WeatherCropsTileWrapper = styled.div`
   width: 56px;
   height: 56px;
 `;
-const scaleElement = styled.div`
-  display: flex;
-  width: 50px;
-`;
+// const scaleElement = styled.div`
+//   display: flex;
+//   width: 50px;
+// `;
 
 // ----------------------------------------------------- Disease Detector - Start -------------------------------------------------------- //
 
@@ -217,7 +218,7 @@ const Dashboard = () => {
   ///weather data and crops data for making the cards
   const [weatherData, setWeatherData] = useState(null);
   const [cropsData, setCropsData] = useState(null);
-
+  const { windowWidth } = useWindowDimensions();
   //in production pass in the base url via environmental variable
   const baseUrl = process.env.BASEURL
     ? process.env.BASEURL
@@ -415,7 +416,7 @@ const Dashboard = () => {
     const getAlertModal = () => {
 
       let url = process.env.PUBLIC_URL + "/alert_images/" + type + ".jpg";
-
+  
       console.log(type);
       return(
         <>
@@ -431,9 +432,9 @@ const Dashboard = () => {
           >
             <Fade in={summary} style={{ outline: "none" }}>
               <Paper className={alert_classes.modalPaperAlert}>
-                {type == "wind" &&
+                {type === "wind" &&
                 <>
-                <img src={url} alt={type} className={alert_classes.images}/>
+                {/* <img src={url} alt={type} className={alert_classes.images}/> */}
                 <br></br>
                   <Typography>
                   <b>Lodging</b> is the bending over of the stems near ground level of grain crops, which makes them very difficult to harvest, and can dramatically reduce yield. Lodging in cereals is often a result of the combined effects of inadequate standing power of the crop, and conditions such as rain, wind, hail, topography, soil, previous crop, and others.
@@ -495,9 +496,9 @@ const Dashboard = () => {
                   </Link>
                   </>
               }
-              {type == "rain" &&
+              {type === "rain" &&
                 <>
-                <img src={url} alt={type} className={alert_classes.images}/>
+                {/* <img src={url} alt={type} className={alert_classes.images}/> */}
                 <br></br>
                   <Typography>
                   <b>Lodging</b> is the bending over of the stems near ground level of grain crops, which makes them very difficult to harvest, and can dramatically reduce yield. Lodging in cereals is often a result of the combined effects of inadequate standing power of the crop, and conditions such as rain, wind, hail, topography, soil, previous crop, and others.
@@ -539,9 +540,9 @@ const Dashboard = () => {
                   </Link>
                   </>
               }
-              {type == "uv" &&
+              {type === "uv" &&
                 <>
-                <img src={url} alt={type} className={alert_classes.images}/>
+                {/* <img src={url} alt={type} className={alert_classes.images}/> */}
                 <br></br>
                   <Typography>
                   Plants are highly sensitive to UV-B radiation because of their sessile nature. In plants, UV-B radiation damages cell membranes and all organelles within the cell, including the chloroplasts, mitochondria, and deoxyribonucleic acid (DNA) within the nucleus. Consequently, UV-B damage harms crop yield and quality. An overview of various processes affected by UV-B radiation at cellular and plant levels. However, the effect of UV-B radiation varies with intensity and duration of irradiation and stage of plant development.
@@ -618,7 +619,7 @@ const Dashboard = () => {
               }
               {type == "sorghum" &&
                 <>
-                <img src={url} alt={type} className={alert_classes.images}/>
+                {/* <img src={url} alt={type} className={alert_classes.images}/> */}
                 <br></br>
                 <Typography>
                 Higher sorghum prices mean higher profitability. Areas where sorghum is now a major crop are likely to include a bigger percentage of sorghum in the rotation. In most other areas, other than full-irrigation areas, profit comparisons detailed in the report show sorghum to be equally or more profitable per hectare than alternative crops (based on projected returns).
@@ -696,9 +697,9 @@ const Dashboard = () => {
                 </Link>
                 </>
               }
-              {type == "cotton" &&
+              {type === "cotton" &&
                 <>
-                <img src={url} alt={type} className={alert_classes.images}/>
+                {/* <img src={url} alt={type} className={alert_classes.images}/> */}
                 <br></br>
                 <Typography>
                 Cotton is a natural fibre grown on a plant related to the commonly-found garden species hibiscus. Cotton seeds are planted in spring and the plant grows into green, bushy shrubs about one metre in height. In Australia, cotton is picked with large mechanical harvesters and gathered into large, round, wrapped modules. The modules are then sent off to a cotton gin for processing.
@@ -773,9 +774,9 @@ const Dashboard = () => {
                 </Link>
                 </>
               }
-              {type == "rice" &&
+              {type === "rice" &&
                 <>
-                <img src={url} alt={type} className={alert_classes.images}/>
+                {/* <img src={url} alt={type} className={alert_classes.images}/> */}
                 <br></br>
                 <Typography>
                 Rice is the third-largest crop production, after sugarcane and maize. The main producers of rice are the nations of China, India, Indonesia, Bangladesh, and Vietnam. Rice is a staple crop. More than half the people in the world, about 3.5 billion people, rely on its production.
@@ -1248,7 +1249,7 @@ const Dashboard = () => {
   const DisplayColorScale = () => {
     let conditionMap = {
       green: "ideal",
-      yellow: "slightly unfavorable",
+      yellow: windowWidth > 500? "slightly unfavorable":"unfavorable",
       red: "concerning",
       maroon: "severe",
     };
@@ -1258,6 +1259,7 @@ const Dashboard = () => {
           display: "flex",
           marginRight: "10px",
           alignItems: "center",
+          flexDirection:windowWidth > 500?'row':"column"
         }}
       >
         {DisplayColorBlock(element, "12px", "12px")}
