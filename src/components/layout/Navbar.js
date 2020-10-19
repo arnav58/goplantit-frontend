@@ -182,8 +182,7 @@ const DisplayNavbar = () => {
   useEffect(() => {
     Object.keys(itemsState).map((state) => {
       //filter based on user state if exist
-      let filterState = userState.state || state
-      console.log(filterState)
+      let filterState = userState? userState.state : state
       if (filterState.toLowerCase() === state.toLowerCase()) {
         let url =
           "https://goplantitbackend.herokuapp.com/api/warnings?state=" + state;
@@ -341,7 +340,7 @@ const DisplayNavbar = () => {
               <Popover.Content style={{ padding: "3px 3px" }}>
                 <ul className="notification-info-panel">
                   {Object.keys(itemsState).map((state) => {
-                    if (userState.state) {
+                    if (userState) {
                       ///if user state exist, filter the state
 
                       if (state.toLowerCase() === userState.state.toLowerCase()) {
