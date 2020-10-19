@@ -160,13 +160,29 @@ const Timeseriesgraph = (tempValue) => {
     const mapPieChartData = () => {
       ///map the data in series
       let states = ["VIC", "NSW", "SA", "WA", "QLD", "TAS"];
-      return states.map((state) => ({
+      return calculatePercentage(states.map((state) => ({
         name: state,
         y: items[state].series[crops[tempValue][0]].data.reduce(
           (result, number) => result + number
         ),
-      }));
+      })));
     };
+
+    const calculatePercentage = (data) => {
+      var sum_by_state = data;
+
+      var sum = 0;
+      for(var k in sum_by_state){
+        sum += sum_by_state[k].y
+      }
+
+      for(var k in sum_by_state){
+        sum_by_state[k].y = (sum_by_state[k].y/sum)*100;
+      }
+      console.log(sum_by_state);
+
+      return sum_by_state;
+    }
 
     const pieOptions = {
       chart: {
